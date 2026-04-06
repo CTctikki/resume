@@ -1,11 +1,16 @@
 const fallbackSiteOrigin = "https://resume.ctikki.com";
 
+export function normalizeSiteOrigin(siteOrigin?: string) {
+  const normalized = siteOrigin?.replace(/\/+$/, "");
+  return normalized || fallbackSiteOrigin;
+}
+
 export const brand = {
   productName: "CT 简历工作台",
   productShortName: "CT Resume",
   studioName: "CT程序定制工作室",
   studioUrl: "https://ctikki.com",
-  siteOrigin: import.meta.env.VITE_SITE_ORIGIN ?? fallbackSiteOrigin,
+  siteOrigin: normalizeSiteOrigin(import.meta.env.VITE_SITE_ORIGIN),
   subtitle: {
     zh: "专业、克制的简历编辑工作台",
     en: "A focused workspace for building polished resumes"

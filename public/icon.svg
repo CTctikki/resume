@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="CT Resume">
+  <rect width="512" height="512" rx="112" fill="#2457F5" />
+  <path
+    d="M160 120h136l56 56v216a32 32 0 0 1-32 32H160a32 32 0 0 1-32-32V152a32 32 0 0 1 32-32z"
+    fill="#FFFFFF"
+  />
+  <path d="M296 120v56h56" fill="none" stroke="#2457F5" stroke-width="28" stroke-linejoin="round" />
+  <rect x="184" y="224" width="144" height="18" rx="9" fill="#D8E4FF" />
+  <rect x="184" y="264" width="112" height="18" rx="9" fill="#D8E4FF" />
+  <rect x="184" y="304" width="128" height="18" rx="9" fill="#D8E4FF" />
+</svg>
