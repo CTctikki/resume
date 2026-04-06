@@ -1,3 +1,4 @@
+import Link from "@/lib/link";
 import { cn } from "@/lib/utils";
 import Logo from "@/components/shared/Logo";
 
@@ -16,7 +17,7 @@ export function BrandWordmark({
   showStudio = false
 }: BrandWordmarkProps) {
   return (
-    <a
+    <Link
       href={localeHref}
       className={cn("flex items-center gap-3 text-left", className)}
       aria-label={productName}
@@ -30,6 +31,6 @@ export function BrandWordmark({
           <span className="text-xs text-muted-foreground">{studioName}</span>
         ) : null}
       </span>
-    </a>
+    </Link>
   );
 }

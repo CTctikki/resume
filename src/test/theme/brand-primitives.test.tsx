@@ -22,6 +22,17 @@ vi.mock("@/i18n/compat/client", () => ({
   useTranslations: () => ((key: string) => key)
 }));
 
+vi.mock("@/lib/link", () => ({
+  default: ({
+    href,
+    children,
+    ...rest
+  }: {
+    href: string;
+    children: unknown;
+  }) => createElement("a", { href, ...rest }, children)
+}));
+
 describe("BrandWordmark", () => {
   it("renders the CT product and studio names", () => {
     renderWithProviders(
