@@ -33,13 +33,6 @@ vi.mock("@/lib/link", () => ({
   }) => createElement("a", { href, ...rest }, children)
 }));
 
-vi.mock("@/config/brand", () => ({
-  brand: {
-    productName: "CT Test Product",
-    studioName: "CT Test Studio"
-  }
-}));
-
 describe("BrandWordmark", () => {
   it("renders the CT product and studio names", () => {
     renderWithProviders(
@@ -47,7 +40,9 @@ describe("BrandWordmark", () => {
       "zh"
     );
 
-    expect(screen.getByText(brand.productName)).toBeInTheDocument();
-    expect(screen.getByText(brand.studioName)).toBeInTheDocument();
+    expect(screen.getByText("CT 简历工作台")).toBeInTheDocument();
+    expect(screen.getByText("CT程序定制工作室")).toBeInTheDocument();
+    expect(brand.productName).toBe("CT 简历工作台");
+    expect(brand.studioName).toBe("CT程序定制工作室");
   });
 });
