@@ -1,45 +1,100 @@
+import Link from "@/lib/link";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Sparkles } from "lucide-react";
-import { useTranslations } from "@/i18n/compat/client";
-import AnimatedFeature from "./client/AnimatedFeature";
-import GoDashboard from "./GoDashboard";
 
-export default function CTASection() {
-  const t = useTranslations("home");
+interface CTASectionProps {
+  locale?: string;
+}
+
+const copy = {
+  en: {
+    title: "Start from a template, not a blank page",
+    description:
+      "Open the workspace directly if you know what you need, or scan a few template directions first and pick the one that fits the role.",
+    primaryCta: "Browse Templates",
+    secondaryCta: "Open Workspace",
+    templates: [
+      {
+        name: "Professional",
+        detail: "Balanced spacing for general applications",
+      },
+      {
+        name: "Compact",
+        detail: "Tighter layout for experienced candidates",
+      },
+      {
+        name: "Bilingual",
+        detail: "A clear option for cross-language resumes",
+      },
+    ],
+  },
+  zh: {
+    title: "先从模板开始，而不是面对空白页",
+    description: "如果你已经准备好内容，可以直接进入工作区；如果还在找方向，就先看几个模板再开始。",
+    primaryCta: "浏览模板",
+    secondaryCta: "打开工作区",
+    templates: [
+      {
+        name: "Professional",
+        detail: "适合大多数岗位投递的稳妥版式",
+      },
+      {
+        name: "Compact",
+        detail: "更适合经历较多、信息密度较高的简历",
+      },
+      {
+        name: "Bilingual",
+        detail: "适合需要中英文双语呈现的场景",
+      },
+    ],
+  },
+} as const;
+
+export default function CTASection({ locale = "en" }: CTASectionProps) {
+  const content = locale === "zh" ? copy.zh : copy.en;
 
   return (
-    <section className="py-24 md:py-44 bg-secondary/30 relative overflow-hidden">
-      {/* Decorative background elements */}
-      <div className="absolute top-0 right-0 w-1/3 h-full bg-primary/5 blur-[120px] -z-10 translate-x-1/2" />
-      <div className="absolute bottom-0 left-0 w-1/3 h-full bg-primary/5 blur-[120px] -z-10 -translate-x-1/2" />
-      
-      <div className="container mx-auto px-6 max-w-4xl relative text-center">
-        <AnimatedFeature>
-          <div className="flex flex-col items-center">
-            <div className="p-3 rounded-2xl bg-primary/10 text-primary mb-8">
-              <Sparkles className="w-8 h-8" />
-            </div>
-            
-            <h2 className="text-4xl md:text-6xl font-serif font-semibold tracking-tight text-foreground/90 mb-8 leading-[1.15]">
-              {t("cta.title")}
-            </h2>
-            
-            <p className="text-xl md:text-2xl text-muted-foreground/80 mb-14 max-w-2xl font-light leading-relaxed">
-              {t("cta.description")}
-            </p>
-            
-            <GoDashboard>
-              <Button 
-                size="lg" 
-                className="rounded-2xl h-16 px-12 text-xl font-medium shadow-2xl shadow-primary/30 hover:shadow-primary/40 active:scale-95 transition-all group"
-              >
-                {t("cta.button")}
-                <ArrowRight className="w-6 h-6 ml-3 group-hover:translate-x-1.5 transition-transform" />
-              </Button>
-            </GoDashboard>
+    <section className="border-b border-border/60 bg-secondary/20">
+      <div className="mx-auto grid max-w-[1240px] gap-10 px-6 py-20 lg:grid-cols-[minmax(0,1fr)_520px] lg:items-center">
+        <div>
+          <h2 className="text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
+            {content.title}
+          </h2>
+          <p className="mt-4 max-w-2xl text-lg leading-8 text-muted-foreground">
+            {content.description}
+          </p>
 
+          <div className="mt-8 flex flex-wrap gap-3">
+            <Button asChild className="h-11 rounded-[10px] px-5">
+              <Link href="/app/dashboard/templates">{content.primaryCta}</Link>
+            </Button>
+            <Button asChild variant="outline" className="h-11 rounded-[10px] px-5">
+              <Link href="/app/dashboard">{content.secondaryCta}</Link>
+            </Button>
           </div>
-        </AnimatedFeature>
+        </div>
+
+        <div className="grid gap-3">
+          {content.templates.map((template, index) => (
+            <article
+              key={template.name}
+              className="rounded-[18px] border border-border bg-background p-5 shadow-sm"
+            >
+              <div className="flex items-center justify-between gap-4">
+                <div>
+                  <p className="text-lg font-semibold text-foreground">
+                    {template.name}
+                  </p>
+                  <p className="mt-2 text-sm leading-6 text-muted-foreground">
+                    {template.detail}
+                  </p>
+                </div>
+                <span className="rounded-full bg-secondary px-3 py-1 text-xs text-muted-foreground">
+                  0{index + 1}
+                </span>
+              </div>
+            </article>
+          ))}
+        </div>
       </div>
     </section>
   );

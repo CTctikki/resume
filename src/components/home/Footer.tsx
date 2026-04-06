@@ -1,21 +1,38 @@
-import { useTranslations } from "@/i18n/compat/client";
-import Logo from "@/components/shared/Logo";
+import { BrandWordmark } from "@/components/shared/BrandWordmark";
+import { brand } from "@/config/brand";
 
-export default function Footer() {
-  const t = useTranslations("home");
+interface FooterProps {
+  locale?: string;
+}
+
+const copy = {
+  en: "Local-first editing, live preview, and PDF export in one calm workspace.",
+  zh: "把本地编辑、实时预览和 PDF 导出放进同一个克制的工作区里。",
+} as const;
+
+export default function Footer({ locale = "en" }: FooterProps) {
+  const description = locale === "zh" ? copy.zh : copy.en;
 
   return (
-    <footer className="py-16 md:py-24 border-t border-border/50 bg-secondary/10">
-      <div className="container mx-auto px-6 max-w-6xl">
-        <div className="flex flex-col md:flex-row justify-between items-center gap-8">
-          <div className="flex items-center gap-3">
-            <Logo size={32} />
-            <span className="font-serif font-semibold text-lg text-foreground/80">Magic Resume</span>
-          </div>
-          
-          <div className="text-sm text-muted-foreground/60 font-light">
-            <p>{t("footer.copyright")}</p>
-          </div>
+    <footer className="border-t border-border/60 bg-background">
+      <div className="mx-auto flex max-w-[1240px] flex-col gap-6 px-6 py-10 md:flex-row md:items-center md:justify-between">
+        <div className="space-y-3">
+          <BrandWordmark localeHref={`/${locale}`} />
+          <p className="max-w-xl text-sm leading-6 text-muted-foreground">
+            {description}
+          </p>
+        </div>
+
+        <div className="space-y-2 text-sm text-muted-foreground md:text-right">
+          <p>CT程序定制工作室</p>
+          <a
+            href={brand.studioUrl}
+            target="_blank"
+            rel="noreferrer"
+            className="transition-colors hover:text-foreground"
+          >
+            Studio site
+          </a>
         </div>
       </div>
     </footer>
