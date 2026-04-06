@@ -13,6 +13,12 @@ export default defineConfig({
   ssr: {
     noExternal: ["pdfjs-dist"]
   },
+  test: {
+    environment: "jsdom",
+    setupFiles: ["./src/test/setup.ts"],
+    globals: true,
+    css: true
+  },
   plugins: [
     tsconfigPaths(),
     tanstackStart({

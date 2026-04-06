@@ -14,6 +14,7 @@ import enMessages from "@/i18n/locales/en.json";
 import { Providers } from "@/app/providers";
 import { Toaster } from "@/components/ui/sonner";
 import { getPreferredLocale } from "@/i18n/runtime";
+import { brand } from "@/config/brand";
 
 export const Route = createRootRoute({
   head: () => ({
@@ -23,7 +24,7 @@ export const Route = createRootRoute({
         name: "viewport",
         content: "width=device-width, initial-scale=1"
       },
-      { title: "Magic Resume" }
+      { title: brand.productName }
     ],
     links: [
       {

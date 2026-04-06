@@ -1,10 +1,9 @@
 import { createFileRoute, notFound } from "@tanstack/react-router";
 import LandingPage from "@/app/(public)/[locale]/page";
 import { defaultLocale, locales, type Locale } from "@/i18n/config";
-import zhMessages from "@/i18n/locales/zh.json";
-import enMessages from "@/i18n/locales/en.json";
+import { brand } from "@/config/brand";
 
-const SEO_BASE_URL = "https://magicv.art";
+const SEO_BASE_URL = brand.siteOrigin;
 
 function resolveLocale(rawLocale: string): Locale {
   if (locales.includes(rawLocale as Locale)) {
@@ -14,9 +13,8 @@ function resolveLocale(rawLocale: string): Locale {
 }
 
 function getLocaleSeo(locale: Locale) {
-  const messages = locale === "en" ? enMessages : zhMessages;
-  const title = `${messages.common.title} - ${messages.common.subtitle}`;
-  const description = messages.common.description;
+  const title = `${brand.productName} - ${brand.subtitle[locale]}`;
+  const description = brand.description[locale];
   const localeTag = locale === "en" ? "en_US" : "zh_CN";
   const canonical = `${SEO_BASE_URL}/${locale}`;
   const alternateLocale = locale === "en" ? "zh" : "en";
@@ -41,7 +39,7 @@ export const Route = createFileRoute("/$locale")({
         { name: "description", content: seo.description },
         { name: "robots", content: "index,follow" },
         { property: "og:type", content: "website" },
-        { property: "og:site_name", content: "Magic Resume" },
+        { property: "og:site_name", content: brand.productName },
         { property: "og:title", content: seo.title },
         { property: "og:description", content: seo.description },
         { property: "og:locale", content: seo.localeTag },
