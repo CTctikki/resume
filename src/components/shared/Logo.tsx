@@ -1,4 +1,5 @@
 import React from "react";
+import { brand } from "@/config/brand";
 import Image from "@/lib/image";
 
 interface LogoProps {
@@ -15,7 +16,7 @@ const Logo: React.FC<LogoProps> = ({
   return (
     <Image
       src="/logo.svg"
-      alt="Magic Resume Logo"
+      alt={`${brand.productName} logo`}
       width={size}
       height={size}
       className={className}
