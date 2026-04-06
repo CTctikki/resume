@@ -1,3 +1,4 @@
+import { getLocale } from "@/i18n/compat/server";
 import LandingHeader from "@/components/home/LandingHeader";
 import HeroSection from "@/components/home/HeroSection";
 import FeaturesSection from "@/components/home/FeaturesSection";
@@ -5,16 +6,10 @@ import CTASection from "@/components/home/CTASection";
 import FAQSection from "@/components/home/FAQSection";
 import Footer from "@/components/home/Footer";
 
-type LandingPageProps = {
-  params?: {
-    locale?: string;
-  };
-};
-
 export const runtime = "edge";
 
-export default function LandingPage({ params }: LandingPageProps = {}) {
-  const locale = params?.locale === "zh" ? "zh" : "en";
+export default async function LandingPage() {
+  const locale = (await getLocale()) === "en" ? "en" : "zh";
 
   return (
     <div className="min-h-screen bg-background">

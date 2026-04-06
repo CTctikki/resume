@@ -1,64 +1,16 @@
 import { DatabaseBackup, Eye, FileDown } from "lucide-react";
+import type { Locale } from "@/i18n/config";
+import { getLandingCopy } from "./landingCopy";
 
 interface FeaturesSectionProps {
-  locale?: string;
+  locale?: Locale;
 }
-
-const copy = {
-  en: {
-    eyebrow: "Product proof",
-    title: "Three things the workspace does well",
-    description:
-      "The homepage should help you start work quickly, not pull you into a long marketing story.",
-    items: [
-      {
-        icon: Eye,
-        title: "Preview and editing stay side by side",
-        description:
-          "Review spacing, hierarchy, and line breaks as you update content instead of bouncing between separate pages.",
-      },
-      {
-        icon: DatabaseBackup,
-        title: "Local-first content handling",
-        description:
-          "Your resume data stays close to the workspace, which makes backup, iteration, and private edits easier to manage.",
-      },
-      {
-        icon: FileDown,
-        title: "Exports are built for handoff",
-        description:
-          "Generate polished PDFs when the page looks right, with templates that stay oriented around real application delivery.",
-      },
-    ],
-  },
-  zh: {
-    eyebrow: "产品证明",
-    title: "这个工作区重点把三件事做好",
-    description: "首页只需要把进入工具前最重要的信息讲清楚，而不是变成一长段营销展示。",
-    items: [
-      {
-        icon: Eye,
-        title: "编辑和预览始终放在一起",
-        description: "修改内容时同步检查层级、间距和换行，不需要来回切换多个页面。",
-      },
-      {
-        icon: DatabaseBackup,
-        title: "本地优先，便于备份与迭代",
-        description: "简历数据贴近你的工作区保存，更适合私密编辑、反复修改和手动备份。",
-      },
-      {
-        icon: FileDown,
-        title: "导出结果面向实际投递",
-        description: "当页面状态确认无误后，稳定生成可交付的 PDF，而不是停留在展示层面。",
-      },
-    ],
-  },
-} as const;
 
 export default function FeaturesSection({
   locale = "en",
 }: FeaturesSectionProps) {
-  const content = locale === "zh" ? copy.zh : copy.en;
+  const content = getLandingCopy(locale).features;
+  const icons = [Eye, DatabaseBackup, FileDown];
 
   return (
     <section className="border-b border-border/60 bg-background">
@@ -76,13 +28,16 @@ export default function FeaturesSection({
         </div>
 
         <div className="mt-12 grid gap-4 lg:grid-cols-3">
-          {content.items.map((item) => (
+          {content.items.map((item, index) => {
+            const Icon = icons[index];
+
+            return (
             <article
               key={item.title}
               className="rounded-[18px] border border-border bg-card p-6 shadow-sm"
             >
               <div className="flex h-11 w-11 items-center justify-center rounded-full bg-secondary text-foreground">
-                <item.icon className="h-5 w-5" />
+                <Icon className="h-5 w-5" />
               </div>
               <h3 className="mt-5 text-xl font-semibold text-foreground">
                 {item.title}
@@ -91,7 +46,8 @@ export default function FeaturesSection({
                 {item.description}
               </p>
             </article>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>

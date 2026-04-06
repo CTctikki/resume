@@ -1,56 +1,14 @@
+import type { Locale } from "@/i18n/config";
 import Link from "@/lib/link";
 import { Button } from "@/components/ui/button";
+import { getLandingCopy } from "./landingCopy";
 
 interface CTASectionProps {
-  locale?: string;
+  locale?: Locale;
 }
 
-const copy = {
-  en: {
-    title: "Start from a template, not a blank page",
-    description:
-      "Open the workspace directly if you know what you need, or scan a few template directions first and pick the one that fits the role.",
-    primaryCta: "Browse Templates",
-    secondaryCta: "Open Workspace",
-    templates: [
-      {
-        name: "Professional",
-        detail: "Balanced spacing for general applications",
-      },
-      {
-        name: "Compact",
-        detail: "Tighter layout for experienced candidates",
-      },
-      {
-        name: "Bilingual",
-        detail: "A clear option for cross-language resumes",
-      },
-    ],
-  },
-  zh: {
-    title: "先从模板开始，而不是面对空白页",
-    description: "如果你已经准备好内容，可以直接进入工作区；如果还在找方向，就先看几个模板再开始。",
-    primaryCta: "浏览模板",
-    secondaryCta: "打开工作区",
-    templates: [
-      {
-        name: "Professional",
-        detail: "适合大多数岗位投递的稳妥版式",
-      },
-      {
-        name: "Compact",
-        detail: "更适合经历较多、信息密度较高的简历",
-      },
-      {
-        name: "Bilingual",
-        detail: "适合需要中英文双语呈现的场景",
-      },
-    ],
-  },
-} as const;
-
 export default function CTASection({ locale = "en" }: CTASectionProps) {
-  const content = locale === "zh" ? copy.zh : copy.en;
+  const content = getLandingCopy(locale).cta;
 
   return (
     <section className="border-b border-border/60 bg-secondary/20">

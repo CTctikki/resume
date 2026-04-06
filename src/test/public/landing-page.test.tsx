@@ -1,7 +1,11 @@
 import { describe, expect, it, vi } from "vitest";
-import { screen } from "@testing-library/react";
+import { screen, within } from "@testing-library/react";
 import LandingPage from "@/app/(public)/[locale]/page";
 import { renderWithProviders } from "@/test/utils/renderWithProviders";
+
+const serverState = vi.hoisted(() => ({
+  locale: "en" as "en" | "zh",
+}));
 
 vi.mock("@/i18n/compat/client", () => ({
   NextIntlClientProvider: ({
@@ -9,12 +13,12 @@ vi.mock("@/i18n/compat/client", () => ({
   }: {
     children: React.ReactNode;
   }) => children,
-  useLocale: () => "en",
+  useLocale: () => serverState.locale,
   useTranslations: () => ((key: string) => key),
 }));
 
-vi.mock("@/lib/navigation", () => ({
-  usePathname: () => "/en",
+vi.mock("@/i18n/compat/server", () => ({
+  getLocale: async () => serverState.locale,
 }));
 
 vi.mock("@tanstack/react-router", () => ({
@@ -45,32 +49,52 @@ vi.mock("@/components/shared/ThemeToggle", () => ({
     children ?? <button type="button">Theme</button>,
 }));
 
-vi.mock("@/components/home/client/ScrollHeader", () => ({
-  default: ({ children }: { children: React.ReactNode }) => <>{children}</>,
-}));
-
-vi.mock("@/components/home/client/ScrollBackground", () => ({
-  default: () => null,
-}));
-
-vi.mock("@/components/home/client/AnimatedFeature", () => ({
-  default: ({ children }: { children: React.ReactNode }) => <>{children}</>,
-}));
+async function renderLandingPage(locale: "en" | "zh") {
+  serverState.locale = locale;
+  const page = await LandingPage();
+  return renderWithProviders(page, locale);
+}
 
 describe("LandingPage", () => {
-  it("shows CT branding and no GitHub star CTA", () => {
-    renderWithProviders(<LandingPage />, "en");
+  it("renders the English landing copy with the studio link and no GitHub CTA", async () => {
+    await renderLandingPage("en");
 
     expect(
       screen.getByRole("heading", {
         name: /build a resume in a focused workspace/i,
       })
     ).toBeInTheDocument();
-    expect(screen.getByText("CT程序定制工作室")).toBeInTheDocument();
     expect(screen.getByRole("link", { name: /ctikki\.com/i })).toHaveAttribute(
       "href",
       "https://ctikki.com"
     );
     expect(screen.queryByText(/star on github/i)).not.toBeInTheDocument();
+  });
+
+  it("renders the zh landing variant and keeps home links locale-correct", async () => {
+    await renderLandingPage("zh");
+
+    expect(
+      screen.getByRole("heading", { name: "在专注的工作区里完成简历" })
+    ).toBeInTheDocument();
+    expect(screen.queryByRole("heading", { name: /build a resume in a focused workspace/i })).not.toBeInTheDocument();
+    const brandedLinks = screen.getAllByRole("link", { name: /ct 简历工作台/i });
+    expect(brandedLinks.length).toBeGreaterThan(0);
+    brandedLinks.forEach((link) => {
+      expect(link).toHaveAttribute("href", "/zh");
+    });
+    expect(
+      screen.getByRole("link", { name: /返回首页/i })
+    ).toHaveAttribute("href", "/zh");
+  });
+
+  it("anchors the mobile menu to a positioned wrapper", async () => {
+    await renderLandingPage("en");
+
+    const anchor = screen.getByTestId("landing-mobile-menu-anchor");
+    expect(anchor).toHaveClass("relative");
+
+    const panel = within(anchor).getByTestId("landing-mobile-menu-panel");
+    expect(panel).toHaveClass("absolute");
   });
 });

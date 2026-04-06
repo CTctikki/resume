@@ -1,17 +1,14 @@
+import type { Locale } from "@/i18n/config";
 import { BrandWordmark } from "@/components/shared/BrandWordmark";
 import { brand } from "@/config/brand";
+import { getLandingCopy } from "./landingCopy";
 
 interface FooterProps {
-  locale?: string;
+  locale?: Locale;
 }
 
-const copy = {
-  en: "Local-first editing, live preview, and PDF export in one calm workspace.",
-  zh: "把本地编辑、实时预览和 PDF 导出放进同一个克制的工作区里。",
-} as const;
-
 export default function Footer({ locale = "en" }: FooterProps) {
-  const description = locale === "zh" ? copy.zh : copy.en;
+  const copy = getLandingCopy(locale).footer;
 
   return (
     <footer className="border-t border-border/60 bg-background">
@@ -19,19 +16,19 @@ export default function Footer({ locale = "en" }: FooterProps) {
         <div className="space-y-3">
           <BrandWordmark localeHref={`/${locale}`} />
           <p className="max-w-xl text-sm leading-6 text-muted-foreground">
-            {description}
+            {copy.description}
           </p>
         </div>
 
         <div className="space-y-2 text-sm text-muted-foreground md:text-right">
-          <p>CT程序定制工作室</p>
+          <p>{copy.studioName}</p>
           <a
             href={brand.studioUrl}
             target="_blank"
             rel="noreferrer"
             className="transition-colors hover:text-foreground"
           >
-            Studio site
+            {copy.studioLinkLabel}
           </a>
         </div>
       </div>
