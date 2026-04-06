@@ -2,6 +2,10 @@ import React from "react";
 import { brand } from "@/config/brand";
 import Image from "@/lib/image";
 
+const LOGO_VIEWBOX_WIDTH = 960;
+const LOGO_VIEWBOX_HEIGHT = 320;
+const LOGO_ASPECT_RATIO = LOGO_VIEWBOX_WIDTH / LOGO_VIEWBOX_HEIGHT;
+
 interface LogoProps {
   size?: number;
   className?: string;
@@ -13,7 +17,7 @@ const Logo: React.FC<LogoProps> = ({
   className = "",
   onClick,
 }) => {
-  const width = Math.round(size * 2.4);
+  const width = Math.round(size * LOGO_ASPECT_RATIO);
 
   return (
     <Image
