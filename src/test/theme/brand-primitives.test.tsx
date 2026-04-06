@@ -1,9 +1,9 @@
 import { createElement } from "react";
-import { describe, expect, it } from "vitest";
-import { vi } from "vitest";
 import { screen } from "@testing-library/react";
-import { renderWithProviders } from "@/test/utils/renderWithProviders";
+import { describe, expect, it, vi } from "vitest";
+import { brand } from "@/config/brand";
 import { BrandWordmark } from "@/components/shared/BrandWordmark";
+import { renderWithProviders } from "@/test/utils/renderWithProviders";
 
 const i18nState = vi.hoisted(() => ({
   locale: "en" as "en" | "zh"
@@ -33,6 +33,13 @@ vi.mock("@/lib/link", () => ({
   }) => createElement("a", { href, ...rest }, children)
 }));
 
+vi.mock("@/config/brand", () => ({
+  brand: {
+    productName: "CT Test Product",
+    studioName: "CT Test Studio"
+  }
+}));
+
 describe("BrandWordmark", () => {
   it("renders the CT product and studio names", () => {
     renderWithProviders(
@@ -40,7 +47,7 @@ describe("BrandWordmark", () => {
       "zh"
     );
 
-    expect(screen.getByText("CT 简历工作台")).toBeInTheDocument();
-    expect(screen.getByText("CT程序定制工作室")).toBeInTheDocument();
+    expect(screen.getByText(brand.productName)).toBeInTheDocument();
+    expect(screen.getByText(brand.studioName)).toBeInTheDocument();
   });
 });

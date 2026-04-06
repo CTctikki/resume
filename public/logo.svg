@@ -1,17 +1,40 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="CT Resume logo">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 320" role="img" aria-label="CT Resume logo">
   <defs>
-    <linearGradient id="logoBg" x1="96" y1="72" x2="416" y2="440" gradientUnits="userSpaceOnUse">
+    <linearGradient id="logoGradient" x1="48" y1="40" x2="272" y2="240" gradientUnits="userSpaceOnUse">
       <stop offset="0" stop-color="#2457F5" />
       <stop offset="1" stop-color="#5B82FF" />
     </linearGradient>
+    <style>
+      .wordmark-primary { fill: #0F1720; }
+      .wordmark-secondary { fill: #5F6B7A; letter-spacing: 0.22em; }
+      @media (prefers-color-scheme: dark) {
+        .wordmark-primary { fill: #E6ECF3; }
+        .wordmark-secondary { fill: #AAB6C5; }
+      }
+    </style>
   </defs>
-  <rect width="512" height="512" rx="120" fill="url(#logoBg)" />
-  <path
-    d="M152 136h128l56 56v184a24 24 0 0 1-24 24H152a24 24 0 0 1-24-24V160a24 24 0 0 1 24-24z"
-    fill="#FFFFFF"
-  />
-  <path d="M280 136v56h56" fill="none" stroke="#2457F5" stroke-width="28" stroke-linejoin="round" />
-  <rect x="180" y="228" width="132" height="16" rx="8" fill="#D9E4FF" />
-  <rect x="180" y="268" width="96" height="16" rx="8" fill="#D9E4FF" />
-  <rect x="180" y="308" width="116" height="16" rx="8" fill="#D9E4FF" />
+
+  <g transform="translate(32 40)">
+    <rect width="240" height="240" rx="56" fill="url(#logoGradient)" />
+    <path
+      d="M82 66h76l34 34v76a18 18 0 0 1-18 18H82a18 18 0 0 1-18-18V84a18 18 0 0 1 18-18z"
+      fill="#FFFFFF"
+    />
+    <path d="M158 66v34h34" fill="none" stroke="#2457F5" stroke-width="20" stroke-linejoin="round" />
+    <rect x="96" y="120" width="78" height="10" rx="5" fill="#D9E4FF" />
+    <rect x="96" y="144" width="58" height="10" rx="5" fill="#D9E4FF" />
+    <rect x="96" y="168" width="68" height="10" rx="5" fill="#D9E4FF" />
+  </g>
+
+  <g transform="translate(324 97)">
+    <text class="wordmark-primary" x="0" y="56" font-family="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="72" font-weight="800">
+      CT
+    </text>
+    <text class="wordmark-primary" x="0" y="122" font-family="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="46" font-weight="700">
+      Resume
+    </text>
+    <text class="wordmark-secondary" x="0" y="168" font-family="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="20" font-weight="600">
+      WORKSPACE
+    </text>
+  </g>
 </svg>

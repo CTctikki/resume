@@ -1,3 +1,4 @@
+import { brand } from "@/config/brand";
 import Link from "@/lib/link";
 import { cn } from "@/lib/utils";
 import Logo from "@/components/shared/Logo";
@@ -8,9 +9,6 @@ interface BrandWordmarkProps {
   showStudio?: boolean;
 }
 
-const productName = "CT 简历工作台";
-const studioName = "CT程序定制工作室";
-
 export function BrandWordmark({
   className,
   localeHref,
@@ -20,15 +18,15 @@ export function BrandWordmark({
     <Link
       href={localeHref}
       className={cn("flex items-center gap-3 text-left", className)}
-      aria-label={productName}
+      aria-label={brand.productName}
     >
       <Logo size={40} />
       <span className="flex flex-col leading-tight">
         <span className="text-sm font-semibold tracking-tight text-foreground">
-          {productName}
+          {brand.productName}
         </span>
         {showStudio ? (
-          <span className="text-xs text-muted-foreground">{studioName}</span>
+          <span className="text-xs text-muted-foreground">{brand.studioName}</span>
         ) : null}
       </span>
     </Link>

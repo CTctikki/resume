@@ -13,11 +13,13 @@ const Logo: React.FC<LogoProps> = ({
   className = "",
   onClick,
 }) => {
+  const width = Math.round(size * 2.4);
+
   return (
     <Image
       src="/logo.svg"
       alt={`${brand.productName} logo`}
-      width={size}
+      width={width}
       height={size}
       className={className}
       onClick={onClick}
