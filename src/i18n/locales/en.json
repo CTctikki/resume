@@ -105,6 +105,7 @@
     "sidebar": {
       "appName": "Magic Resume",
       "resumes": "Resumes",
+      "export": "Export",
       "settings": "Settings",
       "templates": "Templates",
       "ai": "AI Config"

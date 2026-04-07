@@ -106,6 +106,7 @@
     "sidebar": {
       "appName": "魔方简历",
       "resumes": "我的简历",
+      "export": "\u5bfc\u51fa",
       "settings": "通用设置",
       "templates": "简历模板",
       "ai": "AI服务商"
