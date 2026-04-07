@@ -110,6 +110,40 @@
       "templates": "Templates",
       "ai": "AI Config"
     },
+    "export": {
+      "title": "Export and Share",
+      "description": "Choose the output method that best matches formal submission, print fallback, or local backup.",
+      "empty": {
+        "title": "Open a resume first",
+        "description": "Create or open a resume in the workbench so the export tools can use the current preview."
+      },
+      "cards": {
+        "pdf": {
+          "title": "PDF export",
+          "description": "Use the high-fidelity export flow for a polished final PDF.",
+          "action": "Export PDF",
+          "loading": "Exporting PDF..."
+        },
+        "print": {
+          "title": "Browser print",
+          "description": "Use the browser print dialog when you need a local fallback.",
+          "action": "Open print dialog",
+          "loading": "Opening print dialog..."
+        },
+        "json": {
+          "title": "JSON backup",
+          "description": "Save a local snapshot of your data for backup and later import.",
+          "action": "Download JSON",
+          "loading": "Downloading JSON..."
+        }
+      },
+      "toast": {
+        "pdfSuccess": "PDF exported successfully",
+        "pdfError": "PDF export failed",
+        "jsonSuccess": "Configuration exported successfully",
+        "jsonError": "Configuration export failed"
+      }
+    },
     "resumes": {
       "created": "Created At",
       "synced": "Synced Files",
@@ -170,6 +204,55 @@
     },
     "settings": {
       "title": "Settings",
+      "pageTitle": "Workspace Settings",
+      "pageDescription": "Manage backup, defaults, AI providers, and version information.",
+      "workspace": {
+        "title": "Workspace",
+        "intro": "Keep backup, AI, and product identity settings organized in one place.",
+        "sectionsLabel": "Workspace settings sections",
+        "overviewTitle": "Workspace at a glance",
+        "overviewDescription": "The workspace settings surface keeps the backup folder, AI provider overview, and CT ownership details together without hiding the operational pieces.",
+        "sections": {
+          "backupSync": {
+            "title": "Backup and sync",
+            "description": "Reconnect the local folder that protects resume data."
+          },
+          "aiProviders": {
+            "title": "AI providers",
+            "description": "Review which model providers are available to the workspace."
+          },
+          "aboutVersion": {
+            "title": "About this version",
+            "description": "See product identity and ownership details."
+          }
+        },
+        "backupSync": {
+          "title": "Backup and sync",
+          "description": "Reconnect a local folder so the workspace can keep backups of resume data and exported configs.",
+          "currentFolder": "Current folder",
+          "noFolderConfigured": "No folder configured",
+          "storageMode": "Storage mode",
+          "storageValue": "Local-first backup",
+          "syncStatus": "Sync status",
+          "connected": "Connected",
+          "waiting": "Waiting for a folder",
+          "supportNote": "The selected folder is stored locally in the browser. When the permission is available, the workspace can re-open the same folder and keep the sync workflow intact.",
+          "selectFolder": "Select Folder",
+          "removeFolder": "Remove synced folder",
+          "browserUnsupported": "Your browser does not support directory selection. Please use a modern browser."
+        },
+        "aiProviders": {
+          "title": "AI providers",
+          "description": "The workspace keeps the provider surface organized, while detailed model credentials remain in the dedicated AI configuration page.",
+          "openSettings": "Open AI settings"
+        },
+        "about": {
+          "title": "About this version",
+          "description": "Workspace information, ownership, and product identity for the current build.",
+          "maintainedBy": "{product} is maintained by {studio}.",
+          "linkLabel": "CTIKKI"
+        }
+      },
       "syncDirectory": {
         "title": "Sync Directory",
         "description": "Choose a folder to sync and backup your resumes.",

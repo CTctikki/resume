@@ -111,6 +111,40 @@
       "templates": "简历模板",
       "ai": "AI服务商"
     },
+    "export": {
+      "title": "导出与分享",
+      "description": "选择最适合正式提交、打印兜底或本地备份的导出方式。",
+      "empty": {
+        "title": "请先打开一个简历",
+        "description": "先在工作台中创建或打开简历，这样导出工具才能使用当前预览。"
+      },
+      "cards": {
+        "pdf": {
+          "title": "PDF 导出",
+          "description": "使用高保真导出流程生成排版完整的最终 PDF。",
+          "action": "导出 PDF",
+          "loading": "正在导出 PDF..."
+        },
+        "print": {
+          "title": "浏览器打印",
+          "description": "当需要本地兜底时，使用浏览器打印对话框。",
+          "action": "打开打印对话框",
+          "loading": "正在打开打印对话框..."
+        },
+        "json": {
+          "title": "JSON 备份",
+          "description": "保存一份本地数据快照，便于备份和后续导入。",
+          "action": "下载 JSON",
+          "loading": "正在下载 JSON..."
+        }
+      },
+      "toast": {
+        "pdfSuccess": "PDF 导出成功",
+        "pdfError": "PDF 导出失败",
+        "jsonSuccess": "配置导出成功",
+        "jsonError": "配置导出失败"
+      }
+    },
     "resumes": {
       "created": "创建于",
       "synced": "已备份文件夹",
@@ -171,6 +205,55 @@
     },
     "settings": {
       "title": "设置",
+      "pageTitle": "工作区设置",
+      "pageDescription": "管理备份、默认项、AI 提供商和版本信息。",
+      "workspace": {
+        "title": "工作区",
+        "intro": "把备份、AI 和产品归属信息集中在一起管理。",
+        "sectionsLabel": "工作区设置分区",
+        "overviewTitle": "工作区概览",
+        "overviewDescription": "工作区设置将备份文件夹、AI 提供商概览和 CT 归属信息放在同一个地方，同时不隐藏真正要用的操作项。",
+        "sections": {
+          "backupSync": {
+            "title": "备份与同步",
+            "description": "重新连接保护简历数据的本地文件夹。"
+          },
+          "aiProviders": {
+            "title": "AI 提供商",
+            "description": "查看工作区可用的模型提供商。"
+          },
+          "aboutVersion": {
+            "title": "关于此版本",
+            "description": "查看产品归属和版本信息。"
+          }
+        },
+        "backupSync": {
+          "title": "备份与同步",
+          "description": "重新连接一个本地文件夹，让工作区可以持续备份简历数据和导出的配置。",
+          "currentFolder": "当前文件夹",
+          "noFolderConfigured": "尚未配置文件夹",
+          "storageMode": "存储模式",
+          "storageValue": "本地优先备份",
+          "syncStatus": "同步状态",
+          "connected": "已连接",
+          "waiting": "等待选择文件夹",
+          "supportNote": "所选文件夹会保存在浏览器本地。只要权限仍然可用，工作区就可以重新打开同一个文件夹并保持同步流程。",
+          "selectFolder": "选择文件夹",
+          "removeFolder": "移除同步文件夹",
+          "browserUnsupported": "你的浏览器不支持目录选择，请使用现代浏览器。"
+        },
+        "aiProviders": {
+          "title": "AI 提供商",
+          "description": "工作区会把提供商入口整理好，详细模型凭据仍然保留在专门的 AI 配置页中。",
+          "openSettings": "打开 AI 设置"
+        },
+        "about": {
+          "title": "关于此版本",
+          "description": "查看当前构建的工作区信息、归属和产品标识。",
+          "maintainedBy": "{product} 由 {studio} 维护。",
+          "linkLabel": "CTIKKI 官网"
+        }
+      },
       "syncDirectory": {
         "title": "同步目录",
         "description": "选择一个文件夹来同步和备份您的简历。",

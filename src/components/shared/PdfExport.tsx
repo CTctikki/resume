@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useTranslations } from "@/i18n/compat/client";
 import {
   Download,
@@ -7,11 +7,8 @@ import {
   Printer,
   ChevronDown
 } from "lucide-react";
-import { toast } from "sonner";
 import { useResumeStore } from "@/store/useResumeStore";
 import { Button } from "@/components/ui/button";
-import { exportToPdf } from "@/utils/export";
-import { exportResumeToBrowserPrint } from "@/utils/print";
 import { cn } from "@/lib/utils";
 import {
   DropdownMenu,
@@ -19,6 +16,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
+import { createExportActions } from "@/components/export/useExportActions";
 
 interface PdfExportProps {
   align?: "start" | "center" | "end";
@@ -33,72 +31,56 @@ const PdfExport = ({
   triggerLabel,
   triggerVariant = "button"
 }: PdfExportProps) => {
-  const [isExporting, setIsExporting] = useState(false);
-  const [isExportingJson, setIsExportingJson] = useState(false);
-  const { activeResume } = useResumeStore();
-  const { globalSettings = {}, title } = activeResume || {};
+  const activeResume = useResumeStore((state) => state.activeResume);
   const t = useTranslations("pdfExport");
-
-  const handleExport = async () => {
-    await exportToPdf({
-      elementId: "resume-preview",
-      title: title || "resume",
-      pagePadding: globalSettings?.pagePadding || 0,
-      fontFamily: globalSettings?.fontFamily,
-      onStart: () => setIsExporting(true),
-      onEnd: () => setIsExporting(false),
-      successMessage: t("toast.success"),
-      errorMessage: t("toast.error")
-    });
-  };
-
-  const handleJsonExport = () => {
-    try {
-      setIsExportingJson(true);
-      if (!activeResume) {
-        throw new Error("No active resume");
-      }
-
-      const jsonStr = JSON.stringify(activeResume, null, 2);
-      const blob = new Blob([jsonStr], { type: "application/json" });
-      const url = window.URL.createObjectURL(blob);
-      const link = document.createElement("a");
-      link.href = url;
-      link.download = `${title}.json`;
-      link.click();
-
-      window.URL.revokeObjectURL(url);
-      toast.success(t("toast.jsonSuccess"));
-    } catch (error) {
-      console.error("JSON export error:", error);
-      toast.error(t("toast.jsonError"));
-    } finally {
-      setIsExportingJson(false);
-    }
-  };
-
-  const handlePrint = async () => {
-    const resumeContent = document.getElementById("resume-preview");
-    if (!resumeContent) {
-      console.error("Resume content not found");
-      return;
-    }
-
-    const pagePadding = globalSettings?.pagePadding || 0;
-    await exportResumeToBrowserPrint(
-      resumeContent,
-      pagePadding,
-      globalSettings?.fontFamily
-    );
-  };
-
-  const isLoading = isExporting || isExportingJson;
-  const loadingText = isExporting
+  const hasResume = Boolean(activeResume);
+  const [activeAction, setActiveAction] = useState<"pdf" | "print" | "json" | null>(null);
+  const { exportPdf, exportPrint, exportJson } = createExportActions(activeResume);
+  const isLoading = activeAction !== null;
+  const loadingText = activeAction === "pdf" || activeAction === "print"
     ? t("button.exporting")
-    : isExportingJson
+    : activeAction === "json"
       ? t("button.exportingJson")
       : "";
   const resolvedTriggerLabel = triggerLabel || t("button.export");
+
+  const handlePdfExport = async () => {
+    setActiveAction("pdf");
+    try {
+      await exportPdf({
+        noResume: t("toast.error"),
+        success: t("toast.success"),
+        error: t("toast.error")
+      });
+    } finally {
+      setActiveAction(null);
+    }
+  };
+
+  const handlePrintExport = async () => {
+    setActiveAction("print");
+    try {
+      await exportPrint({
+        noResume: t("toast.error"),
+        error: t("toast.error")
+      });
+    } finally {
+      setActiveAction(null);
+    }
+  };
+
+  const handleJsonExport = async () => {
+    setActiveAction("json");
+    try {
+      exportJson({
+        noResume: t("toast.jsonError"),
+        success: t("toast.jsonSuccess"),
+        error: t("toast.jsonError")
+      });
+    } finally {
+      setActiveAction(null);
+    }
+  };
 
   return (
     <DropdownMenu>
@@ -110,7 +92,7 @@ const PdfExport = ({
             size="icon"
             aria-label={resolvedTriggerLabel}
             className={cn(className)}
-            disabled={isLoading}
+            disabled={isLoading || !hasResume}
           >
             {isLoading ? (
               <Loader2 className="h-4 w-4 animate-spin" />
@@ -125,7 +107,7 @@ const PdfExport = ({
               "flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium disabled:cursor-not-allowed disabled:opacity-50",
               className
             )}
-            disabled={isLoading}
+            disabled={isLoading || !hasResume}
           >
             {isLoading ? (
               <>
@@ -143,15 +125,24 @@ const PdfExport = ({
         )}
       </DropdownMenuTrigger>
       <DropdownMenuContent align={align}>
-        <DropdownMenuItem onClick={handleExport} disabled={isLoading}>
+        <DropdownMenuItem
+          onClick={() => void handlePdfExport()}
+          disabled={isLoading || !hasResume}
+        >
           <Download className="w-4 h-4 mr-2" />
           {t("button.exportPdf")}
         </DropdownMenuItem>
-        <DropdownMenuItem onClick={handlePrint} disabled={isLoading}>
+        <DropdownMenuItem
+          onClick={() => void handlePrintExport()}
+          disabled={isLoading || !hasResume}
+        >
           <Printer className="w-4 h-4 mr-2" />
           {t("button.print")}
         </DropdownMenuItem>
-        <DropdownMenuItem onClick={handleJsonExport} disabled={isLoading}>
+        <DropdownMenuItem
+          onClick={() => void handleJsonExport()}
+          disabled={isLoading || !hasResume}
+        >
           <FileJson className="w-4 h-4 mr-2" />
           {t("button.exportJson")}
         </DropdownMenuItem>
