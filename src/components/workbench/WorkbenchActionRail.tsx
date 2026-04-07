@@ -1,9 +1,11 @@
 import {
+  Copy,
   Download,
   Eye,
   FileText,
   LayoutTemplate,
   PanelLeft,
+  SpellCheck2,
   SlidersHorizontal
 } from "lucide-react";
 import type { ReactNode } from "react";
@@ -19,6 +21,8 @@ interface WorkbenchActionRailProps {
   onToggleEditPanel: () => void;
   onTogglePreviewPanel: () => void;
   onOpenTemplates: () => void;
+  onOpenGrammarCheck?: () => void;
+  onDuplicateResume?: () => void;
   onOpenExport?: () => void;
   onAutoFit: () => void;
   exportSlot?: ReactNode;
@@ -32,6 +36,8 @@ export function WorkbenchActionRail({
   onToggleEditPanel,
   onTogglePreviewPanel,
   onOpenTemplates,
+  onOpenGrammarCheck,
+  onDuplicateResume,
   onOpenExport,
   onAutoFit,
   exportSlot
@@ -61,6 +67,28 @@ export function WorkbenchActionRail({
             <Download className="h-4 w-4" />
           </Button>
         )}
+        {onDuplicateResume ? (
+          <Button
+            type="button"
+            variant="ghost"
+            size="icon"
+            aria-label={labels.copyResume}
+            onClick={onDuplicateResume}
+          >
+            <Copy className="h-4 w-4" />
+          </Button>
+        ) : null}
+        {onOpenGrammarCheck ? (
+          <Button
+            type="button"
+            variant="ghost"
+            size="icon"
+            aria-label={labels.aiGrammarCheck}
+            onClick={onOpenGrammarCheck}
+          >
+            <SpellCheck2 className="h-4 w-4" />
+          </Button>
+        ) : null}
         <div className="my-1 h-px w-full bg-border/80" />
         <Button
           type="button"

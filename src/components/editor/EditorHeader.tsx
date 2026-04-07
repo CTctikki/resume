@@ -3,6 +3,7 @@ import { useRouter } from "@/lib/navigation";
 import { useResumeStore } from "@/store/useResumeStore";
 import PdfExport from "@/components/shared/PdfExport";
 import TemplateSheet from "@/components/shared/TemplateSheet";
+import { normalizeResumeTitle } from "@/components/workbench/normalizeResumeTitle";
 import { WorkbenchTopBar } from "@/components/workbench/WorkbenchTopBar";
 import { useWorkbenchShellLabels } from "@/components/workbench/useWorkbenchShellLabels";
 
@@ -24,7 +25,9 @@ export function EditorHeader({ isMobile }: EditorHeaderProps) {
     <>
       <WorkbenchTopBar
         title={activeResume?.title ?? ""}
-        onTitleBlur={(value) => updateResumeTitle(value || "Untitled Resume")}
+        onTitleBlur={(value) =>
+          updateResumeTitle(normalizeResumeTitle(value, labels.untitledResume))
+        }
         onBack={() => router.push("/app/dashboard/resumes")}
         onOpenTemplates={() => setTemplateSheetOpen(true)}
         onOpenExport={undefined}

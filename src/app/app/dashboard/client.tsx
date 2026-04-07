@@ -45,6 +45,22 @@ function DashboardMobileSidebarTrigger() {
   );
 }
 
+function DashboardDesktopSidebarTrigger() {
+  const { toggleSidebar } = useSidebar();
+
+  return (
+    <button
+      type="button"
+      className="hidden h-10 w-10 items-center justify-center rounded-full border border-border/60 bg-card text-foreground md:inline-flex"
+      aria-label="Toggle Sidebar"
+      onClick={toggleSidebar}
+    >
+      <span className="sr-only">Toggle Sidebar</span>
+      <span aria-hidden="true">☰</span>
+    </button>
+  );
+}
+
 export function DashboardShell({
   children,
   pathname,
@@ -63,6 +79,9 @@ export function DashboardShell({
         <main className="flex min-w-0 flex-1 flex-col">
           <div className="border-b border-border/60 bg-background px-4 py-3 md:hidden">
             <DashboardMobileSidebarTrigger />
+          </div>
+          <div className="hidden border-b border-border/60 bg-background px-4 py-3 md:flex md:items-center md:justify-end">
+            <DashboardDesktopSidebarTrigger />
           </div>
           <DashboardTopBar subtitle={subtitle} />
           <div className="flex-1 overflow-auto">{children}</div>

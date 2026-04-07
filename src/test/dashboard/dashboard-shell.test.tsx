@@ -6,13 +6,8 @@ import { AppSidebar } from "@/components/dashboard/AppSidebar";
 import { DashboardTopBar } from "@/components/dashboard/DashboardTopBar";
 import { brand } from "@/config/brand";
 import { dashboardNav } from "@/config/dashboardNav";
-import { renderWithProviders } from "@/test/utils/renderWithProviders";
 
-vi.mock("@/i18n/compat/client", () => ({
-  NextIntlClientProvider: ({ children }: { children: React.ReactNode }) => children,
-  useLocale: () => "en",
-  useTranslations: () => ((key: string) => key)
-}));
+let mockedLocale = "en";
 
 vi.mock("@/lib/link", () => ({
   default: ({ href, children, ...rest }: { href: string; children: React.ReactNode }) => (
@@ -20,6 +15,11 @@ vi.mock("@/lib/link", () => ({
       {children}
     </a>
   )
+}));
+
+vi.mock("@/i18n/compat/client", () => ({
+  useLocale: () => mockedLocale,
+  useTranslations: () => ((key: string) => key)
 }));
 
 vi.mock("@/components/ui/sidebar", () => {
@@ -54,9 +54,8 @@ vi.mock("@/components/ui/sidebar", () => {
 
 describe("AppSidebar", () => {
   it("shows the CT workspace brand and dashboard sections", () => {
-    renderWithProviders(
+    render(
       <AppSidebar items={dashboardNav} currentPath="/app/dashboard/resumes" expanded />,
-      "en"
     );
 
     expect(screen.getByText("CT 简历工作台")).toBeInTheDocument();
@@ -68,9 +67,8 @@ describe("AppSidebar", () => {
 
 describe("DashboardTopBar", () => {
   it("defaults to the CT brand name instead of the legacy dashboard label", () => {
-    renderWithProviders(
+    render(
       <DashboardTopBar subtitle="AI driven resume editor" />,
-      "en"
     );
 
     expect(screen.getByRole("heading", { name: "CT 简历工作台" })).toBeInTheDocument();
@@ -82,7 +80,7 @@ describe("DashboardTopBar", () => {
 });
 
 describe("DashboardShell", () => {
-  it("uses CT brand copy and exposes the mobile sidebar trigger in the shell", () => {
+  it("uses CT brand copy and exposes desktop and mobile sidebar triggers in the shell", () => {
     render(
       <DashboardShell
         pathname="/app/dashboard/resumes"
@@ -99,7 +97,7 @@ describe("DashboardShell", () => {
       "href",
       brand.studioUrl
     );
-    expect(screen.getByRole("button", { name: /toggle sidebar/i })).toBeInTheDocument();
+    expect(screen.getAllByRole("button", { name: /toggle sidebar/i })).toHaveLength(2);
     expect(screen.getByText(/templates/i)).toBeInTheDocument();
   });
 });

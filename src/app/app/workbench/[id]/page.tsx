@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { SidePanel } from "@/components/editor/SidePanel";
 import { EditPanel } from "@/components/editor/EditPanel";
+import { GrammarCheckDrawer } from "@/components/editor/grammar/GrammarCheckDrawer";
 import PreviewPanel from "@/components/preview";
 import { MobileWorkbench } from "@/components/mobile/MobileWorkbench";
 import {
@@ -11,11 +12,15 @@ import {
 import { cn } from "@/lib/utils";
 import { useRouter } from "@/lib/navigation";
 import { useResumeStore } from "@/store/useResumeStore";
+import { useGrammarCheck } from "@/hooks/useGrammarCheck";
+import { useAIConfiguration } from "@/hooks/useAIConfiguration";
 import PdfExport from "@/components/shared/PdfExport";
 import TemplateSheet from "@/components/shared/TemplateSheet";
+import { normalizeResumeTitle } from "@/components/workbench/normalizeResumeTitle";
 import { WorkbenchTopBar } from "@/components/workbench/WorkbenchTopBar";
 import { WorkbenchActionRail } from "@/components/workbench/WorkbenchActionRail";
 import { useWorkbenchShellLabels } from "@/components/workbench/useWorkbenchShellLabels";
+import { toast } from "sonner";
 
 const LAYOUT_CONFIG = {
   DEFAULT: [20, 32, 48],
@@ -49,8 +54,15 @@ export const runtime = "edge";
 export default function Home() {
   const router = useRouter();
   const labels = useWorkbenchShellLabels();
-  const { activeResume, updateResumeTitle, updateGlobalSettings } =
-    useResumeStore();
+  const {
+    activeResume,
+    activeResumeId,
+    duplicateResume,
+    updateResumeTitle,
+    updateGlobalSettings
+  } = useResumeStore();
+  const { checkGrammar } = useGrammarCheck();
+  const { checkConfiguration } = useAIConfiguration();
   const [sidePanelCollapsed, setSidePanelCollapsed] = useState(false);
   const [editPanelCollapsed, setEditPanelCollapsed] = useState(false);
   const [previewPanelCollapsed, setPreviewPanelCollapsed] = useState(false);
@@ -71,6 +83,27 @@ export default function Home() {
 
   const updateLayout = (sizes: number[]) => {
     setPanelSizes(sizes);
+  };
+
+  const handleDuplicateResume = () => {
+    if (!activeResumeId) return;
+    const nextId = duplicateResume(activeResumeId);
+    router.push(`/app/workbench/${nextId}`);
+  };
+
+  const handleGrammarCheck = async () => {
+    if (!checkConfiguration()) return;
+
+    const previewContent = document.getElementById("resume-preview");
+    const text = previewContent?.innerText?.trim();
+
+    if (!text) {
+      toast.error(labels.aiGrammarCheck);
+      return;
+    }
+
+    await checkGrammar(text);
+    document.dispatchEvent(new CustomEvent("open-grammar-drawer"));
   };
 
   useEffect(() => {
@@ -145,10 +178,13 @@ export default function Home() {
 
   return (
     <main className="min-h-screen overflow-hidden bg-background text-foreground">
+      <GrammarCheckDrawer />
       <div className="hidden md:block">
         <WorkbenchTopBar
           title={activeResume?.title ?? ""}
-          onTitleBlur={(value) => updateResumeTitle(value || "Untitled Resume")}
+          onTitleBlur={(value) =>
+            updateResumeTitle(normalizeResumeTitle(value, labels.untitledResume))
+          }
           onBack={() => router.push("/app/dashboard/resumes")}
           onOpenTemplates={() => setTemplateSheetOpen(true)}
           onOpenExport={undefined}
@@ -240,6 +276,8 @@ export default function Home() {
           onToggleEditPanel={toggleEditPanel}
           onTogglePreviewPanel={togglePreviewPanel}
           onOpenTemplates={() => setTemplateSheetOpen(true)}
+          onOpenGrammarCheck={handleGrammarCheck}
+          onDuplicateResume={handleDuplicateResume}
           onOpenExport={undefined}
           exportSlot={
             <PdfExport
