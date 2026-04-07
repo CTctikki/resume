@@ -1,15 +1,19 @@
+"use client";
+
 import { useEffect, useRef, useState } from "react";
 import { useLocale, useTranslations } from "@/i18n/compat/client";
 import { motion } from "framer-motion";
 import { useRouter } from "@/lib/navigation";
 import { cn } from "@/lib/utils";
 import { DEFAULT_TEMPLATES } from "@/config";
+import { templateMetadata } from "@/config/templateMetadata";
 import { useResumeStore } from "@/store/useResumeStore";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import ResumeTemplateComponent from "@/components/templates";
+import { TemplateMetadataDrawer } from "@/components/templates/TemplateMetadataDrawer";
 import { initialResumeState, initialResumeStateEn } from "@/config/initialResumeData";
 import type { ResumeTemplate } from "@/types/template";
 import { normalizeFontFamily } from "@/utils/fonts";
@@ -63,8 +67,12 @@ interface TemplateCardItemProps {
   template: ResumeTemplate;
   templateName: string;
   templateDescription: string;
+  metadata: {
+    tags: readonly string[];
+  } | undefined;
   baseData: TemplatePreviewBaseData;
   selectedColor: string;
+  isSelected: boolean;
   onPreview: () => void;
   onUseTemplate: () => void;
   previewLabel: string;
@@ -76,8 +84,10 @@ const TemplateCardItem = ({
   template,
   templateName,
   templateDescription,
+  metadata,
   baseData,
   selectedColor,
+  isSelected,
   onPreview,
   onUseTemplate,
   previewLabel,
@@ -118,7 +128,9 @@ const TemplateCardItem = ({
       <Card
         className={cn(
           "group border transition-all duration-200 aspect-[210/297] flex flex-col overflow-hidden",
-          "hover:border-primary/40 hover:shadow-lg",
+          isSelected
+            ? "border-primary/60 shadow-lg ring-2 ring-primary/10"
+            : "hover:border-primary/40 hover:shadow-lg",
           "dark:hover:border-primary/40"
         )}
       >
@@ -156,6 +168,16 @@ const TemplateCardItem = ({
               <span className="text-[11px] text-gray-600 dark:text-gray-300 mt-0.5 font-medium truncate">
                 {templateDescription}
               </span>
+              <div className="mt-2 flex flex-wrap gap-1.5">
+                {metadata?.tags.slice(0, 3).map((tag) => (
+                  <span
+                    key={tag}
+                    className="rounded-full bg-white/90 px-2 py-0.5 text-[10px] font-medium text-gray-700 shadow-sm dark:bg-gray-900/90 dark:text-gray-200"
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
             </div>
           </div>
         </CardContent>
@@ -209,6 +231,9 @@ const TemplatesPage = () => {
   const router = useRouter();
   const createResume = useResumeStore((state) => state.createResume);
   const [previewTemplate, setPreviewTemplate] = useState<string | null>(null);
+  const [selectedTemplateId, setSelectedTemplateId] = useState<string>(
+    DEFAULT_TEMPLATES[0]?.id ?? ""
+  );
   const [selectedColor, setSelectedColor] = useState<string>(PRESET_COLORS[0].value);
   const autoPlayRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
@@ -239,6 +264,20 @@ const TemplatesPage = () => {
   const activePreviewTemplate =
     DEFAULT_TEMPLATES.find((template) => template.id === previewTemplate) ??
     null;
+  const selectedTemplate =
+    DEFAULT_TEMPLATES.find((template) => template.id === selectedTemplateId) ??
+    DEFAULT_TEMPLATES[0] ??
+    null;
+  const selectedTemplateKey = selectedTemplate
+    ? getTemplateKey(selectedTemplate.id)
+    : null;
+  const selectedTemplateMetadata =
+    selectedTemplateKey &&
+    templateMetadata[selectedTemplateKey as keyof typeof templateMetadata]
+      ? templateMetadata[
+          selectedTemplateKey as keyof typeof templateMetadata
+        ]
+      : undefined;
 
   const handleCreateResume = (templateId: string) => {
     const template = DEFAULT_TEMPLATES.find((entry) => entry.id === templateId);
@@ -269,10 +308,17 @@ const TemplatesPage = () => {
 
   return (
     <ScrollArea className="h-[calc(100vh-2rem)] w-full">
-      <div className="w-full max-w-[1600px] mx-auto py-8 px-4 sm:px-6">
-        <div className="flex flex-col space-y-8">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-            <h2 className="text-3xl font-bold tracking-tight">{t("title")}</h2>
+      <div className="mx-auto w-full max-w-[1600px] px-6 py-8">
+        <div className="space-y-8">
+          <div className="mb-8 flex items-end justify-between gap-4">
+            <div>
+              <h2 className="text-3xl font-semibold text-foreground">
+                {t("title")}
+              </h2>
+              <p className="mt-2 text-sm text-muted-foreground">
+                Compare density, ATS friendliness, and use cases before starting.
+              </p>
+            </div>
 
             <div className="flex items-center space-x-2 bg-gray-50/50 dark:bg-gray-900/50 p-2 rounded-full border border-gray-100 dark:border-gray-800 backdrop-blur-sm self-start sm:self-auto overflow-x-auto">
               {PRESET_COLORS.map((color) => (
@@ -305,25 +351,56 @@ const TemplatesPage = () => {
             </div>
           </div>
 
-          <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4 sm:gap-6">
-            {DEFAULT_TEMPLATES.map((template, index) => {
-              const templateKey = getTemplateKey(template.id);
-              return (
-                <TemplateCardItem
-                  key={template.id}
-                  index={index}
-                  template={template}
-                  templateName={t(`${templateKey}.name`)}
-                  templateDescription={t(`${templateKey}.description`)}
-                  baseData={baseData}
-                  selectedColor={selectedColor}
-                  onPreview={() => setPreviewTemplate(template.id)}
-                  onUseTemplate={() => handleCreateResume(template.id)}
-                  previewLabel={t("preview")}
-                  useTemplateLabel={t("useTemplate")}
-                />
-              );
-            })}
+          <div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_320px]">
+            <div className="grid grid-cols-2 gap-6 xl:grid-cols-4">
+              {DEFAULT_TEMPLATES.map((template, index) => {
+                const templateKey = getTemplateKey(template.id);
+                const metadata =
+                  templateMetadata[templateKey as keyof typeof templateMetadata];
+                return (
+                  <TemplateCardItem
+                    key={template.id}
+                    index={index}
+                    template={template}
+                    templateName={t(`${templateKey}.name`)}
+                    templateDescription={t(`${templateKey}.description`)}
+                    metadata={metadata}
+                    baseData={baseData}
+                    selectedColor={selectedColor}
+                    isSelected={selectedTemplateId === template.id}
+                    onPreview={() => {
+                      setSelectedTemplateId(template.id);
+                      setPreviewTemplate(template.id);
+                    }}
+                    onUseTemplate={() => handleCreateResume(template.id)}
+                    previewLabel={t("preview")}
+                    useTemplateLabel={t("useTemplate")}
+                  />
+                );
+              })}
+            </div>
+
+            <TemplateMetadataDrawer
+              open={!!selectedTemplate && !!selectedTemplateMetadata}
+              title={
+                selectedTemplate
+                  ? t(`${getTemplateKey(selectedTemplate.id)}.name`)
+                  : ""
+              }
+              description={
+                selectedTemplate
+                  ? t(`${getTemplateKey(selectedTemplate.id)}.description`)
+                  : ""
+              }
+              tags={selectedTemplateMetadata?.tags ?? []}
+              idealFor={selectedTemplateMetadata?.idealFor ?? ""}
+              density={selectedTemplateMetadata?.density ?? ""}
+              onUse={() => {
+                if (selectedTemplate) {
+                  handleCreateResume(selectedTemplate.id);
+                }
+              }}
+            />
           </div>
 
           <Dialog
