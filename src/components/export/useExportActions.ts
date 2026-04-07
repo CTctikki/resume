@@ -11,6 +11,7 @@ type PdfMessages = {
   noResume: string;
   success: string;
   error: string;
+  unavailable?: string;
 };
 
 type PrintMessages = {

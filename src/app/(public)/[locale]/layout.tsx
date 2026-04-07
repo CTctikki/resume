@@ -10,6 +10,7 @@ import {
 import Document from "@/components/Document";
 import { locales } from "@/i18n/config";
 import { Providers } from "@/app/providers";
+import { brand } from "@/config/brand";
 
 type Props = {
   children: ReactNode;
@@ -24,7 +25,7 @@ export async function generateMetadata({
   params: { locale }
 }: Props): Promise<Metadata> {
   const t = await getTranslations({ locale, namespace: "common" });
-  const baseUrl = "https://magicv.art";
+  const baseUrl = brand.siteOrigin;
 
   return {
     title: t("title") + " - " + t("subtitle"),

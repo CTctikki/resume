@@ -37,7 +37,8 @@ export default function ExportPage() {
             void exportPdf({
               noResume: t("empty.title"),
               success: t("toast.pdfSuccess"),
-              error: t("toast.pdfError")
+              error: t("toast.pdfError"),
+              unavailable: t("toast.pdfUnavailable")
             })
           }
           disabled={!hasResume}

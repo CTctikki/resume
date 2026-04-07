@@ -1,9 +1,10 @@
 import { MetadataRoute } from "next";
+import { brand } from "@/config/brand";
 
 export const runtime = "edge";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = "https://magicv.art/";
+  const baseUrl = `${brand.siteOrigin}/`;
 
   const routes = ["zh", "en"];
 

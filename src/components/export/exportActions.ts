@@ -9,6 +9,7 @@ type ExportMessages = {
   noResume: string;
   success: string;
   error: string;
+  unavailable?: string;
 };
 
 type PrintMessages = {
@@ -25,16 +26,15 @@ export async function exportResumePdf(
     return false;
   }
 
-  await exportToPdf({
+  return exportToPdf({
     elementId: "resume-preview",
     title: resume.title || "resume",
     pagePadding: resume.globalSettings?.pagePadding || 0,
     fontFamily: resume.globalSettings?.fontFamily,
     successMessage: messages.success,
-    errorMessage: messages.error
+    errorMessage: messages.error,
+    unavailableMessage: messages.unavailable
   });
-
-  return true;
 }
 
 export function exportResumeJson(

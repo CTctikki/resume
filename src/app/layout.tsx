@@ -1,5 +1,6 @@
 import { ReactNode } from "react";
 import { Metadata } from "next";
+import { brand } from "@/config/brand";
 import "./globals.css";
 import "./font.css";
 import "@/styles/tiptap.scss";
@@ -9,7 +10,7 @@ type Props = {
 };
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://magicv.art"),
+  metadataBase: new URL(brand.siteOrigin),
   icons: {
     icon: "/icon.png",
     shortcut: "/icon.png",

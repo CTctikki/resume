@@ -140,6 +140,7 @@
       "toast": {
         "pdfSuccess": "PDF exported successfully",
         "pdfError": "PDF export failed",
+        "pdfUnavailable": "PDF export is unavailable in this deployment. Configure VITE_PDF_EXPORT_URL or use browser print.",
         "jsonSuccess": "Configuration exported successfully",
         "jsonError": "Configuration export failed"
       }
@@ -496,8 +497,7 @@
       "fieldVisibility": {
         "show": "Show",
         "hide": "Hide"
-      },
-      "githubContributions": "GitHub Contributions"
+      }
     },
     "experiencePanel": {
       "title": "Work Experience",

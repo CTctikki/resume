@@ -41,10 +41,7 @@ export const initialResumeState = {
         icon: "Globe"
       }
     ],
-    photo: "/avatar.png",
-    githubKey: "",
-    githubUseName: "",
-    githubContributionsVisible: false
+    photo: "/avatar.png"
   },
   education: [
     {
@@ -185,10 +182,7 @@ export const initialResumeStateEn = {
         icon: "Globe"
       }
     ],
-    photo: "/avatar.png",
-    githubKey: "",
-    githubUseName: "",
-    githubContributionsVisible: false
+    photo: "/avatar.png"
   },
   education: [
     {

@@ -141,6 +141,7 @@
       "toast": {
         "pdfSuccess": "PDF 导出成功",
         "pdfError": "PDF 导出失败",
+        "pdfUnavailable": "当前部署未配置 PDF 导出服务。请设置 VITE_PDF_EXPORT_URL，或改用浏览器打印。",
         "jsonSuccess": "配置导出成功",
         "jsonError": "配置导出失败"
       }
@@ -428,7 +429,6 @@
       "title": "资料",
       "basicField": "基础字段",
       "customField": "自定义字段",
-      "githubContributions": "Github贡献",
       "layout": "布局",
       "layoutLeft": "居左",
       "layoutCenter": "居中",
