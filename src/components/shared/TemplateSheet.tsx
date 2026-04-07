@@ -17,6 +17,12 @@ import { useTemplateSnapshots } from "@/hooks/useTemplateSnapshots";
 
 type TemplateItem = (typeof DEFAULT_TEMPLATES)[number];
 
+interface TemplateSheetProps {
+  open?: boolean;
+  onOpenChange?: (open: boolean) => void;
+  showTrigger?: boolean;
+}
+
 interface TemplatePreviewProps {
   template: TemplateItem;
   isActive: boolean;
@@ -70,7 +76,11 @@ const TemplatePreview = ({
   );
 };
 
-const TemplateSheet = () => {
+const TemplateSheet = ({
+  open,
+  onOpenChange,
+  showTrigger = true,
+}: TemplateSheetProps) => {
   const t = useTranslations("templates");
   const locale = useLocale();
   const { activeResume, setTemplate } = useResumeStore();
@@ -81,17 +91,23 @@ const TemplateSheet = () => {
     DEFAULT_TEMPLATES[0];
 
   return (
-    <Sheet>
-      <SheetTrigger asChild>
-        <PanelsLeftBottom size={20} />
-      </SheetTrigger>
-      <SheetContent side="left" forceMount className="w-1/2 sm:max-w-1/2">
+    <Sheet open={open} onOpenChange={onOpenChange}>
+      {showTrigger ? (
+        <SheetTrigger asChild>
+          <PanelsLeftBottom size={20} />
+        </SheetTrigger>
+      ) : null}
+      <SheetContent
+        side="left"
+        forceMount
+        className="top-[73px] h-[calc(100vh-73px)] w-1/2 sm:max-w-1/2"
+      >
         <SheetHeader>
           <SheetTitle>{t("switchTemplate")}</SheetTitle>
         </SheetHeader>
         <SheetDescription />
 
-        <div className="mt-4 h-[calc(100vh-8rem)]">
+        <div className="mt-4 h-[calc(100vh-9rem)]">
           <ScrollArea className="h-full w-full pr-4">
             <div className="grid grid-cols-4 gap-4 pb-8">
               {DEFAULT_TEMPLATES.map((template) => (
