@@ -1,3 +1,4 @@
+import { brand } from "@/config/brand";
 import { defaultLocale, type Locale } from "@/i18n/config";
 
 const landingCopy = {
@@ -21,6 +22,7 @@ const landingCopy = {
       previewTitle: "Workspace Preview",
       previewDescription:
         "A calm editing surface for content updates, layout checks, and final export.",
+      previewAlt: "CT workspace preview",
       exportStatus: "Ready to export",
       checklist: [
         "Live preview while editing",
@@ -100,7 +102,6 @@ const landingCopy = {
     footer: {
       description:
         "Local-first editing, live preview, and PDF export in one calm workspace.",
-      studioName: "CT程序定制工作室",
       studioLinkLabel: "Studio site",
     },
   },
@@ -123,6 +124,7 @@ const landingCopy = {
       secondaryCta: "浏览模板",
       previewTitle: "工作区预览",
       previewDescription: "把编辑、预览和导出放在同一个界面里，减少来回切换。",
+      previewAlt: "CT 工作区预览",
       exportStatus: "准备导出",
       checklist: [
         "编辑时实时查看页面效果",
@@ -193,7 +195,6 @@ const landingCopy = {
     },
     footer: {
       description: "把本地编辑、实时预览和 PDF 导出放进同一个克制的工作区里。",
-      studioName: "CT程序定制工作室",
       studioLinkLabel: "工作室官网",
     },
   },
@@ -201,4 +202,8 @@ const landingCopy = {
 
 export function getLandingCopy(locale: Locale = defaultLocale) {
   return landingCopy[locale] ?? landingCopy[defaultLocale];
+}
+
+export function getLandingStudioName() {
+  return brand.studioName;
 }

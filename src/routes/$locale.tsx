@@ -66,11 +66,13 @@ export const Route = createFileRoute("/$locale")({
 });
 
 function LocaleLandingPage() {
-  const { locale } = Route.useParams();
+  const { locale: rawLocale } = Route.useParams();
 
-  if (!locales.includes(locale as (typeof locales)[number])) {
+  if (!locales.includes(rawLocale as (typeof locales)[number])) {
     notFound();
   }
 
-  return <LandingPage />;
+  const locale = resolveLocale(rawLocale);
+
+  return <LandingPage locale={locale} />;
 }

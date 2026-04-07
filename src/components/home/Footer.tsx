@@ -1,7 +1,7 @@
 import type { Locale } from "@/i18n/config";
 import { BrandWordmark } from "@/components/shared/BrandWordmark";
 import { brand } from "@/config/brand";
-import { getLandingCopy } from "./landingCopy";
+import { getLandingCopy, getLandingStudioName } from "./landingCopy";
 
 interface FooterProps {
   locale?: Locale;
@@ -21,7 +21,7 @@ export default function Footer({ locale = "en" }: FooterProps) {
         </div>
 
         <div className="space-y-2 text-sm text-muted-foreground md:text-right">
-          <p>{copy.studioName}</p>
+          <p>{getLandingStudioName()}</p>
           <a
             href={brand.studioUrl}
             target="_blank"

@@ -49,10 +49,14 @@ vi.mock("@/components/shared/ThemeToggle", () => ({
     children ?? <button type="button">Theme</button>,
 }));
 
-async function renderLandingPage(locale: "en" | "zh") {
-  serverState.locale = locale;
-  const page = await LandingPage();
-  return renderWithProviders(page, locale);
+async function renderLandingPage(
+  routeLocale: "en" | "zh",
+  providerLocale: "en" | "zh" = routeLocale,
+  serverLocale: "en" | "zh" = routeLocale
+) {
+  serverState.locale = serverLocale;
+  const page = <LandingPage locale={routeLocale} />;
+  return renderWithProviders(page, providerLocale);
 }
 
 describe("LandingPage", () => {
@@ -68,11 +72,12 @@ describe("LandingPage", () => {
       "href",
       "https://ctikki.com"
     );
+    expect(screen.getByRole("img", { name: /ct workspace preview/i })).toBeInTheDocument();
     expect(screen.queryByText(/star on github/i)).not.toBeInTheDocument();
   });
 
   it("renders the zh landing variant and keeps home links locale-correct", async () => {
-    await renderLandingPage("zh");
+    await renderLandingPage("zh", "zh", "en");
 
     expect(
       screen.getByRole("heading", { name: "在专注的工作区里完成简历" })
@@ -86,6 +91,7 @@ describe("LandingPage", () => {
     expect(
       screen.getByRole("link", { name: /返回首页/i })
     ).toHaveAttribute("href", "/zh");
+    expect(screen.getByRole("img", { name: /ct 工作区预览/i })).toBeInTheDocument();
   });
 
   it("anchors the mobile menu to a positioned wrapper", async () => {

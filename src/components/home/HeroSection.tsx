@@ -53,7 +53,7 @@ export default function HeroSection({ locale = "en" }: HeroSectionProps) {
             <div className="overflow-hidden rounded-[12px] border border-border/70">
               <Image
                 src="/web-shot.png"
-                alt="CT workspace preview"
+                alt={content.previewAlt}
                 width={1200}
                 height={800}
                 className="w-full rounded-[12px]"

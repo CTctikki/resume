@@ -1,4 +1,4 @@
-import { getLocale } from "@/i18n/compat/server";
+import type { Locale } from "@/i18n/config";
 import LandingHeader from "@/components/home/LandingHeader";
 import HeroSection from "@/components/home/HeroSection";
 import FeaturesSection from "@/components/home/FeaturesSection";
@@ -8,9 +8,11 @@ import Footer from "@/components/home/Footer";
 
 export const runtime = "edge";
 
-export default async function LandingPage() {
-  const locale = (await getLocale()) === "en" ? "en" : "zh";
+interface LandingPageProps {
+  locale: Locale;
+}
 
+export default function LandingPage({ locale }: LandingPageProps) {
   return (
     <div className="min-h-screen bg-background">
       <LandingHeader locale={locale} />
