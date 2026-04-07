@@ -24,7 +24,7 @@ RUN adduser --system --uid 1001 nodeapp
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/package.json ./package.json
 COPY --from=builder /app/dist ./dist
-COPY --from=builder /app/server.mjs ./server.mjs
+COPY --from=builder /app/standalone-server.mjs ./standalone-server.mjs
 
 USER nodeapp
 
@@ -32,4 +32,4 @@ EXPOSE 3000
 ENV PORT=3000
 ENV HOSTNAME=0.0.0.0
 
-CMD ["node", "server.mjs"]
+CMD ["node", "standalone-server.mjs"]
