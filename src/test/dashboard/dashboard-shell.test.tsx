@@ -1,6 +1,7 @@
 import { describe, expect, it, vi } from "vitest";
 import { screen } from "@testing-library/react";
 import { AppSidebar } from "@/components/dashboard/AppSidebar";
+import { DashboardTopBar } from "@/components/dashboard/DashboardTopBar";
 import { dashboardNav } from "@/config/dashboardNav";
 import { renderWithProviders } from "@/test/utils/renderWithProviders";
 
@@ -29,5 +30,20 @@ describe("AppSidebar", () => {
     expect(screen.getByText(/resumes/i)).toBeInTheDocument();
     expect(screen.getByText(/templates/i)).toBeInTheDocument();
     expect(screen.queryByText(/github/i)).not.toBeInTheDocument();
+  });
+});
+
+describe("DashboardTopBar", () => {
+  it("defaults to the CT brand name instead of the legacy dashboard label", () => {
+    renderWithProviders(
+      <DashboardTopBar subtitle="AI driven resume editor" />,
+      "en"
+    );
+
+    expect(screen.getByRole("heading", { name: "CT 简历工作台" })).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: /ctikki\.com/i })).toHaveAttribute(
+      "href",
+      "https://ctikki.com"
+    );
   });
 });

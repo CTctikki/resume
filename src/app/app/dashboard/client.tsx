@@ -25,7 +25,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
           />
         </Sidebar>
         <main className="flex min-w-0 flex-1 flex-col">
-          <DashboardTopBar title={t("dashboard.sidebar.appName")} subtitle={t("common.subtitle")} />
+          <DashboardTopBar subtitle={t("common.subtitle")} />
           <div className="flex-1 overflow-auto">{children}</div>
         </main>
       </SidebarProvider>
