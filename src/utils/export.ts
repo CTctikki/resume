@@ -77,6 +77,7 @@ export interface ExportToPdfOptions {
   onEnd?: () => void;
   successMessage?: string;
   errorMessage?: string;
+  unavailableMessage?: string;
 }
 
 export const exportToPdf = async ({
@@ -87,12 +88,23 @@ export const exportToPdf = async ({
   onStart,
   onEnd,
   successMessage,
-  errorMessage
+  errorMessage,
+  unavailableMessage
 }: ExportToPdfOptions) => {
   const exportStartTime = performance.now();
   onStart?.();
 
   try {
+    const serverUrl = PDF_EXPORT_CONFIG.SERVER_URL.trim();
+    if (!serverUrl) {
+      const message =
+        unavailableMessage ??
+        "PDF export is unavailable because VITE_PDF_EXPORT_URL is not configured.";
+      console.error("PDF export unavailable:", message);
+      toast.error(message);
+      return false;
+    }
+
     const pdfElement = document.querySelector<HTMLElement>(`#${elementId}`);
     if (!pdfElement) {
       throw new Error(`PDF element #${elementId} not found`);
@@ -141,7 +153,7 @@ export const exportToPdf = async ({
       }
     `;
 
-    const response = await fetch(PDF_EXPORT_CONFIG.SERVER_URL, {
+    const response = await fetch(serverUrl, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -169,9 +181,11 @@ export const exportToPdf = async ({
     window.URL.revokeObjectURL(url);
     if (successMessage) toast.success(successMessage);
     console.log(`Total export took ${performance.now() - exportStartTime}ms`);
+    return true;
   } catch (error) {
     console.error("Export error:", error);
     if (errorMessage) toast.error(errorMessage);
+    return false;
   } finally {
     onEnd?.();
   }

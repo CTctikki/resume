@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="CT Resume app icon">
+  <defs>
+    <linearGradient id="iconBg" x1="96" y1="72" x2="416" y2="440" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#2457F5" />
+      <stop offset="1" stop-color="#5B82FF" />
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="120" fill="url(#iconBg)" />
+  <path
+    d="M154 132h126l58 58v180a26 26 0 0 1-26 26H154a26 26 0 0 1-26-26V158a26 26 0 0 1 26-26z"
+    fill="#FFFFFF"
+  />
+  <path d="M280 132v58h58" fill="none" stroke="#2457F5" stroke-width="28" stroke-linejoin="round" />
+  <rect x="182" y="226" width="128" height="16" rx="8" fill="#D9E4FF" />
+  <rect x="182" y="266" width="96" height="16" rx="8" fill="#D9E4FF" />
+  <rect x="182" y="306" width="116" height="16" rx="8" fill="#D9E4FF" />
+</svg>

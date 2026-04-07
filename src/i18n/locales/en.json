@@ -1,8 +1,8 @@
 {
   "common": {
-    "title": "Magic Resume",
-    "subtitle": "AI Driven Resume Editor",
-    "description": "Magic Resume is an open source resume editor, free, privacy-first. No registration required, all data stored locally, support data backup and export, ensuring your resume data is always available.",
+    "title": "CT Resume",
+    "subtitle": "A focused workspace for building polished resumes",
+    "description": "CT Resume is a local-first resume workspace with live preview, dependable export, and private backup controls.",
     "dashboard": "Dashboard",
     "edit": "Edit",
     "delete": "Delete",
@@ -17,9 +17,9 @@
   },
   "home": {
     "header": {
-      "title": "Magic Resume",
-      "startButton": "Get Started",
-      "features": "Features",
+      "title": "CT Resume",
+      "startButton": "Open Workspace",
+      "features": "Browse Templates",
       "pricing": "Pricing",
       "about": "About",
       "login": "Login",
@@ -27,15 +27,15 @@
       "dashboard": "Dashboard"
     },
     "hero": {
-      "badge": "Smart Resume Creation",
-      "title": "Make Resume Creation Simple and Smart",
-      "subtitle": "Magic Resume uses AI technology to help you quickly create professional resumes. No registration required, free to use, with secure data storage.",
-      "cta": "Get Started",
+      "badge": "Local-first resume workspace",
+      "title": "Build a resume in a focused workspace",
+      "subtitle": "CT Resume combines AI assistance, live preview, and local-first storage so you can shape a professional resume without leaving your workflow.",
+      "cta": "Open Workspace",
       "secondary": "Browse Templates"
     },
     "features": {
-      "title": "Why Choose Magic Resume?",
-      "subtitle": "We provide an all-in-one resume solution to make your job search journey smoother",
+      "title": "Three things the workspace does well",
+      "subtitle": "The homepage should help you start work quickly, not pull you into a long marketing story.",
       "ai": {
         "badge": "AI Smart Check",
         "title": "Smart Detection, Professional Advice",
@@ -67,24 +67,24 @@
       "content": "New AI Resume Enhancement Feature is Live"
     },
     "footer": {
-      "copyright": " 2025 Magic Resume. All rights reserved."
+      "copyright": " 2025 CT Resume. All rights reserved."
     },
     "changelog": "Changelog",
     "cta": {
-      "title": "Start Your New Career Chapter",
-      "description": "Start using Magic Resume now to create an impressive resume",
-      "button": "Start Using for Free"
+      "title": "Start from a template, not a blank page",
+      "description": "Open the workspace directly if you know what you need, or scan a few template directions first and pick the one that fits the role.",
+      "button": "Browse Templates"
     },
     "faq": {
       "title": "Frequently Asked Questions",
       "items": [
         {
-          "question": "Is Magic Resume free to use?",
-          "answer": "Magic Resume is currently free, meeting basic resume creation needs. The open-source version's features will remain unchanged"
+          "question": "Is CT Resume free to use?",
+          "answer": "CT Resume keeps the core editing and export workflow free to use. The open-source build preserves those essentials, including PDF export."
         },
         {
           "question": "Is my resume data secure?",
-          "answer": "Yes, very secure. Magic Resume uses local storage, meaning all your data is stored on your own device with no cloud storage, ensuring complete privacy protection."
+          "answer": "Yes. CT Resume stores your data on your own device by default, so your resumes and backups stay under your control."
         },
         {
           "question": "What export formats are supported?",
@@ -103,11 +103,47 @@
   },
   "dashboard": {
     "sidebar": {
-      "appName": "Magic Resume",
+      "appName": "CT Resume",
       "resumes": "Resumes",
+      "export": "Export",
       "settings": "Settings",
       "templates": "Templates",
       "ai": "AI Config"
+    },
+    "export": {
+      "title": "Export and Share",
+      "description": "Choose the output method that best matches formal submission, print fallback, or local backup.",
+      "empty": {
+        "title": "Open a resume first",
+        "description": "Create or open a resume in the workbench so the export tools can use the current preview."
+      },
+      "cards": {
+        "pdf": {
+          "title": "PDF export",
+          "description": "Use the high-fidelity export flow for a polished final PDF.",
+          "action": "Export PDF",
+          "loading": "Exporting PDF..."
+        },
+        "print": {
+          "title": "Browser print",
+          "description": "Use the browser print dialog when you need a local fallback.",
+          "action": "Open print dialog",
+          "loading": "Opening print dialog..."
+        },
+        "json": {
+          "title": "JSON backup",
+          "description": "Save a local snapshot of your data for backup and later import.",
+          "action": "Download JSON",
+          "loading": "Downloading JSON..."
+        }
+      },
+      "toast": {
+        "pdfSuccess": "PDF exported successfully",
+        "pdfError": "PDF export failed",
+        "pdfUnavailable": "PDF export is unavailable in this deployment. Configure VITE_PDF_EXPORT_URL or use browser print.",
+        "jsonSuccess": "Configuration exported successfully",
+        "jsonError": "Configuration export failed"
+      }
     },
     "resumes": {
       "created": "Created At",
@@ -169,6 +205,55 @@
     },
     "settings": {
       "title": "Settings",
+      "pageTitle": "Workspace Settings",
+      "pageDescription": "Manage backup, defaults, AI providers, and version information.",
+      "workspace": {
+        "title": "Workspace",
+        "intro": "Keep backup, AI, and product identity settings organized in one place.",
+        "sectionsLabel": "Workspace settings sections",
+        "overviewTitle": "Workspace at a glance",
+        "overviewDescription": "The workspace settings surface keeps the backup folder, AI provider overview, and CT ownership details together without hiding the operational pieces.",
+        "sections": {
+          "backupSync": {
+            "title": "Backup and sync",
+            "description": "Reconnect the local folder that protects resume data."
+          },
+          "aiProviders": {
+            "title": "AI providers",
+            "description": "Review which model providers are available to the workspace."
+          },
+          "aboutVersion": {
+            "title": "About this version",
+            "description": "See product identity and ownership details."
+          }
+        },
+        "backupSync": {
+          "title": "Backup and sync",
+          "description": "Reconnect a local folder so the workspace can keep backups of resume data and exported configs.",
+          "currentFolder": "Current folder",
+          "noFolderConfigured": "No folder configured",
+          "storageMode": "Storage mode",
+          "storageValue": "Local-first backup",
+          "syncStatus": "Sync status",
+          "connected": "Connected",
+          "waiting": "Waiting for a folder",
+          "supportNote": "The selected folder is stored locally in the browser. When the permission is available, the workspace can re-open the same folder and keep the sync workflow intact.",
+          "selectFolder": "Select Folder",
+          "removeFolder": "Remove synced folder",
+          "browserUnsupported": "Your browser does not support directory selection. Please use a modern browser."
+        },
+        "aiProviders": {
+          "title": "AI providers",
+          "description": "The workspace keeps the provider surface organized, while detailed model credentials remain in the dedicated AI configuration page.",
+          "openSettings": "Open AI settings"
+        },
+        "about": {
+          "title": "About this version",
+          "description": "Workspace information, ownership, and product identity for the current build.",
+          "maintainedBy": "{product} is maintained by {studio}.",
+          "linkLabel": "CTIKKI"
+        }
+      },
       "syncDirectory": {
         "title": "Sync Directory",
         "description": "Choose a folder to sync and backup your resumes.",
@@ -412,8 +497,7 @@
       "fieldVisibility": {
         "show": "Show",
         "hide": "Hide"
-      },
-      "githubContributions": "GitHub Contributions"
+      }
     },
     "experiencePanel": {
       "title": "Work Experience",
@@ -782,7 +866,7 @@
   },
   "faqDialog": {
     "title": "Frequently Asked Questions (FAQ)",
-    "description": "Common tips and solutions for the Magic Resume workbench.",
+    "description": "Common tips and solutions for the CT Resume workbench.",
     "items": {
       "browser-compatibility": {
         "question": "Which browser is recommended?",

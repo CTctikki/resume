@@ -7,11 +7,20 @@ export default defineConfig({
   server: {
     port: 3000
   },
+  resolve: {
+    dedupe: ["react", "react-dom"]
+  },
   optimizeDeps: {
     exclude: ["pdfjs-dist"]
   },
   ssr: {
     noExternal: ["pdfjs-dist"]
+  },
+  test: {
+    environment: "jsdom",
+    setupFiles: ["./src/test/setup.ts"],
+    globals: true,
+    css: true
   },
   plugins: [
     tsconfigPaths(),

@@ -9,6 +9,8 @@
     "build": "vite build",
     "start": "node server.mjs",
     "preview": "vite preview",
+    "test": "vitest run",
+    "test:watch": "vitest",
     "release": "bumpp",
     "generate:template-snapshots": "tsx scripts/generate-template-snapshots.ts",
     "install:playwright": "playwright install chromium"
@@ -89,10 +91,14 @@
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "@types/turndown": "^5.0.6",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.0.1",
+    "@testing-library/user-event": "^14.5.2",
     "@vitejs/plugin-react": "^5.1.4",
     "bumpp": "^10.4.1",
     "changelogen": "^0.6.2",
     "eslint": "^8",
+    "jsdom": "^26.1.0",
     "playwright": "^1.58.2",
     "postcss": "^8",
     "postcss-normalize": "^13.0.1",
@@ -101,6 +107,7 @@
     "tsx": "^4.21.0",
     "typescript": "^5",
     "vite": "^7.3.1",
+    "vitest": "^3.1.4",
     "vite-tsconfig-paths": "^6.1.1",
     "wrangler": "^4.19.1"
   }

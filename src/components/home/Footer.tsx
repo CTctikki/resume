@@ -1,21 +1,35 @@
-import { useTranslations } from "@/i18n/compat/client";
-import Logo from "@/components/shared/Logo";
+import type { Locale } from "@/i18n/config";
+import { BrandWordmark } from "@/components/shared/BrandWordmark";
+import { brand } from "@/config/brand";
+import { getLandingCopy, getLandingStudioName } from "./landingCopy";
 
-export default function Footer() {
-  const t = useTranslations("home");
+interface FooterProps {
+  locale?: Locale;
+}
+
+export default function Footer({ locale = "en" }: FooterProps) {
+  const copy = getLandingCopy(locale).footer;
 
   return (
-    <footer className="py-16 md:py-24 border-t border-border/50 bg-secondary/10">
-      <div className="container mx-auto px-6 max-w-6xl">
-        <div className="flex flex-col md:flex-row justify-between items-center gap-8">
-          <div className="flex items-center gap-3">
-            <Logo size={32} />
-            <span className="font-serif font-semibold text-lg text-foreground/80">Magic Resume</span>
-          </div>
-          
-          <div className="text-sm text-muted-foreground/60 font-light">
-            <p>{t("footer.copyright")}</p>
-          </div>
+    <footer className="border-t border-border/60 bg-background">
+      <div className="mx-auto flex max-w-[1240px] flex-col gap-6 px-6 py-10 md:flex-row md:items-center md:justify-between">
+        <div className="space-y-3">
+          <BrandWordmark localeHref={`/${locale}`} />
+          <p className="max-w-xl text-sm leading-6 text-muted-foreground">
+            {copy.description}
+          </p>
+        </div>
+
+        <div className="space-y-2 text-sm text-muted-foreground md:text-right">
+          <p>{getLandingStudioName()}</p>
+          <a
+            href={brand.studioUrl}
+            target="_blank"
+            rel="noreferrer"
+            className="transition-colors hover:text-foreground"
+          >
+            {copy.studioLinkLabel}
+          </a>
         </div>
       </div>
     </footer>

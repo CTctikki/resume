@@ -1,15 +1,15 @@
 export const getThemeConfig = () => ({
-  bg: "dark:bg-black bg-gray-50",
-  sidebar: "dark:bg-zinc-900/50 bg-white",
-  text: "dark:text-white text-gray-900",
-  textSecondary: "dark:text-zinc-400 text-gray-500",
-  border: "dark:border-zinc-800 border-gray-200",
-  card: "dark:bg-zinc-800/50 bg-white",
-  hover: "dark:hover:bg-zinc-800 hover:bg-gray-100",
-  input: "dark:bg-zinc-800/50 dark:border-zinc-700 bg-white border-gray-200",
-  button: "dark:bg-zinc-800 bg-white",
-  buttonPrimary: "dark:bg-indigo-500 bg-primary",
-  preview: "dark:bg-zinc-900 bg-white"
+  bg: "bg-[#F4F7FA] dark:bg-[#0B1220]",
+  sidebar: "bg-white dark:bg-[#121A27]",
+  text: "text-[#0F1720] dark:text-[#E6ECF3]",
+  textSecondary: "text-[#5F6B7A] dark:text-[#AAB6C5]",
+  border: "border-[#D9E1EA] dark:border-[#263346]",
+  card: "bg-white dark:bg-[#121A27]",
+  hover: "hover:bg-[#EEF3F8] dark:hover:bg-[#182232]",
+  input: "bg-white border-[#D9E1EA] dark:bg-[#121A27] dark:border-[#263346]",
+  button: "bg-white dark:bg-[#121A27]",
+  buttonPrimary: "bg-[#2457F5] text-white dark:bg-[#5B82FF] dark:text-[#0B1220]",
+  preview: "bg-white dark:bg-[#0F1520]"
 });
 
 export type ThemeConfig = ReturnType<typeof getThemeConfig>;

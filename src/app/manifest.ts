@@ -1,21 +1,22 @@
 import type { MetadataRoute } from "next";
+import { brand } from "@/config/brand";
 
 export const runtime = "edge";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "Magic Resume",
-    short_name: "Magic Resume",
-    description: "A Progressive Web App built with Next.js",
+    name: brand.productName,
+    short_name: brand.productShortName,
+    description: brand.description.en,
     start_url: "/",
     display: "standalone",
-    background_color: "#ffffff",
-    theme_color: "#000000",
+    background_color: "#F4F7FA",
+    theme_color: "#2457F5",
     icons: [
       {
-        src: "/icon.png",
-        sizes: "512x512",
-        type: "image/png"
+        src: "/icon.svg",
+        sizes: "any",
+        type: "image/svg+xml"
       }
     ]
   };
