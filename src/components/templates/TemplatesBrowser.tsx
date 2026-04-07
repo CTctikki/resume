@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import React from "react";
 import { useTranslations } from "@/i18n/compat/client";
 import { motion } from "framer-motion";
 import { useRouter } from "@/lib/navigation";
@@ -34,6 +34,28 @@ const PRESET_COLORS = [
 const getTemplateKey = (templateId: string) =>
   templateId === "left-right" ? "leftRight" : templateId;
 
+export const resolveTemplatesBrowserSelection = (
+  browserMetadata: Record<string, TemplateMetadataEntry>,
+  selectedTemplateId: string
+) => {
+  const selectedTemplate =
+    DEFAULT_TEMPLATES.find((template) => template.id === selectedTemplateId) ??
+    DEFAULT_TEMPLATES[0] ??
+    null;
+  const selectedTemplateKey = selectedTemplate
+    ? getTemplateKey(selectedTemplate.id)
+    : null;
+  const selectedTemplateMetadata = selectedTemplateKey
+    ? browserMetadata[selectedTemplateKey]
+    : undefined;
+
+  return {
+    selectedTemplate,
+    selectedTemplateKey,
+    selectedTemplateMetadata,
+  };
+};
+
 type TemplatePreviewBaseData =
   | typeof initialResumeState
   | typeof initialResumeStateEn;
@@ -52,6 +74,8 @@ interface TemplatesBrowserProps {
     idealForLabel: string;
     densityLabel: string;
     atsLabel: string;
+    atsFriendlyLabel: string;
+    designForwardLabel: string;
     useTemplateLabel: string;
   };
   browserMetadata: Record<string, TemplateMetadataEntry>;
@@ -110,10 +134,10 @@ const TemplateCardItem = ({
   previewLabel,
   useTemplateLabel,
 }: TemplateCardItemProps) => {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [scale, setScale] = useState(0.24);
+  const containerRef = React.useRef<HTMLDivElement>(null);
+  const [scale, setScale] = React.useState(0.24);
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (!containerRef.current) return;
 
     const observer = new ResizeObserver((entries) => {
@@ -252,14 +276,16 @@ export function TemplatesBrowser({
   const t = useTranslations("dashboard.templates");
   const router = useRouter();
   const createResume = useResumeStore((state) => state.createResume);
-  const [previewTemplate, setPreviewTemplate] = useState<string | null>(null);
-  const [selectedTemplateId, setSelectedTemplateId] = useState<string>(
+  const [previewTemplate, setPreviewTemplate] = React.useState<string | null>(null);
+  const [selectedTemplateId, setSelectedTemplateId] = React.useState<string>(
     DEFAULT_TEMPLATES[0]?.id ?? ""
   );
-  const [selectedColor, setSelectedColor] = useState<string>(PRESET_COLORS[0].value);
-  const autoPlayRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const [selectedColor, setSelectedColor] = React.useState<string>(
+    PRESET_COLORS[0].value
+  );
+  const autoPlayRef = React.useRef<ReturnType<typeof setInterval> | null>(null);
 
-  useEffect(() => {
+  React.useEffect(() => {
     let currentIndex = 0;
     autoPlayRef.current = setInterval(() => {
       currentIndex = (currentIndex + 1) % PRESET_COLORS.length;
@@ -286,16 +312,8 @@ export function TemplatesBrowser({
   const activePreviewTemplate =
     DEFAULT_TEMPLATES.find((template) => template.id === previewTemplate) ??
     null;
-  const selectedTemplate =
-    DEFAULT_TEMPLATES.find((template) => template.id === selectedTemplateId) ??
-    DEFAULT_TEMPLATES[0] ??
-    null;
-  const selectedTemplateKey = selectedTemplate
-    ? getTemplateKey(selectedTemplate.id)
-    : null;
-  const selectedTemplateMetadata = selectedTemplateKey
-    ? browserMetadata[selectedTemplateKey]
-    : undefined;
+  const { selectedTemplate, selectedTemplateKey, selectedTemplateMetadata } =
+    resolveTemplatesBrowserSelection(browserMetadata, selectedTemplateId);
 
   const handleCreateResume = (templateId: string) => {
     const template = DEFAULT_TEMPLATES.find((entry) => entry.id === templateId);
@@ -400,6 +418,8 @@ export function TemplatesBrowser({
                 idealForLabel: browserCopy.idealForLabel,
                 densityLabel: browserCopy.densityLabel,
                 atsLabel: browserCopy.atsLabel,
+                atsFriendlyLabel: browserCopy.atsFriendlyLabel,
+                designForwardLabel: browserCopy.designForwardLabel,
                 useTemplateLabel: browserCopy.useTemplateLabel,
               }}
               title={

@@ -93,6 +93,8 @@ export const templateBrowserCopy = {
     idealForLabel: "Ideal for",
     densityLabel: "Density",
     atsLabel: "ATS friendliness",
+    atsFriendlyLabel: "ATS-friendly",
+    designForwardLabel: "More design-forward",
     useTemplateLabel: "Use this template",
   },
   zh: {
@@ -101,6 +103,8 @@ export const templateBrowserCopy = {
     idealForLabel: "适合",
     densityLabel: "密度",
     atsLabel: "ATS 友好度",
+    atsFriendlyLabel: "适合 ATS",
+    designForwardLabel: "更偏设计表达",
     useTemplateLabel: "使用此模板",
   },
 } as const;

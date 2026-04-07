@@ -12,6 +12,8 @@ interface TemplateMetadataDrawerProps {
     idealForLabel: string;
     densityLabel: string;
     atsLabel: string;
+    atsFriendlyLabel: string;
+    designForwardLabel: string;
     useTemplateLabel: string;
   };
   onUse: () => void;
@@ -20,7 +22,9 @@ interface TemplateMetadataDrawerProps {
 export function TemplateMetadataDrawer(props: TemplateMetadataDrawerProps) {
   if (!props.open) return null;
 
-  const atsFriendly = props.tags.some((tag) => /ATS-friendly|适合ATS/i.test(tag));
+  const atsFriendly = props.tags.some((tag) =>
+    /ATS-friendly|适合 ATS|適合 ATS/i.test(tag)
+  );
 
   return (
     <aside className="h-fit rounded-[18px] border border-border bg-card p-5 shadow-sm xl:sticky xl:top-8">
@@ -60,7 +64,9 @@ export function TemplateMetadataDrawer(props: TemplateMetadataDrawerProps) {
         </p>
         <p className="text-sm text-foreground">
           <strong>{props.copy.atsLabel}:</strong>{" "}
-          {atsFriendly ? "ATS-friendly" : "More design-forward"}
+          {atsFriendly
+            ? props.copy.atsFriendlyLabel
+            : props.copy.designForwardLabel}
         </p>
       </div>
 
