@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { SidePanel } from "@/components/editor/SidePanel";
 import { EditPanel } from "@/components/editor/EditPanel";
 import PreviewPanel from "@/components/preview";
@@ -54,6 +54,7 @@ export default function Home() {
   const [previewPanelCollapsed, setPreviewPanelCollapsed] = useState(false);
   const [panelSizes, setPanelSizes] = useState<number[]>(LAYOUT_CONFIG.DEFAULT);
   const [templateSheetOpen, setTemplateSheetOpen] = useState(false);
+  const exportTriggerRef = useRef<HTMLDivElement>(null);
 
   const toggleSidePanel = () => {
     setSidePanelCollapsed(!sidePanelCollapsed);
@@ -69,6 +70,10 @@ export default function Home() {
 
   const updateLayout = (sizes: number[]) => {
     setPanelSizes(sizes);
+  };
+
+  const openExportMenu = () => {
+    exportTriggerRef.current?.querySelector<HTMLButtonElement>("button")?.click();
   };
 
   useEffect(() => {
@@ -149,8 +154,12 @@ export default function Home() {
           onTitleBlur={(value) => updateResumeTitle(value || "Untitled Resume")}
           onBack={() => router.push("/app/dashboard/resumes")}
           onOpenTemplates={() => setTemplateSheetOpen(true)}
-          onOpenExport={() => {}}
-          exportSlot={<PdfExport />}
+          onOpenExport={openExportMenu}
+          exportSlot={
+            <div ref={exportTriggerRef}>
+              <PdfExport />
+            </div>
+          }
         />
       </div>
 
@@ -236,7 +245,7 @@ export default function Home() {
           onToggleEditPanel={toggleEditPanel}
           onTogglePreviewPanel={togglePreviewPanel}
           onOpenTemplates={() => setTemplateSheetOpen(true)}
-          onOpenExport={() => {}}
+          onOpenExport={openExportMenu}
           onAutoFit={() =>
             updateGlobalSettings({
               autoOnePage: !activeResume?.globalSettings?.autoOnePage,

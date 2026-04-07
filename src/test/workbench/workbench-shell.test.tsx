@@ -40,7 +40,7 @@ describe("workbench shell", () => {
     expect(
       screen.getByDisplayValue("Backend Engineer Resume")
     ).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: /export/i })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /^export$/i })).toBeInTheDocument();
     expect(screen.queryByText(/github/i)).not.toBeInTheDocument();
   });
 

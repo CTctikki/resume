@@ -1,4 +1,11 @@
-import { Eye, FileText, PanelLeft, SlidersHorizontal } from "lucide-react";
+import {
+  Download,
+  Eye,
+  FileText,
+  LayoutTemplate,
+  PanelLeft,
+  SlidersHorizontal
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -21,13 +28,32 @@ export function WorkbenchActionRail({
   onToggleSidePanel,
   onToggleEditPanel,
   onTogglePreviewPanel,
-  onOpenTemplates: _onOpenTemplates,
-  onOpenExport: _onOpenExport,
+  onOpenTemplates,
+  onOpenExport,
   onAutoFit
 }: WorkbenchActionRailProps) {
   return (
     <aside className="fixed right-4 top-1/2 z-30 hidden -translate-y-1/2 md:flex">
       <div className="flex flex-col gap-2 rounded-[16px] border border-border bg-card p-2 shadow-sm">
+        <Button
+          type="button"
+          variant="ghost"
+          size="icon"
+          aria-label="Open templates"
+          onClick={onOpenTemplates}
+        >
+          <LayoutTemplate className="h-4 w-4" />
+        </Button>
+        <Button
+          type="button"
+          variant="ghost"
+          size="icon"
+          aria-label="Open export"
+          onClick={onOpenExport}
+        >
+          <Download className="h-4 w-4" />
+        </Button>
+        <div className="my-1 h-px w-full bg-border/80" />
         <Button
           type="button"
           variant="ghost"
