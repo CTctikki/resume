@@ -80,18 +80,23 @@ describe("LandingPage", () => {
     await renderLandingPage("zh", "zh", "en");
 
     expect(
-      screen.getByRole("heading", { name: "在专注的工作区里完成简历" })
+      screen.getByRole("heading", { name: "在一个工作区里完成简历" })
     ).toBeInTheDocument();
-    expect(screen.queryByRole("heading", { name: /build a resume in a focused workspace/i })).not.toBeInTheDocument();
-    const brandedLinks = screen.getAllByRole("link", { name: /ct 简历工作台/i });
-    expect(brandedLinks.length).toBeGreaterThan(0);
-    brandedLinks.forEach((link) => {
-      expect(link).toHaveAttribute("href", "/zh");
-    });
     expect(
-      screen.getByRole("link", { name: /返回首页/i })
-    ).toHaveAttribute("href", "/zh");
-    expect(screen.getByRole("img", { name: /ct 工作区预览/i })).toBeInTheDocument();
+      screen.getByRole("heading", { name: "做简历，最重要的是这三件事" })
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText("先让你快速开始、看清效果、顺利导出，其他复杂功能都往后放。")
+    ).toBeInTheDocument();
+    expect(
+      screen.queryByRole("heading", { name: /build a resume in a focused workspace/i })
+    ).not.toBeInTheDocument();
+
+    const localizedLinks = screen
+      .getAllByRole("link")
+      .filter((link) => link.getAttribute("href") === "/zh");
+    expect(localizedLinks.length).toBeGreaterThan(0);
+    expect(screen.getByRole("img", { name: "CT 工作区预览" })).toBeInTheDocument();
   });
 
   it("anchors the mobile menu to a positioned wrapper", async () => {

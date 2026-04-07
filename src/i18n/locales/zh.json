@@ -106,7 +106,7 @@
     "sidebar": {
       "appName": "CT 简历工作台",
       "resumes": "我的简历",
-      "export": "\u5bfc\u51fa",
+      "export": "导出",
       "settings": "通用设置",
       "templates": "简历模板",
       "ai": "AI服务商"
@@ -141,7 +141,7 @@
       "toast": {
         "pdfSuccess": "PDF 导出成功",
         "pdfError": "PDF 导出失败",
-        "pdfUnavailable": "当前部署未配置 PDF 导出服务。请设置 VITE_PDF_EXPORT_URL，或改用浏览器打印。",
+        "pdfUnavailable": "当前环境暂不支持直接下载 PDF，已切换到浏览器打印。请选择“另存为 PDF”完成导出。",
         "jsonSuccess": "配置导出成功",
         "jsonError": "配置导出失败"
       }
@@ -324,7 +324,6 @@
         "name": "极简模板",
         "description": "大面积留白，干净纯粹的排版风格"
       },
-
       "elegant": {
         "name": "优雅模板",
         "description": "居中标题单列设计，具有高级感的分隔线"
@@ -342,17 +341,18 @@
   "pdfExport": {
     "button": {
       "export": "导出",
-      "exportPdf": "PDF",
-      "exportJson": "JSON配置",
-      "exporting": "导出中...",
-      "exportingJson": "导出中...",
-      "print": "PDF(备份)"
+      "exportPdf": "PDF（推荐）",
+      "exportJson": "导出配置（JSON）",
+      "exporting": "正在准备导出...",
+      "exportingJson": "正在导出配置...",
+      "print": "浏览器打印"
     },
     "toast": {
-      "success": "PDF导出成功",
-      "error": "PDF导出失败",
+      "success": "PDF 导出已开始",
+      "error": "PDF 导出失败，请重试",
       "jsonSuccess": "配置导出成功",
-      "jsonError": "配置导出失败"
+      "jsonError": "配置导出失败",
+      "pdfUnavailable": "当前环境暂不支持直接下载 PDF，已切换到浏览器打印。"
     }
   },
   "workbench": {

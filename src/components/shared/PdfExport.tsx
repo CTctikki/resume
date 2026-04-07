@@ -50,7 +50,8 @@ const PdfExport = ({
       await exportPdf({
         noResume: t("toast.error"),
         success: t("toast.success"),
-        error: t("toast.error")
+        error: t("toast.error"),
+        unavailable: t("toast.pdfUnavailable")
       });
     } finally {
       setActiveAction(null);

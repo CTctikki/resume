@@ -1,5 +1,6 @@
 import { toast } from "sonner";
 import type { ResumeData } from "@/types/resume";
+import { PDF_EXPORT_CONFIG } from "@/config";
 import { exportToPdf } from "@/utils/export";
 import { exportResumeToBrowserPrint } from "@/utils/print";
 
@@ -24,6 +25,28 @@ export async function exportResumePdf(
   if (!resume) {
     toast.error(messages.noResume);
     return false;
+  }
+
+  const hasPdfExportService = PDF_EXPORT_CONFIG.SERVER_URL.trim().length > 0;
+  if (!hasPdfExportService) {
+    toast(
+      messages.unavailable ??
+        "Direct PDF download is unavailable right now. Browser print has been opened instead."
+    );
+
+    const resumeContent = document.getElementById("resume-preview");
+    if (!resumeContent) {
+      toast.error(messages.error);
+      return false;
+    }
+
+    await exportResumeToBrowserPrint(
+      resumeContent,
+      resume.globalSettings?.pagePadding || 0,
+      resume.globalSettings?.fontFamily
+    );
+
+    return true;
   }
 
   return exportToPdf({

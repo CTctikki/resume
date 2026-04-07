@@ -140,7 +140,7 @@
       "toast": {
         "pdfSuccess": "PDF exported successfully",
         "pdfError": "PDF export failed",
-        "pdfUnavailable": "PDF export is unavailable in this deployment. Configure VITE_PDF_EXPORT_URL or use browser print.",
+        "pdfUnavailable": "Direct PDF download is unavailable here. Browser print has been opened instead. Choose ?Save as PDF? to finish.",
         "jsonSuccess": "Configuration exported successfully",
         "jsonError": "Configuration export failed"
       }
@@ -323,7 +323,6 @@
         "name": "Minimalist",
         "description": "Large amount of whitespace, clean and pure layout style"
       },
-
       "elegant": {
         "name": "Elegant",
         "description": "Centered title single-column design, with a touch of elegance"
@@ -341,17 +340,18 @@
   "pdfExport": {
     "button": {
       "export": "Export",
-      "exportPdf": "Export PDF (Server)",
-      "exportJson": "Export JSON Config",
-      "exporting": "Exporting...",
-      "exportingJson": "Exporting...",
+      "exportPdf": "PDF Download",
+      "exportJson": "Export Config (JSON)",
+      "exporting": "Preparing export...",
+      "exportingJson": "Exporting config...",
       "print": "Browser Print"
     },
     "toast": {
-      "success": "PDF exported successfully",
+      "success": "PDF export started",
       "error": "PDF export failed",
       "jsonSuccess": "Configuration exported successfully",
-      "jsonError": "Configuration export failed"
+      "jsonError": "Configuration export failed",
+      "pdfUnavailable": "Direct PDF download is unavailable right now. Browser print has been opened instead."
     }
   },
   "previewDock": {
