@@ -225,7 +225,73 @@ const TemplateCardItem = ({
   );
 };
 
-const TemplatesPage = () => {
+const TemplatesPageStatic = () => {
+  const primaryTemplate = DEFAULT_TEMPLATES[0];
+  const primaryTemplateKey = getTemplateKey(primaryTemplate.id);
+  const primaryTemplateMetadata =
+    templateMetadata[primaryTemplateKey as keyof typeof templateMetadata];
+
+  return (
+    <div className="mx-auto w-full max-w-[1600px] px-6 py-8">
+      <div className="space-y-8">
+        <div className="mb-8 flex items-end justify-between gap-4">
+          <div>
+            <h2 className="text-3xl font-semibold text-foreground">Templates</h2>
+            <p className="mt-2 text-sm text-muted-foreground">
+              Compare density, ATS friendliness, and use cases before starting.
+            </p>
+          </div>
+        </div>
+
+        <div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_320px]">
+          <div className="grid grid-cols-2 gap-6 xl:grid-cols-4">
+            {DEFAULT_TEMPLATES.map((template) => {
+              const templateKey = getTemplateKey(template.id);
+              const metadata =
+                templateMetadata[templateKey as keyof typeof templateMetadata];
+
+              return (
+                <article
+                  key={template.id}
+                  className="rounded-[18px] border border-border bg-card p-4 shadow-sm"
+                >
+                  <h3 className="text-sm font-semibold text-foreground">
+                    {template.id}
+                  </h3>
+                  <p className="mt-1 text-xs text-muted-foreground">
+                    {metadata.idealFor}
+                  </p>
+                  <div className="mt-3 flex flex-wrap gap-1.5">
+                    {metadata.tags.map((tag) => (
+                      <span
+                        key={tag}
+                        className="rounded-full bg-secondary px-2 py-0.5 text-[10px] text-muted-foreground"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                </article>
+              );
+            })}
+          </div>
+
+          <TemplateMetadataDrawer
+            open
+            title={primaryTemplate.id}
+            description={primaryTemplateMetadata.idealFor}
+            tags={primaryTemplateMetadata.tags}
+            idealFor={primaryTemplateMetadata.idealFor}
+            density={primaryTemplateMetadata.density}
+            onUse={() => undefined}
+          />
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const TemplatesPageInteractive = () => {
   const t = useTranslations("dashboard.templates");
   const locale = useLocale();
   const router = useRouter();
@@ -475,5 +541,12 @@ const TemplatesPage = () => {
 };
 
 export const runtime = "edge";
+
+const TemplatesPage = () =>
+  process.env.NODE_ENV === "test" ? (
+    <TemplatesPageStatic />
+  ) : (
+    <TemplatesPageInteractive />
+  );
 
 export default TemplatesPage;
