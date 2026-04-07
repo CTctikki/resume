@@ -7,20 +7,27 @@ interface TemplateMetadataDrawerProps {
   tags: readonly string[];
   idealFor: string;
   density: string;
+  copy: {
+    panelTitle: string;
+    idealForLabel: string;
+    densityLabel: string;
+    atsLabel: string;
+    useTemplateLabel: string;
+  };
   onUse: () => void;
 }
 
 export function TemplateMetadataDrawer(props: TemplateMetadataDrawerProps) {
   if (!props.open) return null;
 
-  const atsFriendly = props.tags.some((tag) => /ATS-friendly/i.test(tag));
+  const atsFriendly = props.tags.some((tag) => /ATS-friendly|适合ATS/i.test(tag));
 
   return (
     <aside className="h-fit rounded-[18px] border border-border bg-card p-5 shadow-sm xl:sticky xl:top-8">
       <div className="flex items-start justify-between gap-4">
         <div>
           <p className="text-[11px] font-medium uppercase tracking-[0.24em] text-muted-foreground">
-            Template fit
+            {props.copy.panelTitle}
           </p>
           <h3 className="mt-1 text-lg font-semibold text-foreground">
             {props.title}
@@ -46,19 +53,19 @@ export function TemplateMetadataDrawer(props: TemplateMetadataDrawerProps) {
 
       <div className="mt-5 space-y-3 rounded-2xl bg-muted/40 p-4">
         <p className="text-sm text-foreground">
-          <strong>Ideal for:</strong> {props.idealFor}
+          <strong>{props.copy.idealForLabel}:</strong> {props.idealFor}
         </p>
         <p className="text-sm text-foreground">
-          <strong>Density:</strong> {props.density}
+          <strong>{props.copy.densityLabel}:</strong> {props.density}
         </p>
         <p className="text-sm text-foreground">
-          <strong>ATS friendliness:</strong>{" "}
+          <strong>{props.copy.atsLabel}:</strong>{" "}
           {atsFriendly ? "ATS-friendly" : "More design-forward"}
         </p>
       </div>
 
       <Button className="mt-6 w-full" onClick={props.onUse}>
-        Use this template
+        {props.copy.useTemplateLabel}
       </Button>
     </aside>
   );
