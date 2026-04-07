@@ -1,9 +1,20 @@
 import { describe, expect, it, vi } from "vitest";
-import { screen } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { renderWithProviders } from "@/test/utils/renderWithProviders";
 import { WorkbenchTopBar } from "@/components/workbench/WorkbenchTopBar";
 import { WorkbenchActionRail } from "@/components/workbench/WorkbenchActionRail";
+import PdfExport from "@/components/shared/PdfExport";
+import TemplateSheet from "@/components/shared/TemplateSheet";
+
+const resumeStore = vi.hoisted(() => ({
+  activeResume: {
+    title: "Backend Engineer Resume",
+    templateId: "classic",
+    globalSettings: {}
+  },
+  setTemplate: vi.fn(),
+  updateGlobalSettings: vi.fn()
+}));
 
 vi.mock("@/i18n/compat/client", () => ({
   NextIntlClientProvider: ({ children }: { children: unknown }) => children,
@@ -11,45 +22,63 @@ vi.mock("@/i18n/compat/client", () => ({
   useTranslations: () => ((key: string) => key),
 }));
 
-describe("workbench shell", () => {
-  it("shows workspace actions without GitHub branding", () => {
-    renderWithProviders(
-      <>
-        <WorkbenchTopBar
-          title="Backend Engineer Resume"
-          onTitleBlur={vi.fn()}
-          onBack={vi.fn()}
-          onOpenTemplates={vi.fn()}
-          onOpenExport={vi.fn()}
-        />
-        <WorkbenchActionRail
-          sidePanelCollapsed={false}
-          editPanelCollapsed={false}
-          previewPanelCollapsed={false}
-          onToggleSidePanel={vi.fn()}
-          onToggleEditPanel={vi.fn()}
-          onTogglePreviewPanel={vi.fn()}
-          onOpenTemplates={vi.fn()}
-          onOpenExport={vi.fn()}
-          onAutoFit={vi.fn()}
-        />
-      </>,
-      "en"
+vi.mock("@/store/useResumeStore", () => ({
+  useResumeStore: () => resumeStore
+}));
+
+vi.mock("@/hooks/useTemplateSnapshots", () => ({
+  useTemplateSnapshots: () => ({
+    snapshotMap: {}
+  })
+}));
+
+vi.mock("@/components/shared/PdfExport", () => {
+  function MockPdfExport({
+    triggerVariant = "button",
+    triggerLabel = "button.export"
+  }: {
+    triggerVariant?: "button" | "icon";
+    triggerLabel?: string;
+  }) {
+    return (
+      <div data-testid={triggerVariant === "icon" ? "rail-export-contract" : "topbar-export-contract"}>
+        <button type="button" aria-label={triggerLabel}>
+          {triggerVariant === "icon" ? "icon-export" : triggerLabel}
+        </button>
+        <span>
+          {triggerVariant === "icon" ? "rail-export-ready" : "topbar-export-ready"}
+        </span>
+      </div>
     );
+  }
 
-    expect(
-      screen.getByDisplayValue("Backend Engineer Resume")
-    ).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: /^export$/i })).toBeInTheDocument();
-    expect(screen.queryByText(/github/i)).not.toBeInTheDocument();
-  });
+  return {
+    default: MockPdfExport
+  };
+});
 
-  it("wires template and export actions through the action rail", async () => {
-    const user = userEvent.setup();
-    const onOpenTemplates = vi.fn();
-    const onOpenExport = vi.fn();
-
-    renderWithProviders(
+function ComposedWorkbenchShell({
+  templateSheetOpen = false,
+  onOpenTemplates = vi.fn()
+}: {
+  templateSheetOpen?: boolean;
+  onOpenTemplates?: () => void;
+}) {
+  return (
+    <>
+      <WorkbenchTopBar
+        title={resumeStore.activeResume.title}
+        onTitleBlur={vi.fn()}
+        onBack={vi.fn()}
+        onOpenTemplates={onOpenTemplates}
+        onOpenExport={vi.fn()}
+        exportSlot={<PdfExport />}
+      />
+      <TemplateSheet
+        open={templateSheetOpen}
+        onOpenChange={vi.fn()}
+        showTrigger={false}
+      />
       <WorkbenchActionRail
         sidePanelCollapsed={false}
         editPanelCollapsed={false}
@@ -58,16 +87,36 @@ describe("workbench shell", () => {
         onToggleEditPanel={vi.fn()}
         onTogglePreviewPanel={vi.fn()}
         onOpenTemplates={onOpenTemplates}
-        onOpenExport={onOpenExport}
+        onOpenExport={vi.fn()}
         onAutoFit={vi.fn()}
-      />,
-      "en"
-    );
+        exportSlot={<PdfExport triggerVariant="icon" triggerLabel="Open export" />}
+      />
+    </>
+  );
+}
+
+describe("workbench shell", () => {
+  it("shows workspace actions without GitHub branding", () => {
+    render(<ComposedWorkbenchShell />);
+
+    expect(
+      screen.getByDisplayValue("Backend Engineer Resume")
+    ).toBeInTheDocument();
+    expect(screen.getByTestId("topbar-export-contract")).toBeInTheDocument();
+    expect(screen.getByTestId("rail-export-contract")).toBeInTheDocument();
+    expect(screen.queryByText(/github/i)).not.toBeInTheDocument();
+  });
+
+  it("opens template and export controls through the composed shell", async () => {
+    const user = userEvent.setup();
+    const onOpenTemplates = vi.fn();
+
+    render(<ComposedWorkbenchShell onOpenTemplates={onOpenTemplates} />);
 
     await user.click(screen.getByRole("button", { name: /open templates/i }));
-    await user.click(screen.getByRole("button", { name: /open export/i }));
-
     expect(onOpenTemplates).toHaveBeenCalledTimes(1);
-    expect(onOpenExport).toHaveBeenCalledTimes(1);
+
+    expect(screen.getByRole("button", { name: /open export/i })).toBeInTheDocument();
+    expect(screen.getByText("rail-export-ready")).toBeInTheDocument();
   });
 });

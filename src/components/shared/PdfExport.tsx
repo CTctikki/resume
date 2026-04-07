@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import { useTranslations } from "@/i18n/compat/client";
 import {
   Download,
@@ -12,6 +12,7 @@ import { useResumeStore } from "@/store/useResumeStore";
 import { Button } from "@/components/ui/button";
 import { exportToPdf } from "@/utils/export";
 import { exportResumeToBrowserPrint } from "@/utils/print";
+import { cn } from "@/lib/utils";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -19,13 +20,24 @@ import {
   DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
 
-const PdfExport = () => {
+interface PdfExportProps {
+  align?: "start" | "center" | "end";
+  className?: string;
+  triggerLabel?: string;
+  triggerVariant?: "button" | "icon";
+}
+
+const PdfExport = ({
+  align = "end",
+  className,
+  triggerLabel,
+  triggerVariant = "button"
+}: PdfExportProps) => {
   const [isExporting, setIsExporting] = useState(false);
   const [isExportingJson, setIsExportingJson] = useState(false);
   const { activeResume } = useResumeStore();
   const { globalSettings = {}, title } = activeResume || {};
   const t = useTranslations("pdfExport");
-  const printFrameRef = useRef<HTMLIFrameElement>(null);
 
   const handleExport = async () => {
     await exportToPdf({
@@ -86,14 +98,33 @@ const PdfExport = () => {
     : isExportingJson
       ? t("button.exportingJson")
       : "";
+  const resolvedTriggerLabel = triggerLabel || t("button.export");
 
   return (
-    <>
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        {triggerVariant === "icon" ? (
           <Button
-            className="px-4 py-2 rounded-lg text-sm font-medium flex items-center gap-2
-              disabled:opacity-50 disabled:cursor-not-allowed"
+            type="button"
+            variant="ghost"
+            size="icon"
+            aria-label={resolvedTriggerLabel}
+            className={cn(className)}
+            disabled={isLoading}
+          >
+            {isLoading ? (
+              <Loader2 className="h-4 w-4 animate-spin" />
+            ) : (
+              <Download className="h-4 w-4" />
+            )}
+          </Button>
+        ) : (
+          <Button
+            type="button"
+            className={cn(
+              "flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium disabled:cursor-not-allowed disabled:opacity-50",
+              className
+            )}
             disabled={isLoading}
           >
             {isLoading ? (
@@ -104,28 +135,28 @@ const PdfExport = () => {
             ) : (
               <>
                 <Download className="w-4 h-4" />
-                <span>{t("button.export")}</span>
-                <ChevronDown className="w-4 h-4 ml-1" />
+                <span>{resolvedTriggerLabel}</span>
+                <ChevronDown className="ml-1 w-4 h-4" />
               </>
             )}
           </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent align="end">
-          <DropdownMenuItem onClick={handleExport} disabled={isLoading}>
-            <Download className="w-4 h-4 mr-2" />
-            {t("button.exportPdf")}
-          </DropdownMenuItem>
-          <DropdownMenuItem onClick={handlePrint} disabled={isLoading}>
-            <Printer className="w-4 h-4 mr-2" />
-            {t("button.print")}
-          </DropdownMenuItem>
-          <DropdownMenuItem onClick={handleJsonExport} disabled={isLoading}>
-            <FileJson className="w-4 h-4 mr-2" />
-            {t("button.exportJson")}
-          </DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
-    </>
+        )}
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align={align}>
+        <DropdownMenuItem onClick={handleExport} disabled={isLoading}>
+          <Download className="w-4 h-4 mr-2" />
+          {t("button.exportPdf")}
+        </DropdownMenuItem>
+        <DropdownMenuItem onClick={handlePrint} disabled={isLoading}>
+          <Printer className="w-4 h-4 mr-2" />
+          {t("button.print")}
+        </DropdownMenuItem>
+        <DropdownMenuItem onClick={handleJsonExport} disabled={isLoading}>
+          <FileJson className="w-4 h-4 mr-2" />
+          {t("button.exportJson")}
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 };
 

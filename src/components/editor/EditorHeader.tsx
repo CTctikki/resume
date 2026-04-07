@@ -4,6 +4,7 @@ import { useResumeStore } from "@/store/useResumeStore";
 import PdfExport from "@/components/shared/PdfExport";
 import TemplateSheet from "@/components/shared/TemplateSheet";
 import { WorkbenchTopBar } from "@/components/workbench/WorkbenchTopBar";
+import { useWorkbenchShellLabels } from "@/components/workbench/useWorkbenchShellLabels";
 
 interface EditorHeaderProps {
   isMobile?: boolean;
@@ -11,6 +12,7 @@ interface EditorHeaderProps {
 
 export function EditorHeader({ isMobile }: EditorHeaderProps) {
   const router = useRouter();
+  const labels = useWorkbenchShellLabels();
   const { activeResume, updateResumeTitle } = useResumeStore();
   const [templateSheetOpen, setTemplateSheetOpen] = useState(false);
 
@@ -25,8 +27,8 @@ export function EditorHeader({ isMobile }: EditorHeaderProps) {
         onTitleBlur={(value) => updateResumeTitle(value || "Untitled Resume")}
         onBack={() => router.push("/app/dashboard/resumes")}
         onOpenTemplates={() => setTemplateSheetOpen(true)}
-        onOpenExport={() => {}}
-        exportSlot={<PdfExport />}
+        onOpenExport={undefined}
+        exportSlot={<PdfExport triggerLabel={labels.export} />}
       />
       <TemplateSheet
         open={templateSheetOpen}
