@@ -11,6 +11,8 @@ import {
   CardTitle
 } from "@/components/ui/card";
 
+const studioHostname = new URL(brand.studioUrl).hostname;
+
 export function WorkspaceAboutSection() {
   const t = useTranslations("dashboard.settings.workspace.about");
 
@@ -36,7 +38,7 @@ export function WorkspaceAboutSection() {
           rel="noreferrer"
           className="inline-flex items-center gap-2 text-sm font-medium text-primary hover:underline"
         >
-          {t("linkLabel")}
+          {studioHostname}
           <ExternalLink className="h-4 w-4" />
         </a>
       </CardContent>

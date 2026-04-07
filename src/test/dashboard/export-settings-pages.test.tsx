@@ -2,7 +2,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { act, fireEvent, render, screen } from "@testing-library/react";
 import ExportPage from "@/app/app/dashboard/export/page";
 import SettingsPage from "@/app/app/dashboard/settings/page";
-import zhMessages from "@/i18n/locales/zh.json";
+import enMessages from "@/i18n/locales/en.json";
 import { useResumeStore } from "@/store/useResumeStore";
 import { createTranslator } from "@/i18n/compat/utils";
 import { brand } from "@/config/brand";
@@ -24,8 +24,8 @@ vi.mock("@/components/export/ExportPreviewCanvas", () => ({
 vi.mock("@/components/settings/WorkspaceBackupSyncSection", () => ({
   WorkspaceBackupSyncSection: () => (
     <section>
-      <h3>{"\u5907\u4efd\u4e0e\u540c\u6b65"}</h3>
-      <button type="button">{"\u9009\u62e9\u6587\u4ef6\u5939"}</button>
+      <h3>{"Backup and sync"}</h3>
+      <button type="button">{"Select Folder"}</button>
     </section>
   )
 }));
@@ -43,8 +43,8 @@ vi.mock("@/i18n/compat/client", async () => {
 
   return {
     ...actual,
-    useLocale: () => "zh",
-    useTranslations: (namespace?: string) => createTranslator(zhMessages as any, namespace)
+    useLocale: () => "en",
+    useTranslations: (namespace?: string) => createTranslator(enMessages as any, namespace)
   };
 });
 
@@ -86,7 +86,7 @@ describe("dashboard support pages", () => {
   });
 
   it("shows localized export hub actions and triggers the real export hooks", async () => {
-    const exportT = createTranslator(zhMessages as any, "dashboard.export");
+    const exportT = createTranslator(enMessages as any, "dashboard.export");
 
     render(<ExportPage />);
 
@@ -121,9 +121,8 @@ describe("dashboard support pages", () => {
   });
 
   it("shows the localized workspace settings surface", () => {
-    const settingsT = createTranslator(zhMessages as any, "dashboard.settings");
-    const workspaceT = createTranslator(zhMessages as any, "dashboard.settings.workspace");
-    const aboutT = createTranslator(zhMessages as any, "dashboard.settings.workspace.about");
+    const settingsT = createTranslator(enMessages as any, "dashboard.settings");
+    const workspaceT = createTranslator(enMessages as any, "dashboard.settings.workspace");
 
     render(<SettingsPage />);
 
@@ -142,7 +141,8 @@ describe("dashboard support pages", () => {
     ).toBeInTheDocument();
     expect(screen.getByRole("button", { name: workspaceT("backupSync.selectFolder") }))
       .toBeInTheDocument();
-    expect(screen.getByRole("link", { name: aboutT("linkLabel") })).toHaveAttribute(
+    expect(screen.getByText(brand.studioName)).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "ctikki.com" })).toHaveAttribute(
       "href",
       brand.studioUrl
     );
