@@ -1,7 +1,10 @@
+import * as React from "react";
 import { describe, expect, it, vi } from "vitest";
-import { screen } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
+import { DashboardShell } from "@/app/app/dashboard/client";
 import { AppSidebar } from "@/components/dashboard/AppSidebar";
 import { DashboardTopBar } from "@/components/dashboard/DashboardTopBar";
+import { brand } from "@/config/brand";
 import { dashboardNav } from "@/config/dashboardNav";
 import { renderWithProviders } from "@/test/utils/renderWithProviders";
 
@@ -18,6 +21,36 @@ vi.mock("@/lib/link", () => ({
     </a>
   )
 }));
+
+vi.mock("@/components/ui/sidebar", () => {
+  const useSidebar = () => ({
+    open: true,
+    toggleSidebar: vi.fn()
+  });
+
+  function SidebarProvider({ children }: { children: React.ReactNode }) {
+    return <>{children}</>;
+  }
+
+  function Sidebar({ children }: { children: React.ReactNode }) {
+    return <div data-sidebar="sidebar">{children}</div>;
+  }
+
+  function SidebarTrigger({ className }: { className?: string }) {
+    return (
+      <button type="button" className={className}>
+        Toggle Sidebar
+      </button>
+    );
+  }
+
+  return {
+    Sidebar,
+    SidebarProvider,
+    SidebarTrigger,
+    useSidebar
+  };
+});
 
 describe("AppSidebar", () => {
   it("shows the CT workspace brand and dashboard sections", () => {
@@ -45,5 +78,28 @@ describe("DashboardTopBar", () => {
       "href",
       "https://ctikki.com"
     );
+  });
+});
+
+describe("DashboardShell", () => {
+  it("uses CT brand copy and exposes the mobile sidebar trigger in the shell", () => {
+    render(
+      <DashboardShell
+        pathname="/app/dashboard/resumes"
+        subtitle={brand.subtitle.en}
+        onNavigate={vi.fn()}
+      >
+        <div>Dashboard body</div>
+      </DashboardShell>
+    );
+
+    expect(screen.getByRole("heading", { name: brand.productName })).toBeInTheDocument();
+    expect(screen.getByText(brand.subtitle.en)).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: /ctikki\.com/i })).toHaveAttribute(
+      "href",
+      brand.studioUrl
+    );
+    expect(screen.getByRole("button", { name: /toggle sidebar/i })).toBeInTheDocument();
+    expect(screen.getByText(/templates/i)).toBeInTheDocument();
   });
 });
