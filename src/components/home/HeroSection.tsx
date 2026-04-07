@@ -15,9 +15,12 @@ export default function HeroSection({ locale = "en" }: HeroSectionProps) {
 
   return (
     <section className="border-b border-border/60 bg-background">
-      <div className="mx-auto grid max-w-[1240px] gap-12 px-6 py-20 lg:grid-cols-[minmax(0,1fr)_560px] lg:items-center">
-        <div className="flex flex-col justify-center gap-6">
-          <span className="inline-flex w-fit rounded-full bg-secondary px-3 py-1 text-sm text-muted-foreground">
+      <div className="mx-auto max-w-[1240px] px-6 py-20">
+        <div
+          className="flex max-w-[860px] flex-col justify-center gap-6"
+          data-testid="hero-copy-section"
+        >
+          <span className="inline-flex w-fit rounded-full bg-secondary px-4 py-1.5 text-base font-medium text-foreground">
             {content.badge}
           </span>
           <h1 className="max-w-[12ch] text-5xl font-semibold tracking-tight text-foreground sm:text-6xl">
@@ -37,7 +40,10 @@ export default function HeroSection({ locale = "en" }: HeroSectionProps) {
           </div>
         </div>
 
-        <div className="rounded-[18px] border border-border bg-card p-4 shadow-sm">
+        <div
+          className="mt-12 rounded-[18px] border border-border bg-card p-5 shadow-sm"
+          data-testid="hero-preview-section"
+        >
           <div className="rounded-[14px] border border-border/70 bg-background p-4">
             <div className="mb-4 flex items-center justify-between border-b border-border/60 pb-3">
               <div>
@@ -50,12 +56,12 @@ export default function HeroSection({ locale = "en" }: HeroSectionProps) {
               </span>
             </div>
 
-            <div className="overflow-hidden rounded-[12px] border border-border/70">
+            <div className="overflow-hidden rounded-[12px] border border-border/70 bg-secondary/20">
               <Image
                 src="/web-shot.png"
                 alt={content.previewAlt}
-                width={1200}
-                height={800}
+                width={1600}
+                height={980}
                 className="w-full rounded-[12px]"
                 priority
               />

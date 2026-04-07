@@ -4,123 +4,125 @@ import { defaultLocale, type Locale } from "@/i18n/config";
 const landingCopy = {
   en: {
     header: {
-      studioLinkLabel: "ctikki.com",
-      openWorkspace: "Open Workspace",
+      studioLinkLabel: "Visit Website",
+      openWorkspace: "Use Now",
       openMenu: "Open menu",
       mobileStudioLabel: "Studio",
-      mobileStudioLinkLabel: "Visit studio site",
+      mobileStudioLinkLabel: "Visit Website",
       browseTemplates: "Browse Templates",
       backHome: "Back to Home",
+      brandTitle: "CT Program Custom Studio",
     },
     hero: {
-      badge: "Local-first resume workspace",
-      title: "Build a resume in a focused workspace",
+      badge: "CT Resume Workspace",
+      title: "Build a resume in one focused workspace",
       description:
-        "Edit content, preview the page in real time, and export a polished PDF without turning the product into a portfolio-style showcase.",
-      primaryCta: "Open Workspace",
+        "Write, preview, and export without bouncing between separate pages. Change the content once and see the result immediately.",
+      primaryCta: "Use Now",
       secondaryCta: "Browse Templates",
       previewTitle: "Workspace Preview",
       previewDescription:
-        "A calm editing surface for content updates, layout checks, and final export.",
+        "Edit on the left, review on the right, and export once everything looks correct.",
       previewAlt: "CT workspace preview",
       exportStatus: "Ready to export",
       checklist: [
-        "Live preview while editing",
-        "Template switching without losing content",
-        "Reliable PDF export for delivery",
+        "See changes while editing",
+        "Switch templates without losing content",
+        "Export PDF and keep a JSON backup",
       ],
     },
     features: {
-      eyebrow: "Product proof",
-      title: "Three things the workspace does well",
+      eyebrow: "Why it works",
+      title: "The workspace is built around three priorities",
       description:
-        "The homepage should help you start work quickly, not pull you into a long marketing story.",
+        "Help people start fast, judge the result clearly, and export confidently before anything else.",
       items: [
         {
-          title: "Preview and editing stay side by side",
+          title: "See the result immediately",
           description:
-            "Review spacing, hierarchy, and line breaks as you update content instead of bouncing between separate pages.",
+            "Adjust the content and check spacing, structure, and line breaks without jumping between views.",
         },
         {
-          title: "Local-first content handling",
+          title: "Keep the content safe first",
           description:
-            "Your resume data stays close to the workspace, which makes backup, iteration, and private edits easier to manage.",
+            "Resume data stays local, so switching templates, refining sections, and making backups feels safer.",
         },
         {
-          title: "Exports are built for handoff",
+          title: "Export something you can actually send",
           description:
-            "Generate polished PDFs when the page looks right, with templates that stay oriented around real application delivery.",
+            "Once the preview looks right, export a polished PDF and keep a JSON copy for backup and reuse.",
         },
       ],
     },
     cta: {
-      title: "Start from a template, not a blank page",
+      title: "Start from a template instead of a blank page",
       description:
-        "Open the workspace directly if you know what you need, or scan a few template directions first and pick the one that fits the role.",
+        "If you already know what you want, jump straight in. If not, pick a template first and shape the content from there.",
       primaryCta: "Browse Templates",
       secondaryCta: "Open Workspace",
       templates: [
         {
           name: "Professional",
-          detail: "Balanced spacing for general applications",
+          detail: "A stable layout for most applications",
         },
         {
           name: "Compact",
-          detail: "Tighter layout for experienced candidates",
+          detail: "A denser layout for content-heavy resumes",
         },
         {
           name: "Bilingual",
-          detail: "A clear option for cross-language resumes",
+          detail: "A clearer structure for Chinese and English content",
         },
       ],
     },
     faq: {
-      title: "Common questions before you start",
+      title: "Questions people ask before starting",
       items: [
         {
-          question: "Can I reuse content across different templates?",
+          question: "Can I reuse the same content across templates?",
           answer:
-            "Yes. The workspace is designed so your resume content can move between template layouts without starting over from scratch.",
+            "Yes. Template switching is designed to preserve your existing resume content instead of forcing a restart.",
         },
         {
-          question: "How should I back up my resume data?",
+          question: "How should I back up my resume?",
           answer:
-            "Because the product is local-first, you can keep your files in your normal backup flow and duplicate them whenever you want a safe restore point.",
+            "Keep your files in your normal backup flow, or export a JSON copy whenever you want a restore point.",
         },
         {
-          question: "What export format should I expect?",
+          question: "What format should I expect at the end?",
           answer:
-            "The main delivery path is a polished PDF export, which is the most common format for sharing resumes with recruiters and hiring teams.",
+            "PDF is the primary delivery format because it is still the most common format for real job applications.",
         },
         {
-          question: "Does it work for iterative edits before final export?",
+          question: "Is it meant for repeated edits before final export?",
           answer:
-            "That is the main workflow. You can keep refining content and layout in the workspace until the preview looks ready, then export when needed.",
+            "Yes. That is the core workflow: keep refining until the preview looks right, then export when you are ready.",
         },
       ],
     },
     footer: {
       description:
-        "Local-first editing, live preview, and PDF export in one calm workspace.",
+        "Local editing, live preview, and export in one calm workspace.",
       studioLinkLabel: "Studio site",
     },
   },
   zh: {
     header: {
-      studioLinkLabel: "ctikki.com",
-      openWorkspace: "打开工作区",
+      studioLinkLabel: "前往官网",
+      openWorkspace: "立即使用",
       openMenu: "打开菜单",
       mobileStudioLabel: "工作室",
-      mobileStudioLinkLabel: "访问工作室官网",
+      mobileStudioLinkLabel: "前往官网",
       browseTemplates: "浏览模板",
       backHome: "返回首页",
+      brandTitle: "CT程序定制工作室",
     },
     hero: {
-      badge: "本地优先的简历工作台",
+      badge: "CT简历工作台",
       title: "在一个工作区里完成简历",
       description:
         "在同一个页面里完成编辑、预览和导出，不用来回切换。内容一改，右侧效果立刻更新。",
-      primaryCta: "打开工作区",
+      primaryCta: "立即使用",
       secondaryCta: "浏览模板",
       previewTitle: "工作区预览",
       previewDescription: "左侧编辑，右侧实时预览，确认无误后直接导出。",

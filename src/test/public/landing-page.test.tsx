@@ -65,38 +65,40 @@ describe("LandingPage", () => {
 
     expect(
       screen.getByRole("heading", {
-        name: /build a resume in a focused workspace/i,
+        name: /build a resume in one focused workspace/i,
       })
     ).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: /ctikki\.com/i })).toHaveAttribute(
-      "href",
-      "https://ctikki.com"
-    );
+    expect(
+      screen
+        .getAllByRole("link", { name: /visit website/i })
+        .some((link) => link.getAttribute("href") === "https://ctikki.com")
+    ).toBe(true);
     expect(screen.getByRole("img", { name: /ct workspace preview/i })).toBeInTheDocument();
     expect(screen.queryByText(/star on github/i)).not.toBeInTheDocument();
   });
 
-  it("renders the zh landing variant and keeps home links locale-correct", async () => {
-    await renderLandingPage("zh", "zh", "en");
+  it("renders the revised Chinese header and hero actions", async () => {
+    await renderLandingPage("zh", "zh", "zh");
 
+    expect(screen.getByRole("link", { name: "CT程序定制工作室" })).toBeInTheDocument();
+    expect(screen.getByText("CT简历工作台")).toBeInTheDocument();
     expect(
-      screen.getByRole("heading", { name: "在一个工作区里完成简历" })
-    ).toBeInTheDocument();
-    expect(
-      screen.getByRole("heading", { name: "做简历，最重要的是这三件事" })
-    ).toBeInTheDocument();
-    expect(
-      screen.getByText("先让你快速开始、看清效果、顺利导出，其他复杂功能都往后放。")
-    ).toBeInTheDocument();
-    expect(
-      screen.queryByRole("heading", { name: /build a resume in a focused workspace/i })
-    ).not.toBeInTheDocument();
+      screen
+        .getAllByRole("link", { name: "前往官网" })
+        .some((link) => link.getAttribute("href") === "https://ctikki.com")
+    ).toBe(true);
+    expect(screen.getAllByRole("link", { name: "立即使用" }).length).toBeGreaterThanOrEqual(2);
+  });
 
-    const localizedLinks = screen
-      .getAllByRole("link")
-      .filter((link) => link.getAttribute("href") === "/zh");
-    expect(localizedLinks.length).toBeGreaterThan(0);
-    expect(screen.getByRole("img", { name: "CT 工作区预览" })).toBeInTheDocument();
+  it("renders the workspace preview in its own dedicated block", async () => {
+    await renderLandingPage("zh", "zh", "zh");
+
+    const previewSection = screen.getByTestId("hero-preview-section");
+    const textSection = screen.getByTestId("hero-copy-section");
+
+    expect(previewSection).toBeInTheDocument();
+    expect(textSection).toBeInTheDocument();
+    expect(within(previewSection).getByRole("img", { name: "CT 工作区预览" })).toBeInTheDocument();
   });
 
   it("anchors the mobile menu to a positioned wrapper", async () => {

@@ -26,14 +26,15 @@ export default function MobileMenu({ locale = "en" }: MobileMenuProps) {
 
         <div className="space-y-2 rounded-[14px] bg-secondary/60 p-4">
           <p className="text-sm font-medium text-foreground">{copy.mobileStudioLabel}</p>
-          <a
-            href={brand.studioUrl}
-            target="_blank"
-            rel="noreferrer"
-            className="text-sm text-muted-foreground transition-colors hover:text-foreground"
-          >
-            {copy.mobileStudioLinkLabel}
-          </a>
+          <Button asChild variant="outline" className="h-10 rounded-[10px] px-4">
+            <a
+              href={brand.studioUrl}
+              target="_blank"
+              rel="noreferrer"
+            >
+              {copy.mobileStudioLinkLabel}
+            </a>
+          </Button>
         </div>
 
         <div className="grid gap-3">
