@@ -1,5 +1,6 @@
 import { DEFAULT_FIELD_ORDER } from "./constants";
-import { GlobalSettings, DEFAULT_CONFIG, ResumeData } from "../types/resume";
+import { DEFAULT_CONFIG, GlobalSettings } from "../types/resume";
+
 const initialGlobalSettings: GlobalSettings = {
   baseFontSize: 16,
   pagePadding: 32,
@@ -10,175 +11,162 @@ const initialGlobalSettings: GlobalSettings = {
   subheaderSize: 16,
   useIconMode: true,
   themeColor: "#000000",
-  centerSubtitle: true,
+  centerSubtitle: true
 };
 
 export const initialResumeState = {
   title: "新建简历",
   basic: {
-    name: "宋哈娜",
-    title: "高级前端工程师",
-    employementStatus: "离职",
-    email: "zhangsan@example.com",
-    phone: "13800138000",
-    location: "北京市朝阳区",
-    birthDate: "2025-01",
+    name: "林然",
+    title: "全栈工程师",
+    employementStatus: "开放机会",
+    email: "linran@example.com",
+    phone: "13912345678",
+    location: "上海，中国",
+    birthDate: "1996-08",
     fieldOrder: DEFAULT_FIELD_ORDER,
     icons: {
       email: "Mail",
       phone: "Phone",
       birthDate: "CalendarRange",
       employementStatus: "Briefcase",
-      location: "MapPin",
+      location: "MapPin"
     },
     photoConfig: DEFAULT_CONFIG,
     customFields: [
       {
-        id: "personal",
+        id: "portfolio",
         label: "个人网站",
-        value: "https://zhangsan.dev",
-        icon: "Globe",
-      },
+        value: "https://linran.dev",
+        icon: "Globe"
+      }
     ],
     photo: "/avatar.png",
     githubKey: "",
     githubUseName: "",
-    githubContributionsVisible: false,
+    githubContributionsVisible: false
   },
   education: [
     {
       id: "1",
-      school: "北京大学",
-      major: "计算机科学与技术",
+      school: "同济大学",
+      major: "软件工程",
       degree: "",
-      startDate: "2013-09",
-      endDate: "2017-06",
+      startDate: "2014-09",
+      endDate: "2018-06",
       visible: true,
       gpa: "",
       description: `<ul>
-        <li>主修课程：数据结构、算法设计、操作系统、计算机网络、Web开发技术</li>
-        <li>专业排名前 5%，连续三年获得一等奖学金</li>
-        <li>担任计算机协会技术部部长，组织多次技术分享会</li>
-        <li>参与开源项目贡献，获得 GitHub Campus Expert 认证</li>
-      </ul>`,
-    },
+        <li>主修课程包括软件工程、分布式系统、数据库系统与人机交互设计。</li>
+        <li>完成校企联合毕业设计，负责需求梳理、前端实现与可用性验证。</li>
+        <li>组织学生技术分享活动，帮助低年级同学建立项目协作与代码规范意识。</li>
+      </ul>`
+    }
   ],
   skillContent: `<div class="skill-content">
   <ul>
-    <li>前端框架：熟悉 React、Vue.js，熟悉 Next.js、Nuxt.js 等 SSR 框架</li>
-    <li>开发语言：TypeScript、JavaScript(ES6+)、HTML5、CSS3</li>
-    <li>UI/样式：熟悉 TailwindCSS、Sass/Less、CSS Module、Styled-components</li>
-    <li>状态管理：Redux、Vuex、Zustand、Jotai、React Query</li>
-    <li>工程化工具：Webpack、Vite、Rollup、Babel、ESLint</li>
-    <li>测试工具：Jest、React Testing Library、Cypress</li>
-    <li>性能优化：熟悉浏览器渲染原理、性能指标监控、代码分割、懒加载等优化技术</li>
-    <li>版本控制：Git、SVN</li>
-    <li>技术管理：具备团队管理经验，主导过多个大型项目的技术选型和架构设计</li>
+    <li>熟悉 TypeScript、JavaScript、HTML5、CSS3，以及 React、Vue 等现代前端框架。</li>
+    <li>具备 Node.js 服务开发经验，能够设计接口、处理数据流并完成基本部署。</li>
+    <li>擅长搭建设计系统、组件库和中后台工作台，关注可维护性与交互一致性。</li>
+    <li>熟悉 Vitest、Playwright、Testing Library 等测试工具，重视回归验证。</li>
+    <li>能够与产品、设计、运营协作推进需求落地，并用数据衡量改进效果。</li>
   </ul>
 </div>`,
   selfEvaluationContent: "",
   experience: [
     {
       id: "1",
-      company: "字节跳动",
-      position: "高级前端工程师",
-      date: "2021.07 - 2024.12",
+      company: "北辰数字",
+      position: "全栈工程师",
+      date: "2021.03 - 2025.02",
       visible: true,
       details: `<ul>
-      <li>负责抖音创作者平台的开发与维护，主导多个核心功能的技术方案设计</li>
-      <li>优化项目工程化配置，将构建时间从 8 分钟优化至 2 分钟，提升团队开发效率</li>
-      <li>设计并实现组件库，提升代码复用率达 70%，显著减少开发时间</li>
-      <li>主导性能优化项目，使平台首屏加载时间减少 50%，接入 APM 监控系统</li>
-      <li>指导初级工程师，组织技术分享会，提升团队整体技术水平</li>
-    </ul>`,
-    },
+        <li>负责客户运营工作台的前后端迭代，覆盖线索流转、客户画像和任务协同等核心场景。</li>
+        <li>主导组件规范与页面模板整理，将新页面交付时间从 5 天缩短到 2 天。</li>
+        <li>优化首屏加载和接口聚合策略，使高频页面平均加载耗时下降 38%。</li>
+        <li>与设计、运营共同梳理关键路径，持续提升表单完成率和任务处理效率。</li>
+      </ul>`
+    }
   ],
   draggingProjectId: null,
   projects: [
     {
       id: "p1",
-      name: "抖音创作者中台",
-      role: "前端负责人",
-      date: "2022.06 - 2023.12",
+      name: "客户运营工作台",
+      role: "项目负责人",
+      date: "2023.02 - 2024.11",
       description: `<ul>
-        <li>基于 React 开发的创作者数据分析和内容管理平台，服务百万级创作者群体</li>
-        <li>包含数据分析、内容管理、收益管理等多个子系统</li>
-        <li>使用 Redux 进行状态管理，实现复杂数据流的高效处理</li>
-        <li>采用 Ant Design 组件库，确保界面设计的一致性和用户体验</li>
-        <li>实施代码分割和懒加载策略，优化大规模应用的加载性能</li>
+        <li>搭建面向销售与运营团队的工作台，统一管理线索分配、跟进计划与阶段复盘。</li>
+        <li>设计模块化页面结构和权限体系，支撑多个角色在同一套系统中高效协作。</li>
+        <li>通过仪表盘与提醒机制提升关键信息可见性，降低人工遗漏风险。</li>
       </ul>`,
-      visible: true,
+      visible: true
     },
     {
       id: "p2",
-      name: "微信小程序开发者工具",
-      role: "核心开发者",
-      date: "2020.03 - 2021.06",
+      name: "内容发布协作平台",
+      role: "前端主程",
+      date: "2022.01 - 2022.12",
       description: `<ul>
-        <li>为开发者提供小程序开发、调试和发布的一站式解决方案</li>
-        <li>基于 Electron 构建的跨平台桌面应用</li>
-        <li>支持多平台开发，包括 Windows、macOS 和 Linux</li>
-        <li>提供实时的错误日志和性能分析工具</li>
-        <li>集成第三方插件和 SDK，支持开发者自定义功能</li>
+        <li>为市场与编辑团队搭建多端内容发布平台，统一稿件提交流程与审核状态展示。</li>
+        <li>引入可复用表单与富文本编辑能力，减少重复开发并提升内容质量稳定性。</li>
+        <li>完善发布前检查流程，帮助团队在上线前更早发现格式和链接问题。</li>
       </ul>`,
-      visible: true,
+      visible: true
     },
     {
       id: "p3",
-      name: "前端监控平台",
-      role: "技术负责人",
-      date: "2021.09 - 2022.03",
+      name: "面试流程协作系统",
+      role: "全栈开发",
+      date: "2020.06 - 2021.01",
       description: `<ul>
-        <li>一个完整的前端监控解决方案，包含错误监控、性能监控、用户行为分析等功能。</li>
-        <li>基于 Vue 和 Element UI 构建，提供实时的监控数据和可视化分析工具。</li>
-        <li>支持多种监控指标，包括错误日志、性能指标、用户行为分析等。</li>
-        <li>提供详细的错误日志和性能分析工具，帮助开发者定位和优化问题。</li>
-        <li>集成第三方插件和 SDK，支持开发者自定义功能。</li>
+        <li>为招聘团队实现候选人流程追踪、面试记录沉淀和跨角色协作提醒。</li>
+        <li>负责前端交互、数据模型与通知逻辑，保障面试流程信息同步清晰可追溯。</li>
+        <li>支持导出结构化候选人总结，帮助团队更快完成复盘与后续沟通。</li>
       </ul>`,
-      visible: true,
-    },
+      visible: true
+    }
   ],
   menuSections: [
-    { id: "basic", title: "基本信息", icon: "👤", enabled: true, order: 0 },
-    { id: "skills", title: "专业技能", icon: "⚡", enabled: true, order: 1 },
+    { id: "basic", title: "基本信息", icon: "👁", enabled: true, order: 0 },
+    { id: "skills", title: "专业技能", icon: "⚿", enabled: true, order: 1 },
     {
       id: "experience",
       title: "工作经验",
-      icon: "💼",
+      icon: "💈",
       enabled: true,
-      order: 2,
+      order: 2
     },
-
     {
       id: "projects",
       title: "项目经历",
-      icon: "🚀",
+      icon: "🎌",
       enabled: true,
-      order: 3,
+      order: 3
     },
     {
       id: "education",
       title: "教育经历",
-      icon: "🎓",
+      icon: "📗",
       enabled: true,
-      order: 4,
-    },
+      order: 4
+    }
   ],
   certificates: [],
   customData: {},
   activeSection: "basic",
-  globalSettings: initialGlobalSettings,
+  globalSettings: initialGlobalSettings
 };
 
 export const initialResumeStateEn = {
   title: "New Resume",
   basic: {
-    name: "Dva",
-    title: "Senior Frontend Engineer",
-    employementStatus: "Available",
-    email: "john.smith@123.com",
-    phone: "555-123-4567",
-    location: "San Francisco, CA",
+    name: "Alex Chen",
+    title: "Full-Stack Engineer",
+    employementStatus: "Open to work",
+    email: "alex.chen@example.com",
+    phone: "(555) 240-7788",
+    location: "Shanghai, CN",
     birthDate: "",
     fieldOrder: DEFAULT_FIELD_ORDER,
     icons: {
@@ -186,149 +174,144 @@ export const initialResumeStateEn = {
       phone: "Phone",
       birthDate: "CalendarRange",
       employementStatus: "Briefcase",
-      location: "MapPin",
+      location: "MapPin"
     },
     photoConfig: DEFAULT_CONFIG,
-    customFields: [],
+    customFields: [
+      {
+        id: "portfolio",
+        label: "Portfolio",
+        value: "https://alexchen.dev",
+        icon: "Globe"
+      }
+    ],
     photo: "/avatar.png",
     githubKey: "",
     githubUseName: "",
-    githubContributionsVisible: false,
+    githubContributionsVisible: false
   },
   education: [
     {
       id: "1",
-      school: "Stanford University",
-      major: "Computer Science",
+      school: "Tongji University",
+      major: "Software Engineering",
       degree: "",
-      startDate: "2013-09",
-      endDate: "2017-06",
+      startDate: "2014-09",
+      endDate: "2018-06",
       visible: true,
       gpa: "",
       description: `<ul>
-        <li>Core courses: Data Structures, Algorithms, Operating Systems, Computer Networks, Web Development</li>
-        <li>Top 5% of class, received Dean's List honors for three consecutive years</li>
-        <li>Served as Technical Director of the Computer Science Association, organized multiple tech workshops</li>
-        <li>Contributed to open-source projects, earned GitHub Campus Expert certification</li>
-      </ul>`,
-    },
+        <li>Focused on software engineering, distributed systems, database design, and interaction design.</li>
+        <li>Completed a capstone project with an industry partner, covering discovery, interface design, and usability validation.</li>
+        <li>Organized peer learning sessions that helped junior students build stronger collaboration and code review habits.</li>
+      </ul>`
+    }
   ],
   skillContent: `<div class="skill-content">
   <ul>
-    <li>Frontend Frameworks: React, Vue.js, Next.js, Nuxt.js and other SSR frameworks</li>
-    <li>Languages: TypeScript, JavaScript(ES6+), HTML5, CSS3</li>
-    <li>UI/Styling: TailwindCSS, Sass/Less, CSS Modules, Styled-components</li>
-    <li>State Management: Redux, Vuex, Zustand, Jotai, React Query</li>
-    <li>Build Tools: Webpack, Vite, Rollup, Babel, ESLint</li>
-    <li>Testing: Jest, React Testing Library, Cypress</li>
-    <li>Performance: Browser rendering principles, performance metrics monitoring, code splitting, lazy loading</li>
-    <li>Version Control: Git, SVN</li>
-    <li>Technical Leadership: Team management experience, led technology selection and architecture design for large projects</li>
+    <li>Strong in TypeScript, JavaScript, HTML5, CSS3, and modern frontend frameworks including React and Vue.</li>
+    <li>Comfortable building Node.js services, shaping APIs, and supporting end-to-end product delivery.</li>
+    <li>Experienced in design systems, shared component libraries, and dashboard-style product interfaces.</li>
+    <li>Uses Vitest, Playwright, and Testing Library to keep product changes verifiable and regression-safe.</li>
+    <li>Works closely with product, design, and operations partners to translate ambiguity into shippable flows.</li>
   </ul>
 </div>`,
   selfEvaluationContent: "",
   experience: [
     {
       id: "1",
-      company: "ByteDance",
-      position: "Senior Frontend Engineer",
-      date: "2021.07 - 2024.12",
+      company: "Northline Studio",
+      position: "Full-Stack Engineer",
+      date: "2021.03 - 2025.02",
       visible: true,
       details: `<ul>
-      <li>Responsible for development and maintenance of TikTok Creator Platform, leading technical solution design for core features</li>
-      <li>Optimized build configuration, reducing build time from 8 minutes to 2 minutes, improving team development efficiency</li>
-      <li>Designed and implemented component library, increasing code reuse by 70%, significantly reducing development time</li>
-      <li>Led performance optimization project, reducing platform first-screen loading time by 50%, integrated APM monitoring system</li>
-      <li>Mentored junior engineers, organized technical sharing sessions to improve overall team technical capabilities</li>
-    </ul>`,
-    },
+        <li>Built and maintained a client operations workspace covering lead routing, account views, and cross-team task tracking.</li>
+        <li>Created reusable page patterns and shared UI primitives that reduced new screen delivery time from five days to two.</li>
+        <li>Improved loading performance and API aggregation, lowering average load time on high-traffic screens by 38%.</li>
+        <li>Partnered with design and operations teams to refine critical workflows and raise completion rates on complex forms.</li>
+      </ul>`
+    }
   ],
   draggingProjectId: null,
   projects: [
     {
       id: "p1",
-      name: "TikTok Creator Platform",
-      role: "Frontend Lead",
-      date: "2022.06 - 2023.12",
+      name: "Client Operations Workspace",
+      role: "Project Lead",
+      date: "2023.02 - 2024.11",
       description: `<ul>
-        <li>React-based analytics and content management platform serving millions of creators</li>
-        <li>Includes data analytics, content management, and revenue management subsystems</li>
-        <li>Implemented Redux for state management, enabling efficient handling of complex data flows</li>
-        <li>Used Ant Design component library to ensure UI consistency and user experience</li>
-        <li>Implemented code splitting and lazy loading strategies to optimize loading performance</li>
+        <li>Built a unified workspace for sales and operations teams to manage lead assignment, follow-up planning, and deal reviews.</li>
+        <li>Designed modular page architecture and role-aware permissions so multiple teams could operate from one shared system.</li>
+        <li>Added dashboards and reminders that made critical next steps easier to spot and reduced manual misses.</li>
       </ul>`,
-      visible: true,
+      visible: true
     },
     {
       id: "p2",
-      name: "WeChat Mini Program Developer Tools",
-      role: "Core Developer",
-      date: "2020.03 - 2021.06",
+      name: "Content Review Console",
+      role: "Frontend Lead",
+      date: "2022.01 - 2022.12",
       description: `<ul>
-        <li>All-in-one solution for mini program development, debugging, and publishing</li>
-        <li>Cross-platform desktop application built with Electron</li>
-        <li>Supports multiple platforms including Windows, macOS, and Linux</li>
-        <li>Provides real-time error logging and performance analysis tools</li>
-        <li>Integrates third-party plugins and SDKs for custom functionality</li>
+        <li>Created a multi-channel publishing console for editorial and marketing teams with shared review and release states.</li>
+        <li>Introduced reusable forms and rich text tooling to reduce repeat implementation work and improve content consistency.</li>
+        <li>Added preflight checks that surfaced formatting and link issues earlier in the publishing process.</li>
       </ul>`,
-      visible: true,
+      visible: true
     },
     {
       id: "p3",
-      name: "Frontend Monitoring Platform",
-      role: "Technical Lead",
-      date: "2021.09 - 2022.05",
+      name: "Interview Coordination Portal",
+      role: "Full-Stack Developer",
+      date: "2020.06 - 2021.01",
       description: `<ul>
-        <li>Complete frontend monitoring solution including error tracking, performance monitoring, and user behavior analysis</li>
-        <li>Built with Vue and Element UI, providing real-time monitoring data and visualization tools</li>
-        <li>Supports various monitoring metrics including error logs, performance indicators, and user behavior analysis</li>
-        <li>Provides detailed error logs and performance analysis tools to help developers identify and optimize issues</li>
-        <li>Integrates third-party plugins and SDKs for custom functionality</li>
+        <li>Built a hiring workflow portal for recruiter coordination, interviewer notes, and candidate progress tracking.</li>
+        <li>Owned interface behavior, core data models, and notification flows so updates stayed visible across roles.</li>
+        <li>Supported structured exports for candidate summaries, making handoff and debrief cycles faster.</li>
       </ul>`,
-      visible: true,
-    },
+      visible: true
+    }
   ],
   menuSections: [
     {
       id: "basic",
       title: "Profile",
-      icon: "👤",
+      icon: "👁",
       enabled: true,
-      order: 0,
+      order: 0
     },
     {
       id: "skills",
       title: "Skills",
-      icon: "⚡",
+      icon: "⚿",
       enabled: true,
-      order: 1,
+      order: 1
     },
     {
       id: "experience",
       title: "Experience",
-      icon: "💼",
+      icon: "💈",
       enabled: true,
-      order: 2,
+      order: 2
     },
     {
       id: "projects",
       title: "Projects",
-      icon: "🚀",
+      icon: "🎌",
       enabled: true,
-      order: 3,
+      order: 3
     },
     {
       id: "education",
       title: "Education",
-      icon: "🎓",
+      icon: "📗",
       enabled: true,
-      order: 4,
-    },
+      order: 4
+    }
   ],
   certificates: [],
   customData: {},
   activeSection: "basic",
-  globalSettings: initialGlobalSettings,
+  globalSettings: initialGlobalSettings
 };
 
 export const blankResumeState = {
@@ -344,7 +327,7 @@ export const blankResumeState = {
     birthDate: "",
     employementStatus: "",
     photo: "",
-    customFields: [],
+    customFields: []
   },
   education: [],
   skillContent: "",
@@ -352,7 +335,7 @@ export const blankResumeState = {
   experience: [],
   projects: [],
   certificates: [],
-  menuSections: [initialResumeState.menuSections[0]],
+  menuSections: [initialResumeState.menuSections[0]]
 };
 
 export const blankResumeStateEn = {
@@ -368,7 +351,7 @@ export const blankResumeStateEn = {
     birthDate: "",
     employementStatus: "",
     photo: "",
-    customFields: [],
+    customFields: []
   },
   education: [],
   skillContent: "",
@@ -376,5 +359,5 @@ export const blankResumeStateEn = {
   experience: [],
   projects: [],
   certificates: [],
-  menuSections: [initialResumeStateEn.menuSections[0]],
+  menuSections: [initialResumeStateEn.menuSections[0]]
 };
