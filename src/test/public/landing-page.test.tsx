@@ -60,21 +60,19 @@ async function renderLandingPage(
 }
 
 describe("LandingPage", () => {
-  it("renders the English landing copy with the studio link and no GitHub CTA", async () => {
+  it("renders the updated English hero copy", async () => {
     await renderLandingPage("en");
 
     expect(
       screen.getByRole("heading", {
-        name: /build a resume in one focused workspace/i,
+        name: /make resume creation simple and intelligent/i,
       })
     ).toBeInTheDocument();
     expect(
-      screen
-        .getAllByRole("link", { name: /visit website/i })
-        .some((link) => link.getAttribute("href") === "https://ctikki.com")
-    ).toBe(true);
-    expect(screen.getByRole("img", { name: /ct workspace preview/i })).toBeInTheDocument();
-    expect(screen.queryByText(/star on github/i)).not.toBeInTheDocument();
+      screen.getByText(
+        /use ai to help create a professional resume quickly\. no signup required, free to use, and your data stays secure\./i
+      )
+    ).toBeInTheDocument();
   });
 
   it("renders the revised Chinese header and hero actions", async () => {
@@ -82,6 +80,10 @@ describe("LandingPage", () => {
 
     expect(screen.getByRole("link", { name: "CT程序定制工作室" })).toBeInTheDocument();
     expect(screen.getByText("CT简历工作台")).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "让简历制作变得简单而智能" })).toBeInTheDocument();
+    expect(
+      screen.getByText("用 AI 技术，帮助您快速创建专业的简历。无需注册，免费使用，数据安全存储。")
+    ).toBeInTheDocument();
     expect(
       screen
         .getAllByRole("link", { name: "前往官网" })
@@ -90,14 +92,15 @@ describe("LandingPage", () => {
     expect(screen.getAllByRole("link", { name: "立即使用" }).length).toBeGreaterThanOrEqual(2);
   });
 
-  it("renders the workspace preview in its own dedicated block", async () => {
+  it("centers the hero copy and keeps the workspace preview in its own block", async () => {
     await renderLandingPage("zh", "zh", "zh");
 
     const previewSection = screen.getByTestId("hero-preview-section");
     const textSection = screen.getByTestId("hero-copy-section");
 
+    expect(textSection.className).toContain("items-center");
+    expect(textSection.className).toContain("text-center");
     expect(previewSection).toBeInTheDocument();
-    expect(textSection).toBeInTheDocument();
     expect(within(previewSection).getByRole("img", { name: "CT 工作区预览" })).toBeInTheDocument();
   });
 

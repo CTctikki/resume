@@ -15,9 +15,9 @@ const landingCopy = {
     },
     hero: {
       badge: "CT Resume Workspace",
-      title: "Build a resume in one focused workspace",
+      title: "Make resume creation simple and intelligent",
       description:
-        "Write, preview, and export without bouncing between separate pages. Change the content once and see the result immediately.",
+        "Use AI to help create a professional resume quickly. No signup required, free to use, and your data stays secure.",
       primaryCta: "Use Now",
       secondaryCta: "Browse Templates",
       previewTitle: "Workspace Preview",
@@ -119,9 +119,9 @@ const landingCopy = {
     },
     hero: {
       badge: "CT简历工作台",
-      title: "在一个工作区里完成简历",
+      title: "让简历制作变得简单而智能",
       description:
-        "在同一个页面里完成编辑、预览和导出，不用来回切换。内容一改，右侧效果立刻更新。",
+        "用 AI 技术，帮助您快速创建专业的简历。无需注册，免费使用，数据安全存储。",
       primaryCta: "立即使用",
       secondaryCta: "浏览模板",
       previewTitle: "工作区预览",

@@ -17,7 +17,7 @@ export default function HeroSection({ locale = "en" }: HeroSectionProps) {
     <section className="border-b border-border/60 bg-background">
       <div className="mx-auto max-w-[1240px] px-6 py-20">
         <div
-          className="flex max-w-[860px] flex-col justify-center gap-6"
+          className="mx-auto flex max-w-[860px] flex-col items-center justify-center gap-6 text-center"
           data-testid="hero-copy-section"
         >
           <span className="inline-flex w-fit rounded-full bg-secondary px-4 py-1.5 text-base font-medium text-foreground">
@@ -30,7 +30,7 @@ export default function HeroSection({ locale = "en" }: HeroSectionProps) {
             {content.description}
           </p>
 
-          <div className="flex flex-wrap gap-3">
+          <div className="flex flex-wrap justify-center gap-3">
             <Button asChild className="h-12 rounded-[10px] px-6">
               <Link href="/app/dashboard">{content.primaryCta}</Link>
             </Button>
@@ -41,11 +41,11 @@ export default function HeroSection({ locale = "en" }: HeroSectionProps) {
         </div>
 
         <div
-          className="mt-12 rounded-[18px] border border-border bg-card p-5 shadow-sm"
+          className="mx-auto mt-12 max-w-[1120px] rounded-[18px] border border-border bg-card p-5 shadow-sm"
           data-testid="hero-preview-section"
         >
           <div className="rounded-[14px] border border-border/70 bg-background p-4">
-            <div className="mb-4 flex items-center justify-between border-b border-border/60 pb-3">
+            <div className="mb-4 flex flex-col items-center gap-3 border-b border-border/60 pb-4 text-center">
               <div>
                 <p className="text-sm font-medium text-foreground">{content.previewTitle}</p>
                 <p className="text-sm text-muted-foreground">{content.previewDescription}</p>
@@ -74,9 +74,9 @@ export default function HeroSection({ locale = "en" }: HeroSectionProps) {
                 return (
                 <div
                   key={item}
-                  className="rounded-[12px] border border-border/60 bg-secondary/40 p-3"
+                  className="rounded-[12px] border border-border/60 bg-secondary/40 p-3 text-center"
                 >
-                  <Icon className="mb-2 h-4 w-4 text-muted-foreground" />
+                  <Icon className="mx-auto mb-2 h-4 w-4 text-muted-foreground" />
                   <p className="text-sm text-foreground">{item}</p>
                 </div>
                 );
