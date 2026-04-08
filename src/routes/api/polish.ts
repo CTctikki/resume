@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { AIModelType, AI_MODEL_CONFIGS } from "@/config/ai";
+import { resolveProviderApiKey } from "@/lib/server/hostedProviders";
 import { formatGeminiErrorMessage, getGeminiModelInstance } from "@/lib/server/gemini";
 
 export const Route = createFileRoute("/api/polish")({
@@ -9,7 +10,7 @@ export const Route = createFileRoute("/api/polish")({
         try {
           const body = await request.json();
           const { apiKey, model, content, modelType, apiEndpoint, customInstructions } = body as {
-            apiKey: string;
+            apiKey?: string;
             model: string;
             content: string;
             modelType: AIModelType;
@@ -21,6 +22,8 @@ export const Route = createFileRoute("/api/polish")({
           if (!modelConfig) {
             throw new Error("Invalid model type");
           }
+
+          const resolvedApiKey = resolveProviderApiKey(modelType, apiKey);
 
           let systemPrompt = `你是一个专业的简历优化助手。请帮助优化以下 Markdown 格式的文本，使其更加专业和有吸引力。
 
@@ -38,10 +41,10 @@ export const Route = createFileRoute("/api/polish")({
             systemPrompt += `\n\n用户额外要求：\n${customInstructions.trim()}`;
           }
 
-          if (modelType === "gemini") {
+          if (modelConfig.family === "gemini") {
             const geminiModel = model || "gemini-flash-latest";
             const modelInstance = getGeminiModelInstance({
-              apiKey,
+              apiKey: resolvedApiKey,
               model: geminiModel,
               systemInstruction: systemPrompt,
               generationConfig: {
@@ -80,7 +83,7 @@ export const Route = createFileRoute("/api/polish")({
 
           const response = await fetch(modelConfig.url(apiEndpoint), {
             method: "POST",
-            headers: modelConfig.headers(apiKey),
+            headers: modelConfig.headers(resolvedApiKey),
             body: JSON.stringify({
               model: modelConfig.requiresModelId ? model : modelConfig.defaultModel,
               messages: [

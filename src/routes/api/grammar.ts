@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { AIModelType, AI_MODEL_CONFIGS } from "@/config/ai";
+import { resolveProviderApiKey } from "@/lib/server/hostedProviders";
 import { formatGeminiErrorMessage, getGeminiModelInstance } from "@/lib/server/gemini";
 
 export const Route = createFileRoute("/api/grammar")({
@@ -9,7 +10,7 @@ export const Route = createFileRoute("/api/grammar")({
         try {
           const body = await request.json();
           const { apiKey, model, content, modelType, apiEndpoint } = body as {
-            apiKey: string;
+            apiKey?: string;
             model: string;
             content: string;
             modelType: AIModelType;
@@ -20,6 +21,8 @@ export const Route = createFileRoute("/api/grammar")({
           if (!modelConfig) {
             throw new Error("Invalid model type");
           }
+
+          const resolvedApiKey = resolveProviderApiKey(modelType, apiKey);
 
           const systemPrompt = `你是一个专业的中文简历校对助手。你的任务是**仅**找出简历中的**错别字**和**标点符号错误**。
 
@@ -51,10 +54,10 @@ export const Route = createFileRoute("/api/grammar")({
 
             再次强调：**只找错别字和标点错误，不要做任何润色！**`;
 
-          if (modelType === "gemini") {
+          if (modelConfig.family === "gemini") {
             const geminiModel = model || "gemini-flash-latest";
             const modelInstance = getGeminiModelInstance({
-              apiKey,
+              apiKey: resolvedApiKey,
               model: geminiModel,
               systemInstruction: systemPrompt,
               generationConfig: {
@@ -79,7 +82,7 @@ export const Route = createFileRoute("/api/grammar")({
 
           const response = await fetch(modelConfig.url(apiEndpoint), {
             method: "POST",
-            headers: modelConfig.headers(apiKey),
+            headers: modelConfig.headers(resolvedApiKey),
             body: JSON.stringify({
               model: modelConfig.requiresModelId ? model : modelConfig.defaultModel,
               response_format: {

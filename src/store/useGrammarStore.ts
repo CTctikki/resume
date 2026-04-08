@@ -2,7 +2,7 @@ import { create } from "zustand";
 import { toast } from "sonner";
 import Mark from "mark.js";
 import { useAIConfigStore } from "@/store/useAIConfigStore";
-import { AI_MODEL_CONFIGS } from "@/config/ai";
+import { buildProviderRequestPayload } from "@/lib/ai/providerSelection";
 import { cn } from "@/lib/utils";
 
 export interface GrammarError {
@@ -102,24 +102,18 @@ export const useGrammarStore = create<GrammarStore>((set, get) => ({
       geminiApiKey,
       geminiModelId
     } = useAIConfigStore.getState();
-
-    const config = AI_MODEL_CONFIGS[selectedModel];
-    const apiKey =
-      selectedModel === "doubao"
-        ? doubaoApiKey
-        : selectedModel === "openai"
-          ? openaiApiKey
-          : selectedModel === "gemini"
-            ? geminiApiKey
-            : deepseekApiKey;
-    const modelId =
-      selectedModel === "doubao"
-        ? doubaoModelId
-        : selectedModel === "openai"
-          ? openaiModelId
-          : selectedModel === "gemini"
-            ? geminiModelId
-            : deepseekModelId;
+    const requestPayload = buildProviderRequestPayload({
+      selectedModel,
+      doubaoApiKey,
+      doubaoModelId,
+      deepseekApiKey,
+      deepseekModelId,
+      openaiApiKey,
+      openaiModelId,
+      openaiApiEndpoint,
+      geminiApiKey,
+      geminiModelId
+    });
 
     set({ isChecking: true });
 
@@ -131,10 +125,7 @@ export const useGrammarStore = create<GrammarStore>((set, get) => ({
         },
         body: JSON.stringify({
           content: text,
-          apiKey,
-          model: config.requiresModelId ? modelId : config.defaultModel,
-          modelType: selectedModel,
-          apiEndpoint: selectedModel === "openai" ? openaiApiEndpoint : undefined,
+          ...requestPayload
         }),
       });
 

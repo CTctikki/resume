@@ -1,7 +1,7 @@
 "use client";
 
 import { Sparkles } from "lucide-react";
-import { useTranslations } from "@/i18n/compat/client";
+import { useLocale, useTranslations } from "@/i18n/compat/client";
 import Link from "@/lib/link";
 import { Button } from "@/components/ui/button";
 import {
@@ -11,12 +11,19 @@ import {
   CardHeader,
   CardTitle
 } from "@/components/ui/card";
-
-const providerIds = ["deepseek", "doubao", "openai", "gemini"] as const;
+import {
+  AI_PROVIDER_CATALOG,
+  CUSTOM_PROVIDER_IDS,
+  HOSTED_PROVIDER_IDS,
+  getLocalizedProviderText,
+  type UILocale
+} from "@/lib/ai/providerCatalog";
 
 export function WorkspaceAIProvidersSection() {
   const t = useTranslations("dashboard.settings.workspace.aiProviders");
-  const aiT = useTranslations("dashboard.settings.ai");
+  const locale = useLocale() as UILocale;
+  const freeBadge = locale === "zh" ? "限时免费使用" : "Limited-time free";
+  const providerIds = [...HOSTED_PROVIDER_IDS, ...CUSTOM_PROVIDER_IDS];
 
   return (
     <Card className="border-border/80 shadow-sm">
@@ -38,12 +45,21 @@ export function WorkspaceAIProvidersSection() {
               key={providerId}
               className="rounded-[14px] border border-border bg-muted/30 px-4 py-3"
             >
-              <p className="text-sm font-medium text-foreground">
-                {aiT(`${providerId}.title`)}
-              </p>
-              <p className="mt-1 text-sm text-muted-foreground">
-                {aiT(`${providerId}.description`)}
-              </p>
+              <div className="flex items-start justify-between gap-3">
+                <div>
+                  <p className="text-sm font-medium text-foreground">
+                    {getLocalizedProviderText(AI_PROVIDER_CATALOG[providerId].title, locale)}
+                  </p>
+                  <p className="mt-1 text-sm text-muted-foreground">
+                    {getLocalizedProviderText(AI_PROVIDER_CATALOG[providerId].description, locale)}
+                  </p>
+                </div>
+                {AI_PROVIDER_CATALOG[providerId].limitedTimeFree ? (
+                  <span className="shrink-0 rounded-full bg-primary/10 px-2 py-1 text-[11px] font-medium text-primary">
+                    {freeBadge}
+                  </span>
+                ) : null}
+              </div>
             </div>
           ))}
         </div>

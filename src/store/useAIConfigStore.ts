@@ -1,9 +1,10 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { AI_MODEL_CONFIGS, AIModelType } from "@/config/ai";
+import { type AIProviderId } from "@/lib/ai/providerCatalog";
 
 interface AIConfigState {
-  selectedModel: AIModelType;
+  selectedModel: AIProviderId;
   doubaoApiKey: string;
   doubaoModelId: string;
   deepseekApiKey: string;
@@ -29,7 +30,7 @@ interface AIConfigState {
 export const useAIConfigStore = create<AIConfigState>()(
   persist(
     (set, get) => ({
-      selectedModel: "doubao",
+      selectedModel: "hostedDoubaoSeed",
       doubaoApiKey: "",
       doubaoModelId: "",
       deepseekApiKey: "",
