@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { PlusCircle, GripVertical, Trash2, Eye, EyeOff } from "lucide-react";
 import { Reorder, AnimatePresence, motion } from "framer-motion";
 import { useTranslations } from "@/i18n/compat/client";
@@ -17,6 +17,7 @@ interface CustomFieldProps {
   field: CustomFieldType;
   onUpdate: (field: CustomFieldType) => void;
   onDelete: (id: string) => void;
+  onReorderEnd: () => void;
 }
 
 const itemAnimations = {
@@ -30,6 +31,7 @@ const CustomField: React.FC<CustomFieldProps> = ({
   field,
   onUpdate,
   onDelete,
+  onReorderEnd,
 }) => {
   const t = useTranslations("workbench.basicPanel");
 
@@ -38,6 +40,7 @@ const CustomField: React.FC<CustomFieldProps> = ({
       value={field}
       id={field.id}
       className="group touch-none list-none"
+      onDragEnd={onReorderEnd}
     >
       <motion.div
         {...itemAnimations}
@@ -168,15 +171,28 @@ const BasicPanel: React.FC = () => {
       visible: field.visible ?? true,
     }));
   });
+  const basicFieldsRef = useRef(basicFields);
+  const customFieldsRef = useRef(customFields);
   const t = useTranslations("workbench.basicPanel");
 
+  useEffect(() => {
+    basicFieldsRef.current = basicFields;
+  }, [basicFields]);
+
+  useEffect(() => {
+    customFieldsRef.current = customFields;
+  }, [customFields]);
+
   const handleBasicReorder = (newOrder: BasicFieldType[]) => {
+    basicFieldsRef.current = newOrder;
     setBasicFields(newOrder);
-    updateBasicInfo({
-      ...basic,
-      fieldOrder: newOrder,
-    });
   };
+
+  const commitBasicReorder = useCallback(() => {
+    updateBasicInfo({
+      fieldOrder: basicFieldsRef.current,
+    });
+  }, [updateBasicInfo]);
 
   const toggleFieldVisibility = (fieldId: string, isVisible: boolean) => {
     const newFields = basicFields.map((field) =>
@@ -244,12 +260,15 @@ const BasicPanel: React.FC = () => {
   };
 
   const handleCustomFieldsReorder = (newOrder: CustomFieldType[]) => {
+    customFieldsRef.current = newOrder;
     setCustomFields(newOrder);
-    updateBasicInfo({
-      ...basic,
-      customFields: newOrder,
-    });
   };
+
+  const commitCustomFieldsReorder = useCallback(() => {
+    updateBasicInfo({
+      customFields: customFieldsRef.current,
+    });
+  }, [updateBasicInfo]);
 
   const renderBasicField = (field: BasicFieldType) => {
     const selectedIcon = basic?.icons?.[field.key] || "User";
@@ -261,6 +280,7 @@ const BasicPanel: React.FC = () => {
         key={field.id}
         className="group touch-none list-none"
         dragListener={field.key !== "name" && field.key !== "title"}
+        onDragEnd={commitBasicReorder}
       >
         <motion.div
           {...itemAnimations}
@@ -427,6 +447,7 @@ const BasicPanel: React.FC = () => {
                             field={field}
                             onUpdate={updateCustomField}
                             onDelete={deleteCustomField}
+                            onReorderEnd={commitCustomFieldsReorder}
                           />
                         ))}
                     </Reorder.Group>

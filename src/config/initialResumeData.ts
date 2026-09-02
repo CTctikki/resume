@@ -11,7 +11,8 @@ const initialGlobalSettings: GlobalSettings = {
   subheaderSize: 16,
   useIconMode: true,
   themeColor: "#000000",
-  centerSubtitle: true
+  centerSubtitle: true,
+  pageBreakLinesVisible: true,
 };
 
 export const initialResumeState = {

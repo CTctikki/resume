@@ -14,7 +14,8 @@ import {
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/utils";
-import { getConfig, getFileHandle, verifyPermission } from "@/utils/fileSystem";
+import { getConfig, getFileHandle } from "@/utils/fileSystem";
+import { preloadFontFamily } from "@/utils/fonts";
 import { useResumeStore } from "@/store/useResumeStore";
 import { useAIConfigStore } from "@/store/useAIConfigStore";
 import { DEFAULT_TEMPLATES } from "@/config";
@@ -39,7 +40,6 @@ export const ResumeWorkbench = () => {
     const {
         resumes,
         setActiveResume,
-        updateResumeFromFile,
         addResume,
         deleteResume,
         createResume,
@@ -57,39 +57,6 @@ export const ResumeWorkbench = () => {
     const pdfFileInputRef = useRef<HTMLInputElement>(null);
 
     useEffect(() => {
-        const syncResumesFromFiles = async () => {
-            try {
-                const handle = await getFileHandle("syncDirectory");
-                if (!handle) return;
-
-                const hasPermission = await verifyPermission(handle);
-                if (!hasPermission) return;
-
-                const dirHandle = handle as FileSystemDirectoryHandle;
-
-                for await (const entry of (dirHandle as any).values()) {
-                    if (entry.kind === "file" && entry.name.endsWith(".json")) {
-                        try {
-                            const file = await entry.getFile();
-                            const content = await file.text();
-                            const resumeData = JSON.parse(content);
-                            updateResumeFromFile(resumeData);
-                        } catch (error) {
-                            console.error("Error reading resume file:", error);
-                        }
-                    }
-                }
-            } catch (error) {
-                console.error("Error syncing resumes from files:", error);
-            }
-        };
-
-        if (Object.keys(resumes).length === 0) {
-            syncResumesFromFiles();
-        }
-    }, [resumes, updateResumeFromFile]);
-
-    useEffect(() => {
         const loadSavedConfig = async () => {
             try {
                 const handle = await getFileHandle("syncDirectory");
@@ -104,6 +71,48 @@ export const ResumeWorkbench = () => {
 
         loadSavedConfig();
     }, []);
+
+    useEffect(() => {
+        const fontFamilies = Array.from(
+            new Set(
+                Object.values(resumes)
+                    .map((resume) => resume.globalSettings?.fontFamily)
+                    .filter(Boolean)
+            )
+        );
+
+        if (fontFamilies.length === 0) return;
+
+        let cancelled = false;
+        const warmFonts = () => {
+            if (cancelled) return;
+            fontFamilies.forEach((fontFamily) => {
+                preloadFontFamily(fontFamily).catch((error) => {
+                    console.warn("Failed to preload resume font:", error);
+                });
+            });
+        };
+
+        const supportsIdleCallback =
+            typeof window !== "undefined" &&
+            typeof window.requestIdleCallback === "function";
+        const idleCallback = supportsIdleCallback
+            ? window.requestIdleCallback(warmFonts, { timeout: 2500 })
+            : globalThis.setTimeout(warmFonts, 1000);
+
+        return () => {
+            cancelled = true;
+            if (
+                supportsIdleCallback &&
+                typeof window !== "undefined" &&
+                typeof window.cancelIdleCallback === "function"
+            ) {
+                window.cancelIdleCallback(idleCallback as number);
+            } else {
+                globalThis.clearTimeout(idleCallback);
+            }
+        };
+    }, [resumes]);
 
     const handleCreateFromModal = (templateId: string | null) => {
         const isBlank = !templateId;
@@ -134,7 +143,24 @@ export const ResumeWorkbench = () => {
 
         setIsCreateModalOpen(false);
         setActiveResume(newId);
-        router.push(`/app/workbench/${newId}`);
+        router.push({ to: "/app/workbench/$id", params: { id: newId } });
+    };
+
+    const duplicateResume = async (resume: any) => {
+        const { generateUUID } = await import("@/utils/uuid");
+        const now = new Date().toISOString();
+        
+        const { id, ...rest } = resume;
+        const newResume = {
+            ...rest,
+            id: generateUUID(),
+            title: `${resume.title || t("dashboard.resumes.untitled")} - ${t("common.copy")}`,
+            createdAt: now,
+            updatedAt: now,
+        };
+        
+        const resumeId = addResume(newResume);
+        toast.success(t("previewDock.copyResume.success"));
     };
 
     const importResumeFromJson = async (file: File) => {
@@ -155,7 +181,7 @@ export const ResumeWorkbench = () => {
         setActiveResume(resumeId);
         setIsImportDialogOpen(false);
         toast.success(t("dashboard.resumes.importSuccess"));
-        router.push(`/app/workbench/${resumeId}`);
+        router.push({ to: "/app/workbench/$id", params: { id: resumeId } });
     };
 
     const extractImagesFromPdf = async (file: File) => {
@@ -251,7 +277,7 @@ export const ResumeWorkbench = () => {
         setActiveResume(resumeId);
         setIsImportDialogOpen(false);
         toast.success(t("dashboard.resumes.importDialog.pdfSuccess"));
-        router.push(`/app/workbench/${resumeId}`);
+        router.push({ to: "/app/workbench/$id", params: { id: resumeId } });
     };
 
     const handleJsonFileChange = async (
@@ -435,9 +461,9 @@ export const ResumeWorkbench = () => {
                                         resume={resume}
                                         t={t}
                                         locale={locale}
-                                        setActiveResume={setActiveResume}
                                         router={router}
                                         deleteResume={deleteResume}
+                                        duplicateResume={duplicateResume}
                                         index={index}
                                     />
                                 ))}

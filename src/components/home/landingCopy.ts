@@ -119,7 +119,7 @@ const landingCopy = {
     },
     hero: {
       badge: "CT简历工作台",
-      title: "让简历制作变得简单而智能",
+      title: "让专业简历创作更简单、更智能",
       description:
         "用 AI 技术，帮助您快速创建专业的简历。无需注册，免费使用，数据安全存储。",
       primaryCta: "立即使用",

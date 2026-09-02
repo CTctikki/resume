@@ -65,12 +65,18 @@ function ComposedWorkbenchShell({
   templateSheetOpen = false,
   onOpenTemplates = vi.fn(),
   onOpenGrammarCheck = vi.fn(),
-  onDuplicateResume = vi.fn()
+  onDuplicateResume = vi.fn(),
+  onUndo = vi.fn(),
+  onRedo = vi.fn(),
+  onTogglePageBreakLines = vi.fn()
 }: {
   templateSheetOpen?: boolean;
   onOpenTemplates?: () => void;
   onOpenGrammarCheck?: () => void;
   onDuplicateResume?: () => void;
+  onUndo?: () => void;
+  onRedo?: () => void;
+  onTogglePageBreakLines?: () => void;
 }) {
   return (
     <>
@@ -79,6 +85,10 @@ function ComposedWorkbenchShell({
         onTitleBlur={vi.fn()}
         onBack={vi.fn()}
         onOpenTemplates={onOpenTemplates}
+        onUndo={onUndo}
+        onRedo={onRedo}
+        canUndo
+        canRedo
         onOpenExport={vi.fn()}
         exportSlot={<PdfExport />}
       />
@@ -99,6 +109,8 @@ function ComposedWorkbenchShell({
         onOpenGrammarCheck={onOpenGrammarCheck}
         onDuplicateResume={onDuplicateResume}
         onAutoFit={vi.fn()}
+        pageBreakLinesVisible
+        onTogglePageBreakLines={onTogglePageBreakLines}
         exportSlot={<PdfExport triggerVariant="icon" triggerLabel="Open export" />}
       />
     </>
@@ -170,6 +182,30 @@ describe("workbench shell", () => {
 
     expect(onDuplicateResume).toHaveBeenCalledTimes(1);
     expect(onOpenGrammarCheck).toHaveBeenCalledTimes(1);
+  });
+
+  it("exposes resume history and page-break controls", async () => {
+    mockedLocale = "en";
+    const user = userEvent.setup();
+    const onUndo = vi.fn();
+    const onRedo = vi.fn();
+    const onTogglePageBreakLines = vi.fn();
+
+    render(
+      <ComposedWorkbenchShell
+        onUndo={onUndo}
+        onRedo={onRedo}
+        onTogglePageBreakLines={onTogglePageBreakLines}
+      />
+    );
+
+    await user.click(screen.getByRole("button", { name: "Undo" }));
+    await user.click(screen.getByRole("button", { name: "Redo" }));
+    await user.click(screen.getByRole("button", { name: "Hide page breaks" }));
+
+    expect(onUndo).toHaveBeenCalledTimes(1);
+    expect(onRedo).toHaveBeenCalledTimes(1);
+    expect(onTogglePageBreakLines).toHaveBeenCalledTimes(1);
   });
 
   it("uses the locale-aware untitled fallback when the title is cleared", async () => {

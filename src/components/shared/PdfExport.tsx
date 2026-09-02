@@ -4,6 +4,8 @@ import {
   Download,
   Loader2,
   FileJson,
+  FileImage,
+  FileText,
   Printer,
   ChevronDown
 } from "lucide-react";
@@ -33,14 +35,26 @@ const PdfExport = ({
 }: PdfExportProps) => {
   const activeResume = useResumeStore((state) => state.activeResume);
   const t = useTranslations("pdfExport");
+  const tBasicField = useTranslations("workbench.basicPanel.basicFields");
   const hasResume = Boolean(activeResume);
-  const [activeAction, setActiveAction] = useState<"pdf" | "print" | "json" | null>(null);
-  const { exportPdf, exportPrint, exportJson } = createExportActions(activeResume);
+  const [activeAction, setActiveAction] = useState<
+    "pdf" | "longPdf" | "image" | "print" | "json" | "markdown" | null
+  >(null);
+  const {
+    exportPdf,
+    exportLongPagePdf,
+    exportLongPageImage,
+    exportPrint,
+    exportJson,
+    exportMarkdown
+  } = createExportActions(activeResume);
   const isLoading = activeAction !== null;
-  const loadingText = activeAction === "pdf" || activeAction === "print"
+  const loadingText = ["pdf", "longPdf", "image", "print"].includes(activeAction || "")
     ? t("button.exporting")
     : activeAction === "json"
       ? t("button.exportingJson")
+      : activeAction === "markdown"
+        ? t("button.exportingMarkdown")
       : "";
   const resolvedTriggerLabel = triggerLabel || t("button.export");
 
@@ -52,6 +66,32 @@ const PdfExport = ({
         success: t("toast.success"),
         error: t("toast.error"),
         unavailable: t("toast.pdfUnavailable")
+      });
+    } finally {
+      setActiveAction(null);
+    }
+  };
+
+  const handleLongPagePdfExport = async () => {
+    setActiveAction("longPdf");
+    try {
+      await exportLongPagePdf({
+        noResume: t("toast.error"),
+        success: t("toast.success"),
+        error: t("toast.error")
+      });
+    } finally {
+      setActiveAction(null);
+    }
+  };
+
+  const handleLongPageImageExport = async () => {
+    setActiveAction("image");
+    try {
+      await exportLongPageImage({
+        noResume: t("toast.imageError"),
+        success: t("toast.imageSuccess"),
+        error: t("toast.imageError")
       });
     } finally {
       setActiveAction(null);
@@ -77,6 +117,30 @@ const PdfExport = ({
         noResume: t("toast.jsonError"),
         success: t("toast.jsonSuccess"),
         error: t("toast.jsonError")
+      });
+    } finally {
+      setActiveAction(null);
+    }
+  };
+
+  const handleMarkdownExport = async () => {
+    setActiveAction("markdown");
+    try {
+      exportMarkdown({
+        noResume: t("toast.markdownError"),
+        success: t("toast.markdownSuccess"),
+        error: t("toast.markdownError"),
+        markdownOptions: {
+          basicFieldLabels: {
+            name: tBasicField("name"),
+            title: tBasicField("title"),
+            employementStatus: tBasicField("employementStatus"),
+            birthDate: tBasicField("birthDate"),
+            email: tBasicField("email"),
+            phone: tBasicField("phone"),
+            location: tBasicField("location")
+          }
+        }
       });
     } finally {
       setActiveAction(null);
@@ -141,11 +205,32 @@ const PdfExport = ({
           {t("button.print")}
         </DropdownMenuItem>
         <DropdownMenuItem
+          onClick={() => void handleLongPagePdfExport()}
+          disabled={isLoading || !hasResume}
+        >
+          <FileText className="w-4 h-4 mr-2" />
+          {t("button.exportLongPagePdf")}
+        </DropdownMenuItem>
+        <DropdownMenuItem
+          onClick={() => void handleLongPageImageExport()}
+          disabled={isLoading || !hasResume}
+        >
+          <FileImage className="w-4 h-4 mr-2" />
+          {t("button.exportLongPageImage")}
+        </DropdownMenuItem>
+        <DropdownMenuItem
           onClick={() => void handleJsonExport()}
           disabled={isLoading || !hasResume}
         >
           <FileJson className="w-4 h-4 mr-2" />
           {t("button.exportJson")}
+        </DropdownMenuItem>
+        <DropdownMenuItem
+          onClick={() => void handleMarkdownExport()}
+          disabled={isLoading || !hasResume}
+        >
+          <FileText className="w-4 h-4 mr-2" />
+          {t("button.exportMarkdown")}
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

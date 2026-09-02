@@ -1,11 +1,25 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import { exportResumePdf } from "@/components/export/exportActions";
+import {
+  exportResumeLongPageImage,
+  exportResumeLongPagePdf,
+  exportResumeMarkdown,
+  exportResumePdf
+} from "@/components/export/exportActions";
 import { PDF_EXPORT_CONFIG } from "@/config";
-import { exportToPdf } from "@/utils/export";
+import {
+  exportResumeAsMarkdown,
+  exportToLongPageImage,
+  exportToLongPagePdf,
+  exportToPdf
+} from "@/utils/export";
 import { exportResumeToBrowserPrint } from "@/utils/print";
+import type { ResumeData } from "@/types/resume";
 import { toast } from "sonner";
 
 vi.mock("@/utils/export", () => ({
+  exportResumeAsMarkdown: vi.fn(),
+  exportToLongPageImage: vi.fn(),
+  exportToLongPagePdf: vi.fn(),
   exportToPdf: vi.fn()
 }));
 
@@ -27,10 +41,13 @@ describe("exportResumePdf", () => {
       pagePadding: 24,
       fontFamily: "MiSans"
     }
-  } as const;
+  } as ResumeData;
 
   beforeEach(() => {
     vi.mocked(exportToPdf).mockReset();
+    vi.mocked(exportToLongPagePdf).mockReset();
+    vi.mocked(exportToLongPageImage).mockReset();
+    vi.mocked(exportResumeAsMarkdown).mockReset();
     vi.mocked(exportResumeToBrowserPrint).mockReset();
     vi.mocked(toast).mockReset();
     vi.mocked(toast.error).mockReset();
@@ -80,5 +97,54 @@ describe("exportResumePdf", () => {
       })
     );
     expect(exportResumeToBrowserPrint).not.toHaveBeenCalled();
+  });
+
+  it("exports long-page PDF and PNG through the local browser utilities", async () => {
+    await exportResumeLongPagePdf(resume, {
+      noResume: "No resume",
+      success: "PDF ready",
+      error: "PDF failed"
+    });
+    await exportResumeLongPageImage(resume, {
+      noResume: "No resume",
+      success: "PNG ready",
+      error: "PNG failed"
+    });
+
+    expect(exportToLongPagePdf).toHaveBeenCalledWith(
+      expect.objectContaining({
+        elementId: "resume-preview",
+        title: "测试简历",
+        pagePadding: 24,
+        fontFamily: "MiSans"
+      })
+    );
+    expect(exportToLongPageImage).toHaveBeenCalledWith(
+      expect.objectContaining({
+        elementId: "resume-preview",
+        title: "测试简历"
+      })
+    );
+  });
+
+  it("exports Markdown with localized basic-field labels", () => {
+    exportResumeMarkdown(resume, {
+      noResume: "No resume",
+      success: "Markdown ready",
+      error: "Markdown failed",
+      markdownOptions: {
+        basicFieldLabels: { name: "姓名" }
+      }
+    });
+
+    expect(exportResumeAsMarkdown).toHaveBeenCalledWith(
+      expect.objectContaining({
+        resume,
+        title: "测试简历",
+        markdownOptions: {
+          basicFieldLabels: { name: "姓名" }
+        }
+      })
+    );
   });
 });

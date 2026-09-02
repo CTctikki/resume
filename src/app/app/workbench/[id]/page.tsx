@@ -58,6 +58,10 @@ export default function Home() {
     activeResume,
     activeResumeId,
     duplicateResume,
+    undo,
+    redo,
+    canUndo,
+    canRedo,
     updateResumeTitle,
     updateGlobalSettings
   } = useResumeStore();
@@ -68,6 +72,32 @@ export default function Home() {
   const [previewPanelCollapsed, setPreviewPanelCollapsed] = useState(false);
   const [panelSizes, setPanelSizes] = useState<number[]>(LAYOUT_CONFIG.DEFAULT);
   const [templateSheetOpen, setTemplateSheetOpen] = useState(false);
+
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      const target = event.target;
+      const isEditable =
+        target instanceof HTMLElement &&
+        (target.isContentEditable ||
+          Boolean(target.closest("[contenteditable='true']")) ||
+          target instanceof HTMLInputElement ||
+          target instanceof HTMLTextAreaElement ||
+          target instanceof HTMLSelectElement);
+      if (isEditable || !(event.metaKey || event.ctrlKey)) return;
+
+      const key = event.key.toLowerCase();
+      if (key === "z" && !event.shiftKey) {
+        event.preventDefault();
+        undo();
+      } else if (key === "y" || (key === "z" && event.shiftKey)) {
+        event.preventDefault();
+        redo();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [redo, undo]);
 
   const toggleSidePanel = () => {
     setSidePanelCollapsed(!sidePanelCollapsed);
@@ -187,6 +217,10 @@ export default function Home() {
           }
           onBack={() => router.push("/app/dashboard/resumes")}
           onOpenTemplates={() => setTemplateSheetOpen(true)}
+          onUndo={undo}
+          onRedo={redo}
+          canUndo={canUndo()}
+          canRedo={canRedo()}
           onOpenExport={undefined}
           exportSlot={
             <PdfExport triggerLabel={labels.export} />
@@ -288,6 +322,15 @@ export default function Home() {
           onAutoFit={() =>
             updateGlobalSettings({
               autoOnePage: !activeResume?.globalSettings?.autoOnePage,
+            })
+          }
+          pageBreakLinesVisible={
+            activeResume?.globalSettings?.pageBreakLinesVisible !== false
+          }
+          onTogglePageBreakLines={() =>
+            updateGlobalSettings({
+              pageBreakLinesVisible:
+                activeResume?.globalSettings?.pageBreakLinesVisible === false,
             })
           }
         />

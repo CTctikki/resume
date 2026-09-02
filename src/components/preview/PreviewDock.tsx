@@ -49,6 +49,15 @@ const PreviewDock = ({
             autoOnePage: !activeResume?.globalSettings?.autoOnePage,
           })
         }
+        pageBreakLinesVisible={
+          activeResume?.globalSettings?.pageBreakLinesVisible !== false
+        }
+        onTogglePageBreakLines={() =>
+          updateGlobalSettings({
+            pageBreakLinesVisible:
+              activeResume?.globalSettings?.pageBreakLinesVisible === false,
+          })
+        }
       />
       <TemplateSheet
         open={templateSheetOpen}

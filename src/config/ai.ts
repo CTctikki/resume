@@ -50,7 +50,7 @@ export const AI_MODEL_CONFIGS: Record<AIModelType, AIModelConfig> = {
   openai: {
     family: "openai",
     authMode: "client",
-    url: (endpoint?: string) => `${endpoint}/chat/completions`,
+    url: (endpoint?: string) => `${(endpoint || "").trim().replace(/\/+$/, "")}/chat/completions`,
     requiresModelId: true,
     headers: openAICompatibleHeaders,
     validate: (context: AIValidationContext) => !!(context.openaiApiKey && context.openaiModelId && context.openaiApiEndpoint),

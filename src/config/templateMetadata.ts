@@ -40,6 +40,11 @@ export const templateMetadata = {
       idealFor: "Candidates with layered experience and strong narrative sections",
       density: "High",
     },
+    swiss: {
+      tags: ["grid-led", "typographic", "modern"],
+      idealFor: "Product, design, and brand roles that benefit from strong visual hierarchy",
+      density: "Medium",
+    },
   },
   zh: {
     classic: {
@@ -81,6 +86,11 @@ export const templateMetadata = {
       tags: ["故事化", "内容丰富", "精致"],
       idealFor: "经历层次较多、叙事性较强的候选人",
       density: "高",
+    },
+    swiss: {
+      tags: ["网格排版", "强字重", "现代"],
+      idealFor: "适合强调理性视觉层级的产品、设计和品牌岗位",
+      density: "中等",
     },
   },
 } as const;

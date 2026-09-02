@@ -1,10 +1,16 @@
 import { toast } from "sonner";
 import type { ResumeData } from "@/types/resume";
 import { PDF_EXPORT_CONFIG } from "@/config";
-import { exportToPdf } from "@/utils/export";
+import {
+  exportResumeAsMarkdown,
+  exportToLongPageImage,
+  exportToLongPagePdf,
+  exportToPdf
+} from "@/utils/export";
+import type { ResumeMarkdownOptions } from "@/utils/markdown";
 import { exportResumeToBrowserPrint } from "@/utils/print";
 
-type ExportableResume = Pick<ResumeData, "title" | "globalSettings"> | null;
+type ExportableResume = ResumeData | null;
 
 type ExportMessages = {
   noResume: string;
@@ -16,6 +22,10 @@ type ExportMessages = {
 type PrintMessages = {
   noResume: string;
   error: string;
+};
+
+type MarkdownMessages = ExportMessages & {
+  markdownOptions?: ResumeMarkdownOptions;
 };
 
 export async function exportResumePdf(
@@ -108,5 +118,64 @@ export async function exportResumePrint(
     resume.globalSettings?.fontFamily
   );
 
+  return true;
+}
+
+export async function exportResumeLongPagePdf(
+  resume: ExportableResume,
+  messages: ExportMessages
+) {
+  if (!resume) {
+    toast.error(messages.noResume);
+    return false;
+  }
+
+  await exportToLongPagePdf({
+    elementId: "resume-preview",
+    title: resume.title || "resume",
+    pagePadding: resume.globalSettings?.pagePadding || 0,
+    fontFamily: resume.globalSettings?.fontFamily,
+    successMessage: messages.success,
+    errorMessage: messages.error
+  });
+  return true;
+}
+
+export async function exportResumeLongPageImage(
+  resume: ExportableResume,
+  messages: ExportMessages
+) {
+  if (!resume) {
+    toast.error(messages.noResume);
+    return false;
+  }
+
+  await exportToLongPageImage({
+    elementId: "resume-preview",
+    title: resume.title || "resume",
+    pagePadding: resume.globalSettings?.pagePadding || 0,
+    fontFamily: resume.globalSettings?.fontFamily,
+    successMessage: messages.success,
+    errorMessage: messages.error
+  });
+  return true;
+}
+
+export function exportResumeMarkdown(
+  resume: ExportableResume,
+  messages: MarkdownMessages
+) {
+  if (!resume) {
+    toast.error(messages.noResume);
+    return false;
+  }
+
+  exportResumeAsMarkdown({
+    resume,
+    title: resume.title,
+    successMessage: messages.success,
+    errorMessage: messages.error,
+    markdownOptions: messages.markdownOptions
+  });
   return true;
 }

@@ -8,11 +8,15 @@ type WorkbenchShellLabels = {
   export: string;
   openExport: string;
   openTemplates: string;
+  redo: string;
   resumeTitle: string;
+  showPageBreaks: string;
   templates: string;
   toggleEditor: string;
   togglePreview: string;
   toggleSections: string;
+  undo: string;
+  hidePageBreaks: string;
   untitledResume: string;
 };
 
@@ -24,11 +28,15 @@ const EN_LABELS: WorkbenchShellLabels = {
   export: "Export",
   openExport: "Open export",
   openTemplates: "Open templates",
+  redo: "Redo",
   resumeTitle: "Resume title",
+  showPageBreaks: "Show page breaks",
   templates: "Templates",
   toggleEditor: "Toggle editor",
   togglePreview: "Toggle preview",
   toggleSections: "Toggle sections",
+  undo: "Undo",
+  hidePageBreaks: "Hide page breaks",
   untitledResume: "Untitled Resume"
 };
 
@@ -40,11 +48,15 @@ const ZH_LABELS: WorkbenchShellLabels = {
   export: "导出",
   openExport: "打开导出",
   openTemplates: "打开模板",
+  redo: "重做",
   resumeTitle: "简历标题",
+  showPageBreaks: "显示分页线",
   templates: "模板",
   toggleEditor: "切换编辑面板",
   togglePreview: "切换预览面板",
   toggleSections: "切换分区面板",
+  undo: "撤销",
+  hidePageBreaks: "隐藏分页线",
   untitledResume: "未命名简历"
 };
 

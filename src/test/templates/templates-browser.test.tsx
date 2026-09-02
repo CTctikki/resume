@@ -26,4 +26,9 @@ describe("TemplatesBrowser", () => {
     expect(browserCopy.atsFriendlyLabel).toBe("ATS-friendly");
     expect(browserCopy.designForwardLabel).toBe("More design-forward");
   });
+
+  it("includes metadata for the upstream Swiss template", () => {
+    expect(templateMetadata.en.swiss.tags).toContain("grid-led");
+    expect(templateMetadata.zh.swiss.density).toBe("中等");
+  });
 });

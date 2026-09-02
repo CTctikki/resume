@@ -14,7 +14,14 @@ interface EditorHeaderProps {
 export function EditorHeader({ isMobile }: EditorHeaderProps) {
   const router = useRouter();
   const labels = useWorkbenchShellLabels();
-  const { activeResume, updateResumeTitle } = useResumeStore();
+  const {
+    activeResume,
+    updateResumeTitle,
+    undo,
+    redo,
+    canUndo,
+    canRedo
+  } = useResumeStore();
   const [templateSheetOpen, setTemplateSheetOpen] = useState(false);
 
   if (isMobile) {
@@ -30,6 +37,10 @@ export function EditorHeader({ isMobile }: EditorHeaderProps) {
         }
         onBack={() => router.push("/app/dashboard/resumes")}
         onOpenTemplates={() => setTemplateSheetOpen(true)}
+        onUndo={undo}
+        onRedo={redo}
+        canUndo={canUndo()}
+        canRedo={canRedo()}
         onOpenExport={undefined}
         exportSlot={<PdfExport triggerLabel={labels.export} />}
       />

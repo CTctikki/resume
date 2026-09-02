@@ -1,6 +1,156 @@
 # Changelog
 
 
+## v2.0.8
+
+[compare changes](https://github.com/JOYCEQL/magic-resume/compare/v2.0.7...main)
+
+### 🚀 Enhancements
+
+- Add long-page PDF export ([5351db3](https://github.com/JOYCEQL/magic-resume/commit/5351db3))
+- Add single long PNG export ([ba4f46b](https://github.com/JOYCEQL/magic-resume/commit/ba4f46b))
+- Add font preloading in ResumeWorkbench and optimize SectionTitle by removing unnecessary store dependencies ([0a08e50](https://github.com/JOYCEQL/magic-resume/commit/0a08e50))
+
+### ❤️ Contributors
+
+- JOYCEQL <1449239013@qq.com>
+- Furina <3559551198@qq.com>
+
+## v2.0.7
+
+[compare changes](https://github.com/JOYCEQL/magic-resume/compare/v2.0.6...main)
+
+### 🚀 Enhancements
+
+- Implement custom section deletion, improve ID generation logic, and add storage safety checks ([e356d9d](https://github.com/JOYCEQL/magic-resume/commit/e356d9d))
+- Switch to content tab automatically upon new section creation in SidePanel ([f286738](https://github.com/JOYCEQL/magic-resume/commit/f286738))
+- Integrate react-grab development utility for runtime inspection ([ce3cd2e](https://github.com/JOYCEQL/magic-resume/commit/ce3cd2e))
+- Update navigation to support parameter objects and add error-safe persistence to resume store ([f1fc952](https://github.com/JOYCEQL/magic-resume/commit/f1fc952))
+- Implement undo/redo functionality and fix sync debouncing logic in resume store ([1ce14a4](https://github.com/JOYCEQL/magic-resume/commit/1ce14a4))
+
+### 🎨 Styles
+
+- Redesign CTASection ([8f8f1fe](https://github.com/JOYCEQL/magic-resume/commit/8f8f1fe))
+
+### ❤️ Contributors
+
+- JOYCEQL <1449239013@qq.com>
+
+## v2.0.6
+
+[compare changes](https://github.com/JOYCEQL/magic-resume/compare/v2.0.5...main)
+
+### 🚀 Enhancements
+
+- Implement robust resume file synchronization with conflict resolution and date range formatting improvements ([5d108f4](https://github.com/JOYCEQL/magic-resume/commit/5d108f4))
+- Replace export dropdown with a glass-morphism themed dialog ([da12188](https://github.com/JOYCEQL/magic-resume/commit/da12188))
+- Encapsulate export logic into PdfExport component to simplify PreviewDock ([16eda66](https://github.com/JOYCEQL/magic-resume/commit/16eda66))
+- Implement resume duplication ([9ea60ac](https://github.com/JOYCEQL/magic-resume/commit/9ea60ac))
+- Add inline resume title editor to header ([3567e91](https://github.com/JOYCEQL/magic-resume/commit/3567e91))
+- Implement swiss resume template ([3789fe4](https://github.com/JOYCEQL/magic-resume/commit/3789fe4))
+
+### 🔥 Performance
+
+- Optimize reorder performance in BasicPanel ([0c00fb0](https://github.com/JOYCEQL/magic-resume/commit/0c00fb0))
+
+### 🩹 Fixes
+
+- Improve AI stream parsing, error handling ([a6c4aa9](https://github.com/JOYCEQL/magic-resume/commit/a6c4aa9))
+- Project link font size not responding to typography subheaderSize ([3658c99](https://github.com/JOYCEQL/magic-resume/commit/3658c99))
+- Date range input bug in newly created work experience ([4bd98e7](https://github.com/JOYCEQL/magic-resume/commit/4bd98e7))
+- **editorial:** Unify white background for PDF export ([5d7b9fc](https://github.com/JOYCEQL/magic-resume/commit/5d7b9fc))
+
+### 💅 Refactors
+
+- Standardize BaseInfo component layouts ([2395638](https://github.com/JOYCEQL/magic-resume/commit/2395638))
+
+### 📖 Documentation
+
+- Update readme.md ([d23e855](https://github.com/JOYCEQL/magic-resume/commit/d23e855))
+
+### 🏡 Chore
+
+- Update WeChat QR code image ([c85ecc7](https://github.com/JOYCEQL/magic-resume/commit/c85ecc7))
+
+### 🎨 Styles
+
+- Delete  modal ui ([042acf2](https://github.com/JOYCEQL/magic-resume/commit/042acf2))
+- Update drag handle styling for improved interaction ([60fc4fb](https://github.com/JOYCEQL/magic-resume/commit/60fc4fb))
+- Remove side panel borders ([0105215](https://github.com/JOYCEQL/magic-resume/commit/0105215))
+- Export modal ([f6f1b20](https://github.com/JOYCEQL/magic-resume/commit/f6f1b20))
+- Standardize BaseInfo layout and text wrapping across all resume templates ([a9be325](https://github.com/JOYCEQL/magic-resume/commit/a9be325))
+- Unify resume preview styles with .resume-preview class and import tiptap.scss globally ([baec353](https://github.com/JOYCEQL/magic-resume/commit/baec353))
+
+### ❤️ Contributors
+
+- JOYCEQL <1449239013@qq.com>
+- Jul1en_lin <1577045857@qq.com>
+- Zpekii <Zpekii3156@qq.com>
+- Liu Zhening ([@HYPERVAPOR](https://github.com/HYPERVAPOR))
+
+## v2.0.5
+
+[compare changes](https://github.com/JOYCEQL/magic-resume/compare/v2.0.3...main)
+
+### 🚀 Enhancements
+
+- Font copyright ([4ecf99d](https://github.com/JOYCEQL/magic-resume/commit/4ecf99d))
+- Add rich text link functionality ([b6f01d9](https://github.com/JOYCEQL/magic-resume/commit/b6f01d9))
+- Implement template snapshot ([0ec010e](https://github.com/JOYCEQL/magic-resume/commit/0ec010e))
+- Introduce pre-generated template snapshots ([fd76ba1](https://github.com/JOYCEQL/magic-resume/commit/fd76ba1))
+- Add custom instructions feature to AIPolishDialog ([9d1d6c4](https://github.com/JOYCEQL/magic-resume/commit/9d1d6c4))
+- Redesign theme color selection in side panel ([78ccc3e](https://github.com/JOYCEQL/magic-resume/commit/78ccc3e))
+- Add faq ([1d936e4](https://github.com/JOYCEQL/magic-resume/commit/1d936e4))
+- Add new 'Editorial' resume template ([107a9d8](https://github.com/JOYCEQL/magic-resume/commit/107a9d8))
+- Add backup configuration status ([9e35a5e](https://github.com/JOYCEQL/magic-resume/commit/9e35a5e))
+- Implement debounced file sync ([52d65ec](https://github.com/JOYCEQL/magic-resume/commit/52d65ec))
+- Add custom link labels for projects and support custom field display labels ([3f3e9a6](https://github.com/JOYCEQL/magic-resume/commit/3f3e9a6))
+- Add clickable links for custom fields in BaseInfo sections ([475d9e2](https://github.com/JOYCEQL/magic-resume/commit/475d9e2))
+- Update web-shot screenshot asset ([6eb7b34](https://github.com/JOYCEQL/magic-resume/commit/6eb7b34))
+- Add markdown export ([2277da9](https://github.com/JOYCEQL/magic-resume/commit/2277da9))
+
+### 🔥 Performance
+
+- Font-weight render ([d6e723d](https://github.com/JOYCEQL/magic-resume/commit/d6e723d))
+
+### 🩹 Fixes
+
+- Font export ([b5468f6](https://github.com/JOYCEQL/magic-resume/commit/b5468f6))
+- Wechat.jpg ([6a74d8a](https://github.com/JOYCEQL/magic-resume/commit/6a74d8a))
+- Remove trailing empty paragraphs after lists in rich text content ([7111b3f](https://github.com/JOYCEQL/magic-resume/commit/7111b3f))
+- Improve RichEditor state ([afb8f5d](https://github.com/JOYCEQL/magic-resume/commit/afb8f5d))
+- Center align base info fields across templates and clean up layout code formatting ([9585b00](https://github.com/JOYCEQL/magic-resume/commit/9585b00))
+
+### 💅 Refactors
+
+- Upgrade Tiptap to v3 and replace legacy list classes with native CSS styling ([99b4ae2](https://github.com/JOYCEQL/magic-resume/commit/99b4ae2))
+
+### 📖 Documentation
+
+- Update license ([757030e](https://github.com/JOYCEQL/magic-resume/commit/757030e))
+- Readme.md ([b0f7827](https://github.com/JOYCEQL/magic-resume/commit/b0f7827))
+- Update wechat ([70389bf](https://github.com/JOYCEQL/magic-resume/commit/70389bf))
+- Update readme.md ([f1f05da](https://github.com/JOYCEQL/magic-resume/commit/f1f05da))
+- Update wechat ([042bb72](https://github.com/JOYCEQL/magic-resume/commit/042bb72))
+- Readme.md ([675f38d](https://github.com/JOYCEQL/magic-resume/commit/675f38d))
+- Update FAQ ([5c53ece](https://github.com/JOYCEQL/magic-resume/commit/5c53ece))
+- Add sponsors section to README files ([92e7a57](https://github.com/JOYCEQL/magic-resume/commit/92e7a57))
+
+### 🏡 Chore
+
+- Release v2.0.4 ([cfe74e5](https://github.com/JOYCEQL/magic-resume/commit/cfe74e5))
+
+### 🎨 Styles
+
+- Education preview ([8d4aa02](https://github.com/JOYCEQL/magic-resume/commit/8d4aa02))
+- Reduce contentPadding to 0 in modern template configuration ([342f1ba](https://github.com/JOYCEQL/magic-resume/commit/342f1ba))
+
+### ❤️ Contributors
+
+- JOYCEQL <1449239013@qq.com>
+- Siyue ([@JOYCEQL](https://github.com/JOYCEQL))
+- Hanle <hanle200391@163.com>
+
 ## v2.0.4
 
 [compare changes](https://github.com/JOYCEQL/magic-resume/compare/v2.0.3...main)

@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { ArrowLeft, Download, LayoutTemplate } from "lucide-react";
+import { ArrowLeft, Download, LayoutTemplate, Redo2, Undo2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useWorkbenchShellLabels } from "@/components/workbench/useWorkbenchShellLabels";
@@ -9,6 +9,10 @@ interface WorkbenchTopBarProps {
   onTitleBlur: (value: string) => void;
   onBack: () => void;
   onOpenTemplates: () => void;
+  onUndo?: () => void;
+  onRedo?: () => void;
+  canUndo?: boolean;
+  canRedo?: boolean;
   onOpenExport?: () => void;
   exportSlot?: ReactNode;
 }
@@ -18,6 +22,10 @@ export function WorkbenchTopBar({
   onTitleBlur,
   onBack,
   onOpenTemplates,
+  onUndo,
+  onRedo,
+  canUndo = false,
+  canRedo = false,
   onOpenExport,
   exportSlot
 }: WorkbenchTopBarProps) {
@@ -45,6 +53,30 @@ export function WorkbenchTopBar({
           />
         </div>
         <div className="flex items-center gap-2">
+          {onUndo ? (
+            <Button
+              type="button"
+              variant="ghost"
+              size="icon"
+              aria-label={labels.undo}
+              onClick={onUndo}
+              disabled={!canUndo}
+            >
+              <Undo2 className="h-4 w-4" />
+            </Button>
+          ) : null}
+          {onRedo ? (
+            <Button
+              type="button"
+              variant="ghost"
+              size="icon"
+              aria-label={labels.redo}
+              onClick={onRedo}
+              disabled={!canRedo}
+            >
+              <Redo2 className="h-4 w-4" />
+            </Button>
+          ) : null}
           <Button type="button" variant="outline" onClick={onOpenTemplates}>
             <LayoutTemplate className="h-4 w-4" />
             {labels.templates}

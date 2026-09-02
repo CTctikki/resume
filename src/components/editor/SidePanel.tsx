@@ -70,7 +70,11 @@ function SettingCard({
   );
 }
 
-export function SidePanel() {
+export function SidePanel({
+  onSectionCreated,
+}: {
+  onSectionCreated?: () => void;
+} = {}) {
   const {
     activeResume,
     setActiveSection,
@@ -79,12 +83,14 @@ export function SidePanel() {
     updateMenuSections,
     setThemeColor,
     reorderSections,
-    addCustomData,
+    createCustomSection,
+    removeCustomData,
   } = useResumeStore();
   const {
     menuSections = [],
     globalSettings = {},
     activeSection,
+    customData = {},
   } = activeResume || {};
 
   const { themeColor = THEME_COLORS[0] } = globalSettings;
@@ -92,7 +98,7 @@ export function SidePanel() {
 
   const currentTemplate = DEFAULT_TEMPLATES.find(
     (t) => t.id === activeResume?.templateId
-  );
+  ) ?? DEFAULT_TEMPLATES[0];
 
   const availableModules = useMemo(() => {
     return (
@@ -125,16 +131,25 @@ export function SidePanel() {
     []
   );
 
-  const generateCustomSectionId = (menuSections: any[]) => {
-    const customSections = menuSections.filter((s) =>
-      s.id.startsWith("custom")
-    );
-    const nextNum = customSections.length + 1;
+  const generateCustomSectionId = (
+    menuSections: MenuSection[],
+    customData: Record<string, unknown>
+  ) => {
+    const usedIds = new Set([
+      ...menuSections.map((section) => section.id),
+      ...Object.keys(customData),
+    ]);
+
+    let nextNum = 1;
+    while (usedIds.has(`custom-${nextNum}`)) {
+      nextNum += 1;
+    }
+
     return `custom-${nextNum}`;
   };
 
   const handleCreateSection = () => {
-    const sectionId = generateCustomSectionId(menuSections);
+    const sectionId = generateCustomSectionId(menuSections, customData);
     const newSection = {
       id: sectionId,
       title: sectionId,
@@ -143,13 +158,13 @@ export function SidePanel() {
       order: menuSections.length,
     };
 
-    updateMenuSections([...menuSections, newSection]);
-    addCustomData(sectionId);
+    createCustomSection(newSection);
+    onSectionCreated?.();
   };
   return (
     <motion.div
       className={cn(
-        "w-[80] border-r overflow-y-auto",
+        "w-[80]  overflow-y-auto",
         "bg-background border-border"
       )}
       initial={{ x: -100, opacity: 0 }}
@@ -163,6 +178,7 @@ export function SidePanel() {
             setActiveSection={setActiveSection}
             toggleSectionVisibility={toggleSectionVisibility}
             updateMenuSections={updateMenuSections}
+            removeCustomData={removeCustomData}
             reorderSections={reorderSections}
           />
 
@@ -193,6 +209,8 @@ export function SidePanel() {
                           order: menuSections.length,
                         };
                         updateMenuSections([...menuSections, newSection]);
+                        setActiveSection(section.id);
+                        onSectionCreated?.();
                       }}
                       className="flex items-center gap-2 px-3 py-2 text-sm rounded-md hover:bg-accent transition-colors text-left"
                     >
@@ -221,8 +239,8 @@ export function SidePanel() {
         </SettingCard>
 
         {/* 主题色设置  */}
-        <SettingCard 
-          icon={Palette} 
+        <SettingCard
+          icon={Palette}
           title={t("theme.title")}
           action={
             <ColorPicker
@@ -239,9 +257,9 @@ export function SidePanel() {
             >
               <Palette className="w-3.5 h-3.5" />
               <span className="text-xs font-medium">{t("theme.custom")}</span>
-              
+
               {!THEME_COLORS.includes(themeColor) && (
-                <div 
+                <div
                   className="w-2.5 h-2.5 rounded-full ml-0.5 border border-primary/20 shadow-sm"
                   style={{ backgroundColor: themeColor }}
                 />

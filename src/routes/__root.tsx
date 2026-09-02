@@ -7,6 +7,7 @@ import {
 } from "@tanstack/react-router";
 import appCss from "../app/globals.css?url";
 import appFontCss from "../app/font.css?url";
+import tiptapCss from "../styles/tiptap.scss?url";
 import { NextIntlClientProvider } from "@/i18n/compat/client";
 import { useEffect } from "react";
 import zhMessages from "@/i18n/locales/zh.json";
@@ -15,6 +16,25 @@ import { Providers } from "@/app/providers";
 import { Toaster } from "@/components/ui/sonner";
 import { getPreferredLocale } from "@/i18n/runtime";
 import { brand } from "@/config/brand";
+import { ReactGrab } from "@/components/dev/ReactGrab";
+import { useResumeDirectorySync } from "@/hooks/useResumeDirectorySync";
+
+const defaultFontPreloadLinks = [
+  {
+    rel: "preload",
+    href: "/fonts/AlibabaPuHuiTi-3-55-Regular.ttf",
+    as: "font",
+    type: "font/ttf",
+    crossOrigin: "anonymous" as const
+  },
+  {
+    rel: "preload",
+    href: "/fonts/AlibabaPuHuiTi-3-85-Bold.ttf",
+    as: "font",
+    type: "font/ttf",
+    crossOrigin: "anonymous" as const
+  }
+];
 
 export const Route = createRootRoute({
   head: () => ({
@@ -34,7 +54,12 @@ export const Route = createRootRoute({
       {
         rel: "stylesheet",
         href: appFontCss
-      }
+      },
+      {
+        rel: "stylesheet",
+        href: tiptapCss
+      },
+      ...defaultFontPreloadLinks
     ]
   }),
   component: RootComponent,
@@ -42,6 +67,7 @@ export const Route = createRootRoute({
 });
 
 function RootComponent() {
+  useResumeDirectorySync();
   const pathname = useLocation({
     select: (location) => location.pathname
   });
@@ -66,6 +92,7 @@ function RootComponent() {
           timeZone="Asia/Shanghai"
         >
           <Providers>
+            <ReactGrab />
             <Outlet />
             <Toaster position="top-center" richColors />
           </Providers>

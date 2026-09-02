@@ -2,6 +2,7 @@ import {
   Copy,
   Download,
   Eye,
+  EyeOff,
   FileText,
   LayoutTemplate,
   PanelLeft,
@@ -25,6 +26,8 @@ interface WorkbenchActionRailProps {
   onDuplicateResume?: () => void;
   onOpenExport?: () => void;
   onAutoFit: () => void;
+  onTogglePageBreakLines?: () => void;
+  pageBreakLinesVisible?: boolean;
   exportSlot?: ReactNode;
 }
 
@@ -40,6 +43,8 @@ export function WorkbenchActionRail({
   onDuplicateResume,
   onOpenExport,
   onAutoFit,
+  onTogglePageBreakLines,
+  pageBreakLinesVisible = true,
   exportSlot
 }: WorkbenchActionRailProps) {
   const labels = useWorkbenchShellLabels();
@@ -132,6 +137,22 @@ export function WorkbenchActionRail({
         >
           <FileText className="h-4 w-4" />
         </Button>
+        {onTogglePageBreakLines ? (
+          <Button
+            type="button"
+            variant="ghost"
+            size="icon"
+            aria-label={
+              pageBreakLinesVisible
+                ? labels.hidePageBreaks
+                : labels.showPageBreaks
+            }
+            aria-pressed={!pageBreakLinesVisible}
+            onClick={onTogglePageBreakLines}
+          >
+            <EyeOff className="h-4 w-4" />
+          </Button>
+        ) : null}
       </div>
     </aside>
   );
